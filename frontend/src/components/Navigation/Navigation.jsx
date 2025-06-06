@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
     <nav className="nav-bar">
       <NavLink to="/" className="logo-container">
         <img 
-          src="/fablogo.jpg" 
+          src="/flickrLogo.png" 
           alt="Site Logo" 
           className="site-logo" 
         />

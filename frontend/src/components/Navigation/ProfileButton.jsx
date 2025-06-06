@@ -42,16 +42,6 @@ function ProfileButton({ user }) {
     window.location.href = "/";
   };
 
-  const createASpot = (e) => {
-    e.preventDefault();
-    navigate('/spots/new');
-  };
-
-  const manageSpots = (e) => {
-    e.preventDefault();
-    navigate('/spots/manage');
-  };
-
   
   const goHome = (e) => {
     e.preventDefault();
@@ -65,7 +55,6 @@ function ProfileButton({ user }) {
       {user && (
         <button
           className="createASpotButton"
-          onClick={(e) => createASpot(e)}
         >
           Create a New Spot
         </button>
@@ -83,7 +72,7 @@ function ProfileButton({ user }) {
             </li>
             <li>{user.email}</li>
             <li>
-              <button onClick={manageSpots}>Manage Spots</button>
+              <button>Manage Spots</button>
             </li>
             <li>
               <button onClick={logout}>Log Out</button>
