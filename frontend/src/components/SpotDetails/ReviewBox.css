@@ -1,0 +1,16 @@
+
+button.reviewModalButton {
+  background-color: #808080;
+  color: #ffffff;
+  border: none; 
+  padding: 10px 20px; 
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.reviewModalButton:hover {
+  background-color: #6e6e6e;
+  transition: background-color 0.3s ease;
+}

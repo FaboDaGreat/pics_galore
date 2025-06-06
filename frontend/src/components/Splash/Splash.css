@@ -1,0 +1,12 @@
+.cardContainer{
+    cursor: pointer;
+}
+
+.cardListContainer{
+    margin-right: 5%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+}
