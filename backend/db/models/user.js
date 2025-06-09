@@ -5,8 +5,18 @@ const { Validator } = require('sequelize')
 module.exports = (sequelize) => {
   class User extends Model {
     static associate(models) {
-      // define association here
-      
+       User.hasMany(models.Photo, {
+        foreignKey: 'userId',
+        onDelete: "CASCADE",
+        hooks: true
+      });
+
+       User.hasMany(models.Album, {
+        foreignKey: 'userId',
+        onDelete: "CASCADE",
+        hooks: true
+      });
+
     }
   }
 

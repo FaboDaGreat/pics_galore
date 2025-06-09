@@ -8,10 +8,8 @@ const sessionRouter = require('./session.js');
 // --Sequelize imports
 const { User } = require('../../db/models');
 
-// -- Middleware Imports-- Condensed to one line of code
+// -- Middleware Imports-- 
 const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
-//const { setTokenCookie } = require('../../utils/auth.js');
-//const { requireAuth } = require('../../utils/auth.js');
 
 // --Middleware--
 const router = express.Router()
