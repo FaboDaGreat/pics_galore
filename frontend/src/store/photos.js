@@ -7,7 +7,6 @@ const GET_PHOTO_BY_ID = "photos/getPhotoById";
 const CREATE_PHOTO = "photos/createPhoto";
 const EDIT_PHOTO = "photos/editPhoto";
 const DELETE_PHOTO = "photos/deletePhoto"
-const MANAGE_PHOTOS = "photos/managePhotos";
 const GET_PHOTOS_BY_USER = "photos/getPhotosByUser"
 
 // ------- ACTION CREATOR ---------
@@ -46,14 +45,7 @@ const getPhotoById = (photo) => {
     };
   };
 
-  const managePhotos = (photos) => {
-    return {
-        type: MANAGE_PHOTOS,
-        payload: photos
-    }
-};
-
-const getPhotosByUser = (photos) => {
+  const getPhotosByUser = (photos) => {
     return {
         type: GET_PHOTOS_BY_USER,
         payload: photos
@@ -166,24 +158,9 @@ export const deletePhotoThunk = (id) => async (dispatch) => {
 
 }
 
-export const managePhotosThunk = () => async (dispatch) => {
+export const getPhotosByUserThunk = (id) => async (dispatch) => {
     try {
-        const res = await csrfFetch("/api/photos/current")
-
-        if (res.ok) {
-            const data = await res.json();
-            dispatch(managePhotos(data))
-        } else {
-            throw res;
-        }
-    } catch (error) {
-        return error
-    }
-}
-
-export const getPhotoByUserThunk = (id) => async (dispatch) => {
-    try {
-      const res = await csrfFetch(`/api/users/${id}`);
+      const res = await csrfFetch(`/api/photos/users/${id}`);
       if (res.ok) {
         const data = await res.json();
         dispatch(getPhotosByUser(data));
@@ -214,7 +191,7 @@ function photosReducer (state = initialState, action){
         case GET_ALL_PHOTOS:
                 newState = {...state};
                 
-                photos = action.payload.Photos
+                photos = action.payload
                 
                 newState.allPhotos = photos; 
 
@@ -256,30 +233,11 @@ function photosReducer (state = initialState, action){
                 return newState;
 
 
-        case MANAGE_PHOTOS:
-
-        newState = {...state};
-                
-                photos = action.payload.Photos
-                
-                newState.allPhotos = photos; 
-
-                
-                
-                for(let photo of photos){
-                    newById[photo.id] = photo; 
-                }
-                newState.byId = newById; 
-
-                
-            return newState;
-
-
         case GET_PHOTOS_BY_USER:
 
         newState = {...state};
                 
-                photos = action.payload.Photos
+                photos = action.payload
                 
                 newState.allPhotos = photos; 
 

@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
     attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
     });
 
-    return res.json({Photos: photos})
+    return res.json(photos)
 
   } catch (error) {
     next(error)
@@ -51,28 +51,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 
-//--GetAllPhotosByCurrentUserId--
-
-router.get('/current', requireAuth, async (req, res, next) => {
-  try {
-
-    const userId = req.user.id;
-    const photos = await Photo.findAll({
-      where: {
-        userId: parseInt(userId)
-      },
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
-    });
-
-    return res.json(photos);
-  } 
-    catch (error) {
-    next(error);
-  }
-});
-
-
-//--GetAllPhotosForAUsersProfilePage--
+//--Get All of a User's Photos--
 
 router.get('/users/:id', async (req, res, next) => {
   try {
@@ -85,7 +64,7 @@ router.get('/users/:id', async (req, res, next) => {
       attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
     });
 
-    return res.json(photos);
+    return res.json(photos)
   } 
     catch (error) {
     next(error);
