@@ -54,9 +54,9 @@ function ProfileButton({ user }) {
     <div className="profileContainer">
       {user && (
         <button
-          className="createASpotButton"
+          className="uploadPhotoButton"
         >
-          Create a New Spot
+          Upload New Photo
         </button>
       )}
 
