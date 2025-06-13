@@ -35,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <ProfilePage />
+      },
+      {
+        path: '*',
+        element: <h1>404 Not Found</h1> 
       }
     ]
   }
