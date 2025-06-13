@@ -1,10 +1,17 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
+import { useNavigate } from 'react-router-dom';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
+  const navigate = useNavigate();
+
+  const goToProfile = (e) => {
+    e.preventDefault();
+    navigate("/profile");
+  }
 
   return (
     <nav className="nav-bar">
@@ -15,6 +22,12 @@ function Navigation({ isLoaded }) {
           className="site-logo" 
         />
       </NavLink>
+
+      {sessionUser && (
+        <button className='profile-button' onClick={(e) => goToProfile(e)}>
+          My Profile
+        </button>
+      )}
 
       <ul className="nav-links">
         {isLoaded && (
