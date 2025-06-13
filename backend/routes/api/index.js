@@ -3,6 +3,7 @@
 const express = require('express')
 const usersRouter = require('./users.js');
 const sessionRouter = require('./session.js');
+const photoRouter = require('./photos.js');
 
 
 // --Sequelize imports
@@ -12,12 +13,13 @@ const { User } = require('../../db/models');
 const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
 
 // --Middleware--
-const router = express.Router()
+const router = express.Router();
 router.use(restoreUser);
 
 // --Routes for API--
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
+router.use('/photos', photoRouter);
 
 // --Routes--
 router.post('/test', function (req, res) {
