@@ -48,14 +48,17 @@ function ProfileButton({ user }) {
     navigate("/");
   };
 
+  const uploadPhotoPage = (e) => {
+    e.preventDefault();
+    navigate("/photos/upload");
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div className="profileContainer">
       {user && (
-        <button
-          className="uploadPhotoButton"
-        >
+        <button className="uploadPhotoButton" onClick={(e) => uploadPhotoPage(e)} >
           Upload New Photo
         </button>
       )}

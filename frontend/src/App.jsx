@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
 import Splash from './components/Splash';
 import ProfilePage from './components/ProfilePage';
+import UploadNewPhotoPage from './components/UploadNewPhotoPage';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -35,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <ProfilePage />
+      },
+      {
+        path: 'photos/upload',
+        element: <UploadNewPhotoPage />
+      },
+      {
+        path: '*',
+        element: <h1>404 Not Found</h1> 
       }
     ]
   }
