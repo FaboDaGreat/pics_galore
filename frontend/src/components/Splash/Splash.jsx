@@ -30,12 +30,14 @@ const Splash = () => {
     return (
       <div>
         <h1>Welcome!</h1>
-        <div>
+        <div className="all-images-container">
           {
             sortedPhotos.map((photo, idx) => (
-              <div key={`${idx}-${photo.id}`}>
-                <img src={photo.url} />
-              </div>
+              <img
+                className="post-image"
+                src={photo.url}
+                key={`${idx}-${photo.id}`}
+              />
             ))
           }
         </div>

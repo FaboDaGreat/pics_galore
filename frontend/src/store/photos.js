@@ -86,7 +86,7 @@ export const getPhotoByIdThunk = (id) => async (dispatch) => {
 };
 
 export const createPhotoThunk = (photo) => async (dispatch) => {
-    try {
+    
         const { url, title, description, albumId, favoriteId, labelId } = photo;
         const res = await csrfFetch("/api/photos/", {
             method: "POST",
@@ -108,10 +108,7 @@ export const createPhotoThunk = (photo) => async (dispatch) => {
         } else {
             throw res;
         }
-    }
-    catch (error){
-        return error
-    }
+   
 }
 
 export const editPhotoThunk = (id, update) => async (dispatch) => {

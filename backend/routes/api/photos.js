@@ -4,9 +4,24 @@ const router = express.Router();
 
 // --Utility Imports--
 const { requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
 const { Photo } = require('../../db/models');
+
+
+const validatePost = [
+  check('url')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .isURL()
+    .withMessage('Please enter a valid link'),
+  check('title')
+    .exists({ checkFalsy: true })
+    .withMessage('Please enter a title for your post'),
+  handleValidationErrors
+];
 
 
 
@@ -73,9 +88,22 @@ router.get('/users/:id', async (req, res, next) => {
 
 //--Post A New Photo--
 
-router.post('/', requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validatePost, async (req, res, next) => {
   try {
     const { url, title, description, albumId, favoriteId, labelId } = req.body
+
+    const samePhoto = await Photo.findOne({
+      where: {
+        url: url
+      }
+    })
+
+    if (samePhoto){
+      const err = new Error('Forbidden');
+      err.errors = { url: 'Cannot post a photo that has already been posted!' };
+      err.status = 401;
+      return next(err);
+    }
 
     const post = await Photo.create({
       userId: req.user.id, username: req.user.username,
@@ -91,7 +119,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 //--Edit a Post--
 
-router.put('/:id', requireAuth, async (req, res, next) => {
+router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
