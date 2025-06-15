@@ -17,7 +17,7 @@ function LoginFormModal() {
     return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
     .then(() => {
       closeModal();
-      window.location.href = "/";
+      window.location.reload();
     })
 
   };
@@ -28,7 +28,7 @@ function LoginFormModal() {
     return dispatch(sessionActions.login({ credential, password }))
     .then(() => {
       closeModal();
-      window.location.href = "/";
+      window.location.reload();
     })
       .catch(async (res) => {
         const data = await res.json();
