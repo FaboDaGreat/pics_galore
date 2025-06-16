@@ -22,36 +22,40 @@ const ProfilePage = () => {
     }
 
     const uploadPhotoPage = (e) => {
-    e.preventDefault();
-    navigate("/photos/upload");
-  };
+        e.preventDefault();
+        navigate("/photos/upload");
+    };
 
     if (!isLoaded) {
-       getMyPhotos();
+        getMyPhotos();
     }
-    
-        return (
-            <div>
-                <h1>{`${user.firstName} ${user.lastName}`}</h1>
-                {sortedPhotos.length === 0 ? (
-                    <div>
-                        <h2>You have no posts.</h2>
-                        <button className="upload-photo-button" onClick={(e) => uploadPhotoPage(e)} >
-                            Upload Photo
-                        </button>
-                    </div>
-                ) : (
-                    <div>
-                        {sortedPhotos.map((photo, idx) => (
-                            <div key={`${idx}-${photo.id}`}>
-                                <img src={photo.url} />
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
-    } 
+
+    return (
+        <div>
+            <h1>{`${user.firstName} ${user.lastName}`}</h1>
+            {sortedPhotos.length === 0 ? (
+                <div>
+                    <h2>You don&apos;t have any posts yet</h2>
+                    <button className="upload-photo-button" onClick={(e) => uploadPhotoPage(e)} >
+                        Upload Photo
+                    </button>
+                </div>
+            ) : (
+                <div className="all-images-container">
+                    {
+                        sortedPhotos.map((photo, idx) => (
+                            <img
+                                className="post-image"
+                                src={photo.url}
+                                key={`${idx}-${photo.id}`}
+                            />
+                        ))
+                    }
+                </div>
+            )}
+        </div>
+    );
+}
 
 
 
