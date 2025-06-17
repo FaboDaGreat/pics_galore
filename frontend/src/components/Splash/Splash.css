@@ -14,7 +14,7 @@
     flex-grow: 1;
 }
 
-h1 {
+.splash-header {
     text-align: center;
     margin: 20px 0;
 }

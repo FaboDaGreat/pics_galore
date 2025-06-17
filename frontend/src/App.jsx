@@ -6,6 +6,9 @@ import * as sessionActions from './store/session';
 import Splash from './components/Splash';
 import ProfilePage from './components/ProfilePage';
 import UploadNewPhotoPage from './components/UploadNewPhotoPage';
+import PhotoPage from './components/PhotoPage';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -34,8 +37,20 @@ const router = createBrowserRouter([
         element: <Splash />
       },
       {
-        path: '/profile',
+        path: '/log-in',
+        element: <LoginForm />
+      },
+      {
+        path: '/sign-up',
+        element: <SignupForm />
+      },
+      {
+        path: '/my-profile',
         element: <ProfilePage />
+      },
+      {
+        path: 'photos/:id',
+        element: <PhotoPage />
       },
       {
         path: 'photos/upload',

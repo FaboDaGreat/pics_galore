@@ -1,44 +1,49 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
 import './SignupForm.css';
+import { useNavigate } from 'react-router-dom';
 
-function SignupFormModal() {
+function SignupForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [submittedUsername, setSubmittedUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      setErrors({});
-      return dispatch(
-        sessionActions.signup({
-          email,
-          username,
-          firstName,
-          lastName,
-          password
-        })
-      )
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data?.errors) {
-            setErrors(data.errors);
-          }
-        });
-    }
-    return setErrors({
+    if (password !== confirmPassword) {
+      return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
+    }else {
+      setErrors({});
+      try {
+        const newUser = await dispatch(
+          sessionActions.signup({
+            email,
+            submittedUsername,
+            firstName,
+            lastName,
+            password
+          }));
+        if (newUser) {
+          navigate('/my-profile')
+        }
+      } catch (res) {
+        const data = await res.json();
+
+        if (data && data.errors) {
+          setErrors(data.errors)
+        }
+      }
+    }
+    
   };
 
   return (
@@ -59,8 +64,8 @@ function SignupFormModal() {
           Username
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={submittedUsername}
+            onChange={(e) => setSubmittedUsername(e.target.value)}
             required
           />
         </label>
@@ -113,4 +118,4 @@ function SignupFormModal() {
   );
 }
 
-export default SignupFormModal;
+export default SignupForm;

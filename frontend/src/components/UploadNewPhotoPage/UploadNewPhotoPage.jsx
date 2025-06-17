@@ -10,7 +10,7 @@ const UploadNewPhotoPage = () => {
     const [url, setUrl] = useState(undefined);
     const [title, setTitle] = useState(undefined);
     const [description, setDescription] = useState(undefined);
-    const [albumId, setAlbumId] = useState(undefined);
+    const [albumTitle, setAlbumTitle] = useState(undefined);
     const [errors, setErrors] = useState({});
 
     const handleSubmit = async (e) => {
@@ -20,13 +20,13 @@ const UploadNewPhotoPage = () => {
             url,
             title,
             description,
-            albumId
+            albumTitle
         };
 
         try {
             const newPost = await dispatch(createPhotoThunk(photoData));
             if(newPost.id) {
-                window.location.href = "/profile";
+                window.location.href = "/my-profile";
             }
         } catch (res) {
             const data = await res.json();
@@ -73,7 +73,7 @@ const UploadNewPhotoPage = () => {
                         className="upload-textarea"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Write a good a description for you photo (optional)"
+                        placeholder="Write a good a description for your photo (optional)"
                     />
                     </label>
                     <label>
@@ -82,8 +82,8 @@ const UploadNewPhotoPage = () => {
                     <input
                         type="text"
                         className="upload-input"
-                        value={albumId}
-                        onChange={(e) => setAlbumId(e.target.value)}
+                        value={albumTitle}
+                        onChange={(e) => setAlbumTitle(e.target.value)}
                         placeholder="Add to Album (optional)"
                     />
                     </label>

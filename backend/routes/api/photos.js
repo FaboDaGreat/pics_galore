@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Photo } = require('../../db/models');
+const { Photo, Album } = require('../../db/models');
 
 
 const validatePost = [
@@ -20,6 +20,9 @@ const validatePost = [
   check('title')
     .exists({ checkFalsy: true })
     .withMessage('Please enter a title for your post'),
+  check('title')
+    .isLength({min: 5, max : 30})
+    .withMessage('Title must be between 5 and 30 characters'),
   handleValidationErrors
 ];
 
@@ -48,7 +51,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const photo = await Photo.findByPk(req.params.id,
         {
-            attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId" ]
+            attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId", "createdAt" ]
         }
     );
 
@@ -74,9 +77,9 @@ router.get('/users/:id', async (req, res, next) => {
     const userId = req.params.id;
     const photos = await Photo.findAll({
       where: {
-        userId: parseInt(userId)
+        userId: userId
       },
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
+      // attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
     });
 
     return res.json(photos)
@@ -90,7 +93,7 @@ router.get('/users/:id', async (req, res, next) => {
 
 router.post('/', requireAuth, validatePost, async (req, res, next) => {
   try {
-    const { url, title, description, albumId, favoriteId, labelId } = req.body
+    const { url, title, description, albumTitle, favoriteId, labelId } = req.body
 
     const samePhoto = await Photo.findOne({
       where: {
@@ -104,6 +107,27 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
       err.status = 401;
       return next(err);
     }
+
+    let albumId;
+    
+    if(albumTitle) {
+      
+      const album = await Album.findOne({
+      where: {
+        userId: req.user.id,
+        title: albumTitle
+      }
+    })
+
+    if (!album) {
+      const newAlbum = await Album.create({
+        userId: req.user.id, username: req.user.username, title: albumTitle
+      })
+      albumId = newAlbum.id
+    } else {
+      albumId = album.id
+    }
+  }
 
     const post = await Photo.create({
       userId: req.user.id, username: req.user.username,

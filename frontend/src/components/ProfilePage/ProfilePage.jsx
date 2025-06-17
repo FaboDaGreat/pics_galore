@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhotosByUserThunk } from "../../store/photos";
 import { useNavigate } from "react-router-dom";
+import './ProfilePage.css'
 
 const ProfilePage = () => {
 
@@ -30,9 +31,17 @@ const ProfilePage = () => {
         getMyPhotos();
     }
 
+    const goToPhotoPage = (e, photo) => {
+    e.preventDefault();
+    navigate(`/photos/${photo.id}`)
+  }
+
     return (
         <div>
-            <h1>{`${user.firstName} ${user.lastName}`}</h1>
+            <div className="profile-header">
+            <h1>{`Welcome back ${user.firstName} ${user.lastName}!`}</h1>
+            <h3>{user.username}</h3>
+            </div>
             {sortedPhotos.length === 0 ? (
                 <div>
                     <h2>You don&apos;t have any posts yet</h2>
@@ -45,6 +54,7 @@ const ProfilePage = () => {
                     {
                         sortedPhotos.map((photo, idx) => (
                             <img
+                                onClick={(e) => goToPhotoPage(e, photo)}
                                 className="post-image"
                                 src={photo.url}
                                 key={`${idx}-${photo.id}`}

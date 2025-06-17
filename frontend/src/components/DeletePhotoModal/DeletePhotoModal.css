@@ -1,0 +1,62 @@
+
+.delete-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-modal-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: fit-content;
+  max-width: 90%;
+}
+
+.delete-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.delete-modal-message {
+  margin-bottom: 1rem;
+}
+
+.delete-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete-modal-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  border: none;
+  outline: none;
+}
+
+.delete-modal-button-no {
+  background-color: rgb(75, 85, 99);
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.delete-modal-button-no:hover {
+  background-color: rgb(55, 65, 81);
+}
+
+.delete-modal-button-yes {
+  background-color: rgb(220, 38, 38);
+  color: white;
+}
+
+.delete-modal-button-yes:hover {
+  background-color: rgb(187, 17, 17);
+}

@@ -6,15 +6,11 @@ module.exports = (sequelize) => {
   class Photo extends Model {
     static associate(models) {
       Photo.belongsTo(models.User, {
-        foreignKey: 'userId',
-        onDelete: "CASCADE",
-        hooks: true
+        foreignKey: 'userId'
       });
       
       Photo.belongsTo(models.Album, {
-        foreignKey: 'albumId',
-        onDelete: "CASCADE",
-        hooks: true
+        foreignKey: 'albumId'
       });
       
     }
