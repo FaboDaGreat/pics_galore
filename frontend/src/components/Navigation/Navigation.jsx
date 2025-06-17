@@ -10,7 +10,7 @@ function Navigation({ isLoaded }) {
 
   const goToProfile = (e) => {
     e.preventDefault();
-    navigate("/profile");
+    navigate("/my-profile");
   }
 
   return (
@@ -21,6 +21,7 @@ function Navigation({ isLoaded }) {
           alt="Site Logo" 
           className="site-logo" 
         />
+        <h1>PicsGalore</h1>
       </NavLink>
 
       {sessionUser && (

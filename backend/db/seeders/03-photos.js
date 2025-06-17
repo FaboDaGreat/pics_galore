@@ -14,21 +14,21 @@ module.exports = {
       {
         url: "https://buffer.com/resources/content/images/2024/11/free-stock-image-sites.png",
         userId: 1,
-        username: "Demo-lition",
+        username: "demo-lition",
         title: "PiCeption",
         description: "A picture within a picture! Pretty cool huh?"
       },
       {
         url: "https://www.stockvault.net/data/2011/02/21/117750/preview16.jpg",
         userId: 1,
-        username: "Demo-lition",
+        username: "demo-lition",
         title: "Tequila Sunrise",
         albumId: 1
       },
       {
         url: "https://www.stockvault.net/data/2016/08/28/208633/preview16.jpg",
         userId: 1,
-        username: "Demo-lition",
+        username: "demo-lition",
         title: "Desolate Paradise",
         description: "The time I found beauty where most others would find just barren land.",
         albumId: 1
@@ -36,14 +36,14 @@ module.exports = {
       {
         url: "https://www.stockvault.net/data/2015/08/14/176770/preview16.jpg",
         userId: 2,
-        username: "PStar",
+        username: "pstar",
         title: "Colors of the Sunset",
         albumId: 2
       },
       {
         url: "https://www.stockvault.net/data/2017/02/07/222329/preview16.jpg",
         userId: 2,
-        username: "PStar",
+        username: "pstar",
         title: "Rainbow Bridge",
         description: "Almost reminds me of Mario Kart",
         albumId: 2
@@ -51,7 +51,7 @@ module.exports = {
       {
         url: "https://www.stockvault.net/data/2016/04/23/194988/preview16.jpg",
         userId: 2,
-        username: "PStar",
+        username: "pstar",
         title: "Howl At the Moon",
         description: "If I was a werewolf...",
         albumId: 3
@@ -59,13 +59,13 @@ module.exports = {
       {
         url: "https://www.stockvault.net/data/2016/05/21/199248/preview16.jpg",
         userId: 3,
-        username: "FaboDaGreat",
+        username: "fabodagreat",
         title: "Shades of Blue"
       },
       {
         url: "https://www.stockvault.net/data/2013/07/12/146526/preview16.jpg",
         userId: 3,
-        username: "FaboDaGreat",
+        username: "fabodagreat",
         title: "Gone Sailing",
         description: "A beautiful depiction that reminds me of my dream to sail away"
       }

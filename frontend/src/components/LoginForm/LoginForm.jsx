@@ -1,23 +1,22 @@
 import { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/Modal';
 import './LoginForm.css';
+import { useNavigate } from 'react-router-dom';
 
-function LoginFormModal() {
+function LoginForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const { closeModal } = useModal();
   
 
   const demoLogin = (e) => {
     e.preventDefault();
     return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
     .then(() => {
-      closeModal();
-      window.location.reload();
+      navigate('/my-profile');
     })
 
   };
@@ -27,8 +26,7 @@ function LoginFormModal() {
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
     .then(() => {
-      closeModal();
-      window.location.reload();
+      navigate('/my-profile');
     })
       .catch(async (res) => {
         const data = await res.json();
@@ -81,4 +79,4 @@ function LoginFormModal() {
   );
 }
 
-export default LoginFormModal;
+export default LoginForm;
