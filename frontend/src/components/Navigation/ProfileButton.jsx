@@ -2,9 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import * as sessionActions from "../../store/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
 import "./ProfileButton.css";
 import { useNavigate } from "react-router-dom";
 
@@ -53,17 +50,27 @@ function ProfileButton({ user }) {
     navigate("/photos/upload");
   };
 
+  const signupPage = (e) => {
+    e.preventDefault();
+    navigate("/sign-up");
+  };
+
+  const loginPage = (e) => {
+    e.preventDefault();
+    navigate("/log-in");
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div className="profileContainer">
       {user && (
-        <button className="uploadPhotoButton" onClick={(e) => uploadPhotoPage(e)} >
+        <button className="upload-photo-button" onClick={(e) => uploadPhotoPage(e)} >
           Upload New Photo
         </button>
       )}
 
-      <button onClick={toggleMenu}>
+      <button onClick={toggleMenu} className="open-menu-button">
         <FaUserCircle />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -75,24 +82,14 @@ function ProfileButton({ user }) {
             </li>
             <li>{user.email}</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button className="logout-button" onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (
           <>
-            <li>
-              <button onClick={(e) => goHome(e)}>Home</button>
-            </li>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
+            <div className="home-link" onClick={(e) => goHome(e)}>Home</div>
+            <div className="login-link" onClick={(e) => loginPage(e)}>Log In</div>
+            <div className="signup-link" onClick={(e) => signupPage(e)}>Sign Up</div>
             
           </>
         )}

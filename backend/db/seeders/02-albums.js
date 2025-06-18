@@ -12,18 +12,18 @@ module.exports = {
     await Album.bulkCreate([
       {
         userId: 1,
-        username: "Demo-lition",
+        username: "demo-lition",
         title: "Views",
         description:"Some of the best views I've ever found"
       },
       {
         userId: 2,
-        username: "PStar",
+        username: "pstar",
         title: "Greatest Nature"
       },
       {
         userId: 2,
-        username: "PStar",
+        username: "pstar",
         title: "Imagination Run Wild"
       }
     ], { validate: true });

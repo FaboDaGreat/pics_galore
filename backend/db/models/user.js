@@ -7,14 +7,12 @@ module.exports = (sequelize) => {
     static associate(models) {
        User.hasMany(models.Photo, {
         foreignKey: 'userId',
-        onDelete: "CASCADE",
-        hooks: true
+        onDelete: "CASCADE"
       });
 
        User.hasMany(models.Album, {
         foreignKey: 'userId',
-        onDelete: "CASCADE",
-        hooks: true
+        onDelete: "CASCADE"
       });
 
     }
