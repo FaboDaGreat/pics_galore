@@ -8,7 +8,7 @@ function SignupForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [submittedUsername, setSubmittedUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ function SignupForm() {
         const newUser = await dispatch(
           sessionActions.signup({
             email,
-            submittedUsername,
+            username,
             firstName,
             lastName,
             password
@@ -64,8 +64,8 @@ function SignupForm() {
           Username
           <input
             type="text"
-            value={submittedUsername}
-            onChange={(e) => setSubmittedUsername(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
@@ -92,6 +92,7 @@ function SignupForm() {
         {errors.lastName && <p>{errors.lastName}</p>}
         <label>
           Password
+          (Case Sensitive)
           <input
             type="password"
             value={password}

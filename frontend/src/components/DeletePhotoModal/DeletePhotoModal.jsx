@@ -18,7 +18,7 @@ const DeletePhotoModal = ({photoId, leavePhotoPage}) => {
     <div className="delete-modal-backdrop" onClick={closeModal}>
        <div className="delete-modal-content" onClick={(e) => e.stopPropagation()}>
         <h2 className="delete-modal-title">Delete Photo</h2>
-        <p className="delete-modal-message">Do you want to permanently delete this photo?</p>
+        <p className="delete-modal-message">Are you sure you want to permanently delete this photo?</p>
         <div className="delete-modal-buttons">
           <button
             className="delete-modal-button delete-modal-button-no"

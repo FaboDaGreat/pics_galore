@@ -46,7 +46,7 @@ const ProfilePage = () => {
                 <div>
                     <h2>You don&apos;t have any posts yet</h2>
                     <button className="upload-photo-button" onClick={(e) => uploadPhotoPage(e)} >
-                        Upload Photo
+                        Upload Your First Photo!
                     </button>
                 </div>
             ) : (

@@ -21,7 +21,7 @@ function Navigation({ isLoaded }) {
           alt="Site Logo" 
           className="site-logo" 
         />
-        <h1>PicsGalore</h1>
+        <h1 className='site-name'>PicsGalore</h1>
       </NavLink>
 
       {sessionUser && (
