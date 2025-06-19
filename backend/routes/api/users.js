@@ -19,14 +19,14 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isEmail()
     .withMessage('Invalid email'),
-  check('submittedUsername')
+  check('username')
     .exists({ checkFalsy: true })
     .withMessage('Username is required'),
-  check('submittedUsername')
+  check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
     .withMessage('Please provide a username with at least 4 characters.'),
-  check('submittedUsername')
+  check('username')
     .not()
     .isEmail()
     .withMessage('Username cannot be an email.'),
@@ -48,11 +48,13 @@ const validateSignup = [
 router.post('/', validateSignup, async (req, res, next) => {
   try {
 
-    const { email, password, submittedUsername, firstName, lastName } = req.body;
+    const { email, password, username, firstName, lastName } = req.body;
+    const lowercasedEmail = email.toLowerCase();
+    const lowercasedUsername = username.toLowerCase();
 
     const existingEmail = await User.findOne({
       where: {
-        email: email
+        email: lowercasedEmail
       }
     })
 
@@ -60,14 +62,14 @@ router.post('/', validateSignup, async (req, res, next) => {
       const invalidEmail = new Error("User already exists");
       invalidEmail.status = 500;
       invalidEmail.errors = {
-        "email": "User with that email already exists"
+        "email": "Email already in use"
       }
       throw invalidEmail;
     }
 
     const existingUsername = await User.findOne({
       where: {
-        username: submittedUsername
+        username: lowercasedUsername
       }
     })
 
@@ -75,14 +77,13 @@ router.post('/', validateSignup, async (req, res, next) => {
       const invalidUsername = new Error("User already exists");
       invalidUsername.status = 500;
       invalidUsername.errors = {
-        "username": "User with that username already exists"
+        "username": "Username already taken"
       };
       throw invalidUsername
     }
 
     const hashedPassword = bcrypt.hashSync(password);
-    const username = submittedUsername.toLowerCase();
-    const user = await User.create({ email, username, hashedPassword, firstName, lastName });
+    const user = await User.create({ email: lowercasedEmail, username: lowercasedUsername, hashedPassword, firstName, lastName });
 
     const safeUser = {
       id: user.id,

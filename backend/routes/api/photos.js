@@ -21,8 +21,8 @@ const validatePost = [
     .exists({ checkFalsy: true })
     .withMessage('Please enter a title for your post'),
   check('title')
-    .isLength({min: 5, max : 30})
-    .withMessage('Title must be between 5 and 30 characters'),
+    .isLength({min: 5, max : 50})
+    .withMessage('Title must be between 5 and 50 characters'),
   handleValidationErrors
 ];
 
@@ -158,10 +158,32 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
     if (post.userId !== userId) {
       const error = new Error("Forbidden");
       error.status = 403;
+      error.errors = { message: 'You are not authorized to edit this post!' };
       throw error;
     }
 
-    const { url, title, description, albumId, favoriteId, labelId } = req.body;
+    const { url, title, description, albumTitle, favoriteId, labelId } = req.body;
+
+    let albumId;
+    
+    if(albumTitle) {
+      
+      const album = await Album.findOne({
+      where: {
+        userId: req.user.id,
+        title: albumTitle
+      }
+    })
+
+    if (!album) {
+      const newAlbum = await Album.create({
+        userId: req.user.id, username: req.user.username, title: albumTitle
+      })
+      albumId = newAlbum.id
+    } else {
+      albumId = album.id
+    }
+  }
 
     post.url = url;
     post.title = title;
