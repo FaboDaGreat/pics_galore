@@ -1,3 +1,41 @@
+
 .delete-button {
     cursor: pointer;
+}
+
+.edit-link {
+    border: none;
+    color: rgb(78, 46, 194);
+    background-color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.edit-link:hover {
+    color: rgb(54, 13, 201)
+}
+
+.photo-page-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.photo-container {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    gap: 3px; 
+}
+
+.photo-detail-box {
+    flex: 1;
+}
+
+.photo-container img {
+    max-height: 430px;
+    width: auto;
+    display: block;
 }

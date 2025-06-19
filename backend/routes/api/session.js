@@ -30,21 +30,30 @@ const validateLogin = [
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
     const { credential, password } = req.body;
+    const lowercasedCredential = credential.toLowerCase();
 
     const user = await User.unscoped().findOne({
         where: {
             [Op.or]: {
-                username: credential,
-                email: credential
+                username: lowercasedCredential,
+                email: lowercasedCredential
             }
         }
     });
 
-    if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+    if (!user) {
         const err = new Error('Login failed');
         err.status = 401;
         err.title = 'Login failed';
-        err.errors = { credential: 'The provided credentials were invalid.' };
+        err.errors = { credential: 'Username/Email does not exist.' };
+        return next(err);
+    }
+
+    if (!bcrypt.compareSync(password, user.hashedPassword.toString())) {
+        const err = new Error('Login failed');
+        err.status = 401;
+        err.title = 'Login failed';
+        err.errors = { credential: 'Incorrect password.' };
         return next(err);
     }
 
