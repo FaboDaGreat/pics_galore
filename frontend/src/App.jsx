@@ -10,6 +10,9 @@ import PhotoPage from './components/PhotoPage';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import EditPhotoPage from './components/EditPhotoPage';
+import MyPhotosPage from './components/MyPhotosPage';
+import MyAlbumsPage from './components/MyAlbumsPage';
+import AlbumPage from './components/AlbumPage';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -50,6 +53,14 @@ const router = createBrowserRouter([
         element: <ProfilePage />
       },
       {
+        path: '/my-profile/photos',
+        element: <MyPhotosPage />
+      },
+      {
+        path: '/my-profile/albums',
+        element: <MyAlbumsPage />
+      },
+      {
         path: 'photos/:id',
         element: <PhotoPage />
       },
@@ -60,6 +71,10 @@ const router = createBrowserRouter([
       {
         path: 'photos/upload',
         element: <UploadNewPhotoPage />
+      },
+      {
+        path: 'albums/:id',
+        element: <AlbumPage />
       },
       {
         path: '*',
