@@ -4,6 +4,7 @@ const express = require('express')
 const usersRouter = require('./users.js');
 const sessionRouter = require('./session.js');
 const photoRouter = require('./photos.js');
+const albumRouter = require('./albums.js')
 
 
 // --Sequelize imports
@@ -20,6 +21,7 @@ router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 router.use('/photos', photoRouter);
+router.use('/albums', albumRouter);
 
 // --Routes--
 router.post('/test', function (req, res) {

@@ -8,6 +8,7 @@ const CREATE_PHOTO = "photos/createPhoto";
 const EDIT_PHOTO = "photos/editPhoto";
 const DELETE_PHOTO = "photos/deletePhoto"
 const GET_PHOTOS_BY_USER = "photos/getPhotosByUser"
+const GET_PHOTOS_BY_ALBUM_ID = "photos/getPhotosByAlbumId";
 
 // ------- ACTION CREATOR ---------
 const getAllPhotos = (photos) => {
@@ -52,6 +53,13 @@ const getPhotosByUser = (photos) => {
   }
 }
 
+const getPhotosByAlbumId = (photos) => {
+  return {
+    type: GET_PHOTOS_BY_ALBUM_ID,
+    payload: photos
+  }
+};
+
 
 
 
@@ -88,7 +96,7 @@ export const getPhotoByIdThunk = (id) => async (dispatch) => {
 export const createPhotoThunk = (photo) => async (dispatch) => {
 
   const { url, title, description, albumTitle, favoriteId, labelId } = photo;
-  const res = await csrfFetch("/api/photos/", {
+  const res = await csrfFetch("/api/photos", {
     method: "POST",
     body: JSON.stringify({
       url,
@@ -168,6 +176,21 @@ export const getPhotosByUserThunk = (id) => async (dispatch) => {
     return error;
   }
 };
+
+export const getPhotosByAlbumThunk = (id) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/albums/${id}/photos`);
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(getPhotosByAlbumId(data));
+    } else {
+      throw res;
+    }
+  } catch (error) {
+    return error;
+  }
+
+}
 
 
 
@@ -255,6 +278,24 @@ function photosReducer(state = initialState, action) {
       newState.byId = { ...state.byId };
       delete newState.byId[action.payload];
       newState.allPhotos = state.allPhotos.filter(photo => photo.id !== action.payload);
+      return newState;
+
+      case GET_PHOTOS_BY_ALBUM_ID:
+
+      newState = { ...state };
+
+      photos = action.payload
+
+      newState.allAlbums = photos;
+
+
+
+      for (let photo of photos) {
+        newById[photo.id] = photo;
+      }
+      newState.byId = newById;
+
+
       return newState;
 
 

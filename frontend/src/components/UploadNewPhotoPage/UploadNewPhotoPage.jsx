@@ -26,7 +26,7 @@ const UploadNewPhotoPage = () => {
         try {
             const newPost = await dispatch(createPhotoThunk(photoData));
             if(newPost.id) {
-                window.location.href = "/my-profile";
+                window.location.href = "/my-profile/photos";
             }
         } catch (res) {
             const data = await res.json();

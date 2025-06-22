@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPhotosThunk } from "../../store/photos";
-import './Splash.css'
+import './Splash.css';
 import { useNavigate } from "react-router-dom";
 
 const Splash = () => {
 
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const user = useSelector((state) => state.session.user);
   const photos = useSelector((state) => state.photosReducer.allPhotos);
   const sortedPhotos = photos.sort((a, b) => b.id - a.id)
   const dispatch = useDispatch();
@@ -35,6 +36,10 @@ const Splash = () => {
     return <h1>Loading...</h1>
   } else {
     return (
+      <>
+      {user && (
+        <h1>{`Welcome Back ${user.firstName} ${user.lastName}!`}</h1>
+      )}
       <div className="all-images-container">
           {
             sortedPhotos.map((photo, idx) => (
@@ -47,6 +52,7 @@ const Splash = () => {
             ))
           }
         </div>
+        </>
 
     )
   }
