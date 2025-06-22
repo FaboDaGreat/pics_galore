@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhotoByIdThunk } from "../../store/photos";
-import './PhotoPage.css'
 import OpenModalButton from '../OpenModalButton';
 import DeletePhotoModal from "../DeletePhotoModal";
+import './PhotoPage.css'
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const PhotoPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     const leavePhotoPage = () => {
-        navigate('/my-profile')
+        navigate('/my-profile/photos')
     }
 
     const editPhotoPage = (e) => {
@@ -46,38 +46,40 @@ const PhotoPage = () => {
     }
     else {
         return (
-            <div className="photo-page-container"> 
-                <div className="photo-container"> 
-                    <img src={photo.url}/>
-                    <div>
-                    {user?.id === photo.userId && (
-                        <OpenModalButton
-                            buttonText="Delete"
-                            className={"delete-button"}
-                            onModalClose={null}
-                            modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
-                        />
-                    )}
+            <>
+                <div className="photo-page-container">
+                    <div className="photo-container">
+                        <img src={photo.url} />
+                        <div>
+                            {user?.id === photo.userId && (
+                                <OpenModalButton
+                                    buttonText="Delete"
+                                    className={"delete-button"}
+                                    onModalClose={null}
+                                    modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
+                                />
+                            )}
+                        </div>
+                    </div>
+                    <div className="photo-detail-box">
+                        <div>
+                            {user?.id === photo.userId &&
+                                (<button className="edit-link" onClick={(e) => editPhotoPage(e)}>
+                                    Edit
+                                </button>)
+                            }
+                        </div>
+                        <h3>{`@${photo.username}`}</h3>
+                        <h3>{photo.title}</h3>
+                        <p>{photo.description}</p>
+                        <p>Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric',
+                        })}</p>
                     </div>
                 </div>
-                <div className="photo-detail-box">
-                    <div>
-                        {user?.id === photo.userId &&
-                            (<button className="edit-link" onClick={(e) => editPhotoPage(e)}>
-                                Edit
-                            </button>)
-                        }
-                    </div>
-                    <h2>{`@${photo.username}`}</h2>
-                    <strong>{photo.title}</strong>
-                    <p>{photo.description}</p>
-                    <p>Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                    })}</p>
-                </div>
-            </div>
+            </>
         );
     }
 };

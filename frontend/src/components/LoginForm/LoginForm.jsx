@@ -16,7 +16,7 @@ function LoginForm() {
     e.preventDefault();
     return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
     .then(() => {
-      navigate('/my-profile');
+      navigate('/');
     })
 
   };
@@ -26,7 +26,7 @@ function LoginForm() {
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
     .then(() => {
-      navigate('/my-profile');
+      navigate('/');
     })
       .catch(async (res) => {
         const data = await res.json();

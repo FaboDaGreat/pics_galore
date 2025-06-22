@@ -37,4 +37,15 @@
   .profile-button {
     cursor: pointer;
   }
+
+  .my-pages {
+    display: flex;
+    gap: 5px;
+  }
+
+  .home-button,
+  .photos-button,
+  .albums-button {
+    cursor: pointer;
+  }
   

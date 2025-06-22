@@ -1,0 +1,23 @@
+.all-albums-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 0 100px;
+    justify-content: center;
+}
+
+.cover-photo {
+    height: 200px;
+    width: 200px;
+    display: block;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 1px solid rgba(8, 8, 8, 0.719);
+}
+
+.cover-photo:hover {
+     transform: scale(1.1) translateY(-5px);
+     box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+
+}

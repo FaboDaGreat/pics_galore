@@ -33,7 +33,7 @@ function SignupForm() {
             password
           }));
         if (newUser) {
-          navigate('/my-profile')
+          navigate('/')
         }
       } catch (res) {
         const data = await res.json();

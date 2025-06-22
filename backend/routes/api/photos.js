@@ -79,7 +79,7 @@ router.get('/users/:id', async (req, res, next) => {
       where: {
         userId: userId
       },
-      // attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
+      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
     });
 
     return res.json(photos)
