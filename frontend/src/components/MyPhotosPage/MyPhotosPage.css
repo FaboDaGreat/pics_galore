@@ -1,0 +1,18 @@
+
+.upload-photo-button {
+    cursor: pointer;
+}
+
+.all-images-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0 100px;
+}
+
+.my-images {
+    height: 200px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+}

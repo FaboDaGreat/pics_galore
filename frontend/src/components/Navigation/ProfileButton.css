@@ -1,24 +1,8 @@
 
-.upload-photo-button {
+.menu-links {
     cursor: pointer;
 }
 
 .open-menu-button {
-    cursor: pointer;
-}
-
-.logout-button {
-    cursor: pointer;
-}
-
-.home-link {
-    cursor: pointer;
-}
-
-.signup-link {
-    cursor: pointer;
-}
-
-.login-link {
     cursor: pointer;
 }

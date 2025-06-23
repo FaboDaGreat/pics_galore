@@ -4,13 +4,24 @@ const router = express.Router();
 
 // --Utility Imports--
 const { requireAuth } = require('../../utils/auth');
-// const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
 const { Photo, Album } = require('../../db/models');
 
-
+const validateAlbum = [
+  check('title')
+    .exists({ checkFalsy: true })
+    .withMessage('Please enter a title for your post'),
+  check('title')
+    .isLength({min: 5, max : 50})
+    .withMessage('Title must be between 5 and 50 characters'),
+  check('description')
+    .isLength({max:500})
+    .withMessage('Please limit your description to 500 character'),
+  handleValidationErrors
+];
 
 
 
@@ -38,11 +49,13 @@ router.get('/users/:id', async (req, res, next) => {
         })
 
         if (photos.length > 0) {
-        albumObj.coverPhoto = photos[0].url;
+        albumObj.coverPhoto = photos[photos.length - 1].url;
       } else {
         albumObj.coverPhoto = "https://media.istockphoto.com/id/184886377/photo/blank-photo-54-megapixels.jpg?s=612x612&w=0&k=20&c=lI5KWRMOwrl6I2kA4SxEfcS4LU8y8KyY6vqMpEQVGjA=";
       }
         newAlbumArr.push(albumObj)
+
+        albumObj.photoCount = photos.length
     }
 
     return res.json(newAlbumArr)
@@ -101,20 +114,20 @@ router.get('/:id/photos', async (req, res, next) => {
 
 //--Create a New Album--
 
-router.post('/', requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validateAlbum, async (req, res, next) => {
   try {
     const { title, description } = req.body
 
     const sameAlbum = await Album.findOne({
       where: {
         title: title,
-        userId: req.params.id
+        userId: req.user.id
       }
     })
 
     if (sameAlbum){
       const err = new Error('Forbidden');
-      err.errors = { url: 'You already have an album with this name!' };
+      err.errors = { title: 'You already have an album with this name!' };
       err.status = 401;
       return next(err);
     }
@@ -132,7 +145,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 //--Edit an Album--
 
-router.put('/:id', requireAuth, async (req, res, next) => {
+router.put('/:id', requireAuth, validateAlbum, async (req, res, next) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;

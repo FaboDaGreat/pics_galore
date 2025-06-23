@@ -29,7 +29,7 @@ const PhotoPage = () => {
                 await dispatch(getPhotoByIdThunk(id));
                 setIsLoaded(true);
             } else {
-                navigate('/my-profile');
+                navigate('/');
             }
         };
         if (!isLoaded) {

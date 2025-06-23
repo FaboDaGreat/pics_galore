@@ -21,3 +21,7 @@
      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
 
 }
+
+.create-album-button {
+    cursor: pointer;
+}

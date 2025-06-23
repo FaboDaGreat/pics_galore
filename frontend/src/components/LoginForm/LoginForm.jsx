@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
-import './LoginForm.css';
 import { useNavigate } from 'react-router-dom';
+import './LoginForm.css';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ function LoginForm() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button className='login-button' type="submit">Log In</button>
         <div>
   <a 
     href="#"
