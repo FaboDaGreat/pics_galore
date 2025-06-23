@@ -34,18 +34,15 @@
     font-weight: bold;
   }
 
-  .profile-button {
-    cursor: pointer;
-  }
-
   .my-pages {
     display: flex;
     gap: 5px;
   }
 
-  .home-button,
-  .photos-button,
-  .albums-button {
+  .nav-buttons {
     cursor: pointer;
   }
   
+  .profile-button {
+    cursor: pointer;
+  }

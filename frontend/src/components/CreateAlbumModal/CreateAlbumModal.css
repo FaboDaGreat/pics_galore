@@ -1,39 +1,46 @@
-.upload-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    padding: 20px;
-}
-
-.upload-form {
+.create-album-modal {
+    background-color: #ffffff;
+    padding: 32px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 450px;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
+    gap: 16px;
 }
 
-.upload-form-title {
-    text-align: center;
+.create-album-title {
+   text-align: center;
     font-size: 28px;
     color: #333;
     margin-bottom: 30px;
 }
 
-.form-input-container {
-    width: 100%;
+
+.create-album-modal form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    width: 100%;
 }
 
-.upload-input,
-.upload-textarea {
+.album-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.album-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.album-input,
+.album-textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -42,24 +49,19 @@
     box-sizing: border-box;
 }
 
-.upload-input::placeholder,
-.upload-textarea::placeholder {
-    color: #999;
-}
-
-.upload-input:focus,
-.upload-textarea:focus {
+.album-input:focus,
+.album-textarea:focus {
     outline: none;
     border-color: #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
-.upload-textarea {
+.album-textarea {
     resize: vertical;
     min-height: 100px;
 }
 
-.upload-submit-button {
+.new-album-submit-button {
     align-self: flex-end;
     margin-top: 20px;
     padding: 10px 20px;
@@ -72,7 +74,7 @@
     transition: background-color 0.3s ease;
 }
 
-.upload-submit-button:hover {
+.new-album-submit-button:hover {
     background-color: #0056b3;
 }
 

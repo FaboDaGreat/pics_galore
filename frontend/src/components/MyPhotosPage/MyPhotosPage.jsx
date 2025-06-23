@@ -9,7 +9,8 @@ const MyPhotosPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const photos = useSelector((state) => state.photosReducer.allPhotos);
-    const sortedPhotos = photos.sort((a, b) => b.id - a.id);
+    const photoArr = photos ? Object.values(photos) : [];
+    const sortedPhotos = photoArr.sort((a, b) => b.id - a.id);
     const user = useSelector((state) => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -60,7 +61,7 @@ const MyPhotosPage = () => {
                         sortedPhotos.map((photo, idx) => (
                             <img
                                 onClick={(e) => goToPhotoPage(e, photo)}
-                                className="post-image"
+                                className="my-images"
                                 src={photo.url}
                                 key={`${idx}-${photo.id}`}
                             />

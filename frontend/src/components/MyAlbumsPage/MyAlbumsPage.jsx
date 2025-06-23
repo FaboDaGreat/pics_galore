@@ -2,11 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { getAlbumsByUserThunk } from "../../store/albums";
 import { useNavigate } from "react-router-dom";
+import CreateAlbumModal from "../CreateAlbumModal";
+import OpenModalButton from "../OpenModalButton";
 import './MyAlbumsPage.css'
 
 const MyAlbumsPage = () => {
     const user = useSelector((state) => state.session.user);
     const albums = useSelector((state) => state.albumsReducer.allAlbums);
+    const albumArr = albums ? Object.values(albums) : [];
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -15,49 +18,59 @@ const MyAlbumsPage = () => {
         return <h1>Please log in to view your profile.</h1>
     }
 
-  const getMyAlbums = async () => {
-            await dispatch(getAlbumsByUserThunk(user.id));
-            setIsLoaded(true);
-        }
+    const getMyAlbums = async () => {
+        await dispatch(getAlbumsByUserThunk(user.id));
+        setIsLoaded(true);
+    }
 
-        if (!isLoaded) {
+    if (!isLoaded) {
         getMyAlbums();
     }
 
     if (!isLoaded) {
         return <h1>Loading...</h1>
     }
-    
+
     const openAlbum = (album, e) => {
         e.preventDefault();
         navigate(`/albums/${album.id}`)
     }
-    
+
     return (
         <>
-        <div className="profile-header">
-            <h1>{`${user.firstName} ${user.lastName}`}</h1>
-            <h3>{user.username}</h3>
+            <div className="profile-header">
+                <h1>{`${user.firstName} ${user.lastName}`}</h1>
+                <h3>{user.username}</h3>
+                <OpenModalButton
+                    buttonText="Create a New Album"
+                    className={"create-album-button"}
+                    onModalClose={null}
+                    modalComponent={<CreateAlbumModal />}
+                />
             </div>
-        {albums.length === 0 ? (
+            {albums.length === 0 ? (
                 <div>
                     <h2>You don&apos;t have any albums yet</h2>
-                    <button className="upload-photo-button">
-                        Create Your First Album!
-                    </button>
+                    <OpenModalButton
+                        buttonText="Create Your First Album!"
+                        className={"create-album-button"}
+                        onModalClose={null}
+                        modalComponent={<CreateAlbumModal />}
+                    />
                 </div>
             ) : (
                 <div className="all-albums-container">
                     {
-                        albums.map((album, idx) => (
+                        albumArr.map((album, idx) => (
                             <div key={idx}>
-                           <img
-                                className="cover-photo"
-                                src={album.coverPhoto}
-                                key={`${idx}-${album.id}`}
-                                onClick={(e) => openAlbum(album, e)}
-                            />
-                            <div>{album.title}</div>
+                                <img
+                                    className="cover-photo"
+                                    src={album.coverPhoto}
+                                    key={`${idx}-${album.id}`}
+                                    onClick={(e) => openAlbum(album, e)}
+                                />
+                                <strong>{album.title}</strong>
+                               <div>{`${album.photoCount} ${album.photoCount === 1 ? 'photo' : 'photos'}`}</div> 
                             </div>
                         ))
                     }
