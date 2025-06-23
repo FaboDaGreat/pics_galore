@@ -9,17 +9,21 @@ const EditPhotoPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const photo = useSelector((state) => state.photosReducer.byId[id]);
+    const user = useSelector((state) => state.session.user);
+    const albums = useSelector((state) => state.albumsReducer.allAlbums);
 
     const [url, setUrl] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [albumTitle, setAlbumTitle] = useState('');
+    const [albumSelection, setAlbumSelection] = useState('');
+    const [newAlbumTitle, setNewAlbumTitle] = useState('');
     const [errors, setErrors] = useState({});
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [hasChanged, setHasChanged] = useState(false);
     const [initialTitle, setInitialTitle] = useState('');
     const [initialDescription, setInitialDescription] = useState('');
-    const [initialAlbumTitle, setInitialAlbumTitle] = useState('');
+    const [initialAlbumSelection, setInitialAlbumSelection] = useState('');
+    const [initialNewAlbumTitle, setInitialNewAlbumTitle] = useState('');
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [hasChanged, setHasChanged] = useState(false);
 
     useEffect(() => {
         const getPhotoDetails = async () => {
@@ -27,7 +31,7 @@ const EditPhotoPage = () => {
                 await dispatch(getPhotoByIdThunk(id));
                 setIsLoaded(true);
             } else {
-                navigate('/my-profile');
+                navigate('/');
             }
         };
         if (!isLoaded) {
@@ -40,10 +44,14 @@ const EditPhotoPage = () => {
             setUrl(photo.url || '');
             setTitle(photo.title || '');
             setDescription(photo.description || '');
-            setAlbumTitle(photo.albumTitle || '');
             setInitialTitle(photo.title || '');
             setInitialDescription(photo.description || '');
-            setInitialAlbumTitle(photo.albumTitle || '');
+            setInitialNewAlbumTitle('');
+
+            if (photo.Album) {
+                setAlbumSelection(photo.Album.title);
+                setInitialAlbumSelection(photo.Album.title);
+            }
         }
     }, [photo, isLoaded]);
 
@@ -52,14 +60,23 @@ const EditPhotoPage = () => {
             const changed =
                 title !== initialTitle ||
                 description !== initialDescription ||
-                albumTitle !== initialAlbumTitle;
+                albumSelection !== initialAlbumSelection ||
+                newAlbumTitle !== initialNewAlbumTitle;
             setHasChanged(changed);
         }
-    }, [title, description, albumTitle, initialTitle, initialDescription, initialAlbumTitle, isLoaded, photo]);
+    }, [title, description, albumSelection, newAlbumTitle, initialTitle, initialDescription, initialAlbumSelection, initialNewAlbumTitle, isLoaded, photo]);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        let albumTitle;
+
+        if (albumSelection === "New Album") {
+            albumTitle = newAlbumTitle;
+        } else {
+            albumTitle = albumSelection;
+        }
 
         const update = {
             url,
@@ -77,7 +94,7 @@ const EditPhotoPage = () => {
             const data = await res.json();
             if (data && data.errors) {
                 setErrors(data.errors);
-            } 
+            }
         }
     };
 
@@ -87,6 +104,10 @@ const EditPhotoPage = () => {
 
     if (!photo) {
         return <h1>Post Not Found</h1>;
+    }
+
+    if (!user || user.id !== photo.userId) {
+        return <h1>Unauthorized!</h1>
     }
 
     return (
@@ -127,14 +148,33 @@ const EditPhotoPage = () => {
                     <label>
                         Album
                         {errors.album && <p className="error-message">{errors.album}</p>}
-                        <input
-                            type="text"
+                        <select
                             className="upload-input"
-                            value={albumTitle}
-                            onChange={(e) => setAlbumTitle(e.target.value)}
-                            placeholder="Add to Album (optional)"
-                        />
+                            value={albumSelection}
+                            onChange={(e) => setAlbumSelection(e.target.value)}
+                        >
+                            <option value=''>(None)</option>
+                            {albums.map((album, idx) => (
+                                <option key={`${idx}-${album.id}`} value={album.title}>
+                                    {album.title}
+                                </option>
+                            ))}
+                            <option value="New Album">(Create a new album)</option>
+                        </select>
                     </label>
+                    {albumSelection === "New Album" && (
+                        <label>
+                            New Album Name
+                            <input
+                                type="text"
+                                className="upload-input"
+                                value={newAlbumTitle}
+                                onChange={(e) => setNewAlbumTitle(e.target.value)}
+                                placeholder="Enter a title for your new album"
+                                required
+                            />
+                        </label>
+                    )}
                 </div>
                 <button type="submit" className="upload-submit-button" disabled={!hasChanged}>
                     Update Photo

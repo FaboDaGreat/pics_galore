@@ -23,6 +23,9 @@ const validatePost = [
   check('title')
     .isLength({min: 5, max : 50})
     .withMessage('Title must be between 5 and 50 characters'),
+  check('description')
+    .isLength({max:500})
+    .withMessage('Please limit your description to 500 character'),
   handleValidationErrors
 ];
 
@@ -51,7 +54,10 @@ router.get('/:id', async (req, res, next) => {
   try {
     const photo = await Photo.findByPk(req.params.id,
         {
-            attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId", "createdAt" ]
+            attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId", "createdAt" ],
+            include: [
+              {model: Album}
+            ]
         }
     );
 
@@ -104,6 +110,20 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
     if (samePhoto){
       const err = new Error('Forbidden');
       err.errors = { url: 'Cannot post a photo that has already been posted!' };
+      err.status = 401;
+      return next(err);
+    }
+
+    const sameName = await Photo.findOne({
+      where: {
+        title: title,
+        userId: req.user.id
+      }
+    })
+
+    if (sameName){
+      const err = new Error('Forbidden');
+      err.errors = { title: 'You already have a photo with that title.' };
       err.status = 401;
       return next(err);
     }
@@ -164,7 +184,7 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
 
     const { url, title, description, albumTitle, favoriteId, labelId } = req.body;
 
-    let albumId;
+    let albumId = null;
     
     if(albumTitle) {
       

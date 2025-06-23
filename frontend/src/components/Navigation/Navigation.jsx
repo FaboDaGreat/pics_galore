@@ -22,6 +22,11 @@ function Navigation({ isLoaded }) {
     navigate('/')
   }
 
+  const uploadPhotoPage = (e) => {
+    e.preventDefault();
+    navigate("/photos/upload");
+  };
+
   return (
     <nav className="nav-bar">
       <NavLink to="/" className="logo-container">
@@ -32,13 +37,16 @@ function Navigation({ isLoaded }) {
         />
         <h1 className="site-name">PicsGalore</h1>
       </NavLink>
-      {sessionUser && (
-        <div className="my-pages">
-          <button className='home-button' onClick={(e) => goHome(e)}>Home</button>
-          <button className='photos-button' onClick={(e) => goToMyPhotos(e)}>My Photos</button>
-          <button className='albums-button' onClick={(e) => goToMyAlbums(e)}>My Albums</button>
-        </div>
-      )}
+      <div className="my-pages">
+        {sessionUser && (
+          <>
+            <button className='nav-buttons' onClick={(e) => goHome(e)}>Home</button>
+            <button className='nav-buttons' onClick={(e) => goToMyPhotos(e)}>My Photos</button>
+            <button className='nav-buttons' onClick={(e) => goToMyAlbums(e)}>My Albums</button>
+            <button className="nav-buttons" onClick={(e) => uploadPhotoPage(e)} >Upload New Photo</button>
+          </>
+        )}
+      </div>
       <ul className="nav-links">
         {isLoaded && (
           <li>

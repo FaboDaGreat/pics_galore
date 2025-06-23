@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAlbumByIdThunk } from "../../store/albums";
 import { getPhotosByAlbumThunk } from "../../store/photos";
 import { useState } from "react";
+import './AlbumPage.css'
 
 const AlbumPage = () => {
     const {id} = useParams();
@@ -38,7 +39,6 @@ const AlbumPage = () => {
 
     return (
         <div>
-            <h1></h1>
             <div className="profile-header">
                 <h1>{`${user.firstName} ${user.lastName}`}</h1>
                 <h3>{user.username}</h3>
@@ -48,6 +48,7 @@ const AlbumPage = () => {
             </h1>
             <strong>by YOU!</strong>
             <p className="album-description">{album.description}</p>
+            <div>{`${photos.length} ${photos.length === 1 ? 'photo' : 'photos'}`}</div>
             {photos.length === 0 ? (
                 <div>
                     <h2>You don&apos;t have any photos in this album yet</h2>
@@ -58,7 +59,7 @@ const AlbumPage = () => {
                         photos.map((photo, idx) => (
                             <img
                                 onClick={(e) => goToPhotoPage(e, photo)}
-                                className="post-image"
+                                className="album-images"
                                 src={photo.url}
                                 key={`${idx}-${photo.id}`}
                             />
