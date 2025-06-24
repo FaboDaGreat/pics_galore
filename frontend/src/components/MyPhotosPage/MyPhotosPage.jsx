@@ -44,10 +44,11 @@ const MyPhotosPage = () => {
 
     return (
         <div>
-            <div className="profile-header">
+            <div className="profile-info">
                 <h1>{`${user.firstName} ${user.lastName}`}</h1>
             <h3>{user.username}</h3>
             </div>
+            <h2 className="profile-heading">My Photos</h2>
             {sortedPhotos.length === 0 ? (
                 <div>
                     <h2>You don&apos;t have any posts yet</h2>

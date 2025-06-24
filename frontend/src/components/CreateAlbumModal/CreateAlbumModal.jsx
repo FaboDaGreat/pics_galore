@@ -5,7 +5,7 @@ import { useModal } from '../../context/Modal';
 import './CreateAlbumModal.css'
 
 const CreateAlbumModal = () => {
-    
+
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     const user = useSelector((state) => state.session.user);
@@ -15,20 +15,20 @@ const CreateAlbumModal = () => {
     const [errors, setErrors] = useState('')
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const albumData = {
+        const albumData = {
             title,
             description
         };
 
-    try {
-        const newAlbum = await dispatch(createAlbumThunk(albumData));
-        if (newAlbum.id) {
-            await dispatch(getAlbumsByUserThunk(user.id))
-            closeModal();
+        try {
+            const newAlbum = await dispatch(createAlbumThunk(albumData));
+            if (newAlbum.id) {
+                await dispatch(getAlbumsByUserThunk(user.id))
+                closeModal();
             }
-    } catch (res) {
+        } catch (res) {
             const data = await res.json();
 
             if (data && data.errors) {
@@ -36,13 +36,13 @@ const CreateAlbumModal = () => {
             }
         }
 
-  };
+    };
 
-  return (
-    <div className="create-album-modal">
-        <h1 className='create-album-title'>Make a New Album!</h1>
+    return (
+        <div className="create-album-modal">
+            <h1 className='create-album-title'>Make a New Album!</h1>
             <form onSubmit={handleSubmit}>
-          <div className="album-form">
+                <div className="album-form">
                     {errors.message && <h2 className="error-message">{errors.message}</h2>}
                     <label>
                         Title Your Album
@@ -66,9 +66,14 @@ const CreateAlbumModal = () => {
                         />
                     </label>
                 </div>
-                <button type="submit" className="new-album-submit-button">
-                    Create Album
-                </button>
+                <div className="new-album-modal-buttons">
+                    <button type="submit" className="new-album-modal-button new-album-button-yes">
+                        Create Album
+                    </button>
+                    <button type="button" onClick={closeModal} className="new-album-modal-button new-album-button-cancel">
+                        Cancel
+                    </button>
+                </div>
             </form>
         </div>
     );

@@ -11,7 +11,8 @@ module.exports = (sequelize) => {
 
       Album.hasMany(models.Photo, {
         foreignKey: 'albumId',
-        onDelete: "CASCADE"
+        onDelete: "SET NULL",
+        hooks: true
       });
       
     }
