@@ -37,12 +37,14 @@ function LoginForm() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <div className='login-page-container'>
+      <form className='login-form' onSubmit={handleSubmit}>
+        <h1 className='login-form-title'>Log In</h1>
+        <div className='form-input-containter'>
         <label>
           Username or Email
           <input
+            className='login-input'
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
@@ -52,18 +54,14 @@ function LoginForm() {
         <label>
           Password
           <input
+            className='login-input'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.credential && (
-          <p>{errors.credential}</p>
-        )}
-        <button className='login-button' type="submit">Log In</button>
-        <div>
-  <a 
+        <a 
     href="#"
     onClick={(e) => {
       e.preventDefault(); 
@@ -72,10 +70,15 @@ function LoginForm() {
   >
     Demo User
   </a>
+        {errors.credential && (
+          <p className='error-message'>{errors.credential}</p>
+        )}
+        </div>
+        <button className='login-button' type="submit">Log In</button>
+        <div>
 </div>
-
-      </form>
-    </>
+</form>
+    </div>
   );
 }
 

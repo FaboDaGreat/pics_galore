@@ -42,8 +42,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "Albums",
-          key: "id"
-        }
+          key: "id",
+        },
+        onDelete: 'SET NULL'
       },
       favoriteId: {
         type: Sequelize.INTEGER

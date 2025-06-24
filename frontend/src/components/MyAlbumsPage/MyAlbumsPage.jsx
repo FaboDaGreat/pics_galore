@@ -38,7 +38,7 @@ const MyAlbumsPage = () => {
 
     return (
         <>
-            <div className="profile-header">
+            <div className="profile-info">
                 <h1>{`${user.firstName} ${user.lastName}`}</h1>
                 <h3>{user.username}</h3>
                 <OpenModalButton
@@ -48,11 +48,12 @@ const MyAlbumsPage = () => {
                     modalComponent={<CreateAlbumModal />}
                 />
             </div>
+            <h2 className="profile-heading">My Albums</h2>
             {albums.length === 0 ? (
                 <div>
                     <h2>You don&apos;t have any albums yet</h2>
                     <OpenModalButton
-                        buttonText="Create Your First Album!"
+                        buttonText="Make Your First Album!"
                         className={"create-album-button"}
                         onModalClose={null}
                         modalComponent={<CreateAlbumModal />}

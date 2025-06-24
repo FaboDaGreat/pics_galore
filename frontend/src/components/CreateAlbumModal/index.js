@@ -1,2 +1,2 @@
-import CreateAlbumModal from "./CeateAlbumModal";
+import CreateAlbumModal from "./CreateAlbumModal";
 export default CreateAlbumModal;

@@ -1,8 +1,41 @@
 
+.profileContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  list-style: none;
+  margin: 0;
+  width: 200px;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}
+
 .menu-links {
-    cursor: pointer;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.menu-links:hover {
+  background-color: #1f12123a;
 }
 
 .open-menu-button {
-    cursor: pointer;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }

@@ -60,7 +60,7 @@ function ProfileButton({ user }) {
   return (
     <div className="profileContainer">
       <button onClick={toggleMenu} className="open-menu-button">
-        <FaUserCircle />
+        <FaUserCircle size={32} style={{ color: '#7d7a85' }} />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
