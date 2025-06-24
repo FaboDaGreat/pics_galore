@@ -19,7 +19,7 @@ const validateAlbum = [
     .withMessage('Title must be between 5 and 50 characters'),
   check('description')
     .isLength({max:500})
-    .withMessage('Please limit your description to 500 character'),
+    .withMessage('Please limit your description to 500 characters'),
   handleValidationErrors
 ];
 

@@ -62,9 +62,9 @@ export const getAlbumByIdThunk = (id) => async (dispatch) => {
   }
 };
 
-export const createAlbumThunk = (photo) => async (dispatch) => {
+export const createAlbumThunk = (album) => async (dispatch) => {
 
-  const { title, description } = photo;
+  const { title, description } = album;
   const res = await csrfFetch("/api/albums", {
     method: "POST",
     body: JSON.stringify({
@@ -83,9 +83,9 @@ export const createAlbumThunk = (photo) => async (dispatch) => {
 
 }
 
-export const editAlbumThunk = (id, update) => async (dispatch) => {
-const { title, description } = update;
-const res = await csrfFetch(`/api/photos/${id}`, {
+export const editAlbumThunk = (update) => async (dispatch) => {
+const { id, title, description } = update;
+const res = await csrfFetch(`/api/albums/${id}`, {
     method: "PUT",
     body: JSON.stringify({
       title,
@@ -109,7 +109,7 @@ const res = await csrfFetch(`/api/photos/${id}`, {
 export const deleteAlbumThunk = (id) => async (dispatch) => {
 
   try {
-    const res = await csrfFetch(`/api/photos/${id}`, { method: "DELETE" });
+    const res = await csrfFetch(`/api/albums/${id}`, { method: "DELETE" });
     if (res.ok) {
       const data = await res.json();
       dispatch(deleteAlbum(id));
@@ -174,7 +174,7 @@ function albumsReducer(state = initialState, action) {
       newState = { ...state };
 
       update = action.payload;
-      i = state.allPhotos.findIndex(a => a.id === update.id);
+      i = state.allAlbums.findIndex(a => a.id === update.id);
 
       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
       newState.allAlbums[i] = update;

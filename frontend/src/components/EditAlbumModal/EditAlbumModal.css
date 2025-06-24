@@ -1,4 +1,4 @@
-.create-album-modal {
+.edit-album-modal {
     background-color: #ffffff;
     padding: 32px;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -9,7 +9,7 @@
     gap: 16px;
 }
 
-.create-album-title {
+.edit-album-title {
    text-align: center;
     font-size: 28px;
     color: #333;
@@ -17,7 +17,7 @@
 }
 
 
-.create-album-modal form {
+.edit-album-modal form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -61,13 +61,13 @@
     min-height: 100px;
 }
 
-.new-album-modal-buttons {
+.edit-album-modal-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.new-album-modal-button {
+.edit-album-modal-button {
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -77,28 +77,22 @@
   outline: none;
 }
 
-.new-album-button-yes {
+.edit-album-button-yes {
   background-color: #0056b3;
   color: white;
 }
 
-.new-album-button-yes:hover {
+.edit-album-button-yes:hover {
   background-color: #046ce2;
 }
 
-.new-album-button-yes:disabled {
-    background-color: #e0e0e0;
-    color: #a0a0a0;
-    cursor: not-allowed;
-}
-
-.new-album-button-cancel {
+.edit-album-button-cancel {
   background-color: rgb(75, 85, 99);
   color: white;
   margin-right: 0.5rem;
 }
 
-.new-album-button-cancel:hover {
+.edit-album-button-cancel:hover {
   background-color: rgb(55, 65, 81);
 }
 

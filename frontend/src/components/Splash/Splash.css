@@ -13,3 +13,7 @@
     cursor: pointer;
     flex-grow: 1;
 }
+
+.welcome-banner {
+  margin-left: 50px;
+}

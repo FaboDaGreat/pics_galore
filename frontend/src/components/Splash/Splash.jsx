@@ -10,7 +10,8 @@ const Splash = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const user = useSelector((state) => state.session.user);
   const photos = useSelector((state) => state.photosReducer.allPhotos);
-  const sortedPhotos = photos.sort((a, b) => b.id - a.id)
+  const photoArr = photos ? Object.values(photos) : [];
+  const sortedPhotos = photoArr.sort((a, b) => b.id - a.id)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,7 +39,7 @@ const Splash = () => {
     return (
       <>
       {user && (
-        <h1>{`Welcome Back ${user.firstName} ${user.lastName}!`}</h1>
+        <h1 className="welcome-banner">{`Welcome Back ${user.firstName} ${user.lastName}!`}</h1>
       )}
       <div className="all-images-container">
           {

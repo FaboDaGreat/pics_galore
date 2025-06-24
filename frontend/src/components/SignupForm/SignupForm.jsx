@@ -47,63 +47,71 @@ function SignupForm() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+    <div className='signup-page-container'>
+      
+      <form className='signup-form' onSubmit={handleSubmit}>
+        <h1 className='signup-form-title'>Sign Up</h1>
+        <div className='form-input-container'>
         <label>
           Email
           <input
+          className='signup-input'
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className='error-message'>{errors.email}</p>}
         <label>
           Username
           <input
+          className='signup-input'
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className='error-message'>{errors.username}</p>}
         <label>
           First Name
           <input
+          className='signup-input'
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.firstName && <p className='error-message'>{errors.firstName}</p>}
         <label>
           Last Name
           <input
+          className='signup-input'
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.lastName && <p className='error-message'>{errors.lastName}</p>}
         <label>
           Password
           (Case Sensitive)
           <input
+          className='signup-input'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className='error-message'>{errors.password}</p>}
         <label>
           Confirm Password
           <input
+          className='signup-input'
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -111,11 +119,12 @@ function SignupForm() {
           />
         </label>
         {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
+          <p className='error-message'>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        </div>
+        <button className='signup-button' type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

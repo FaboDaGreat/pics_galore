@@ -11,3 +11,11 @@
     display: block;
     cursor: pointer;
 }
+
+.edit-album-button {
+    cursor: pointer;
+}
+
+.delete-album-button {
+    cursor: pointer;
+}
