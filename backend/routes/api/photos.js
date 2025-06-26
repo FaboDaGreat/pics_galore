@@ -21,10 +21,10 @@ const validatePost = [
     .exists({ checkFalsy: true })
     .withMessage('Please enter a title for your post'),
   check('title')
-    .isLength({min: 5, max : 50})
+    .isLength({ min: 5, max: 50 })
     .withMessage('Title must be between 5 and 50 characters'),
   check('description')
-    .isLength({max:500})
+    .isLength({ max: 500 })
     .withMessage('Please limit your description to 500 character'),
   handleValidationErrors
 ];
@@ -36,7 +36,7 @@ const validatePost = [
 router.get('/', async (req, res, next) => {
   try {
     const photos = await Photo.findAll({
-    attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
+      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
     });
 
     return res.json(photos)
@@ -53,12 +53,12 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const photo = await Photo.findByPk(req.params.id,
-        {
-            attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId", "createdAt" ],
-            include: [
-              {model: Album}
-            ]
-        }
+      {
+        attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId", "createdAt"],
+        include: [
+          { model: Album }
+        ]
+      }
     );
 
     if (!photo) {
@@ -67,7 +67,7 @@ router.get('/:id', async (req, res, next) => {
       return next(error);
     }
 
-     return res.json(photo);
+    return res.json(photo);
 
   } catch (error) {
     next(error);
@@ -89,8 +89,8 @@ router.get('/users/:id', async (req, res, next) => {
     });
 
     return res.json(photos)
-  } 
-    catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 });
@@ -107,7 +107,7 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
       }
     })
 
-    if (samePhoto){
+    if (samePhoto) {
       const err = new Error('Forbidden');
       err.errors = { url: 'Cannot post a photo that has already been posted!' };
       err.status = 401;
@@ -121,7 +121,7 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
       }
     })
 
-    if (sameName){
+    if (sameName) {
       const err = new Error('Forbidden');
       err.errors = { title: 'You already have a photo with that title.' };
       err.status = 401;
@@ -129,25 +129,25 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
     }
 
     let albumId;
-    
-    if(albumTitle) {
-      
-      const album = await Album.findOne({
-      where: {
-        userId: req.user.id,
-        title: albumTitle
-      }
-    })
 
-    if (!album) {
-      const newAlbum = await Album.create({
-        userId: req.user.id, username: req.user.username, title: albumTitle
+    if (albumTitle) {
+
+      const album = await Album.findOne({
+        where: {
+          userId: req.user.id,
+          title: albumTitle
+        }
       })
-      albumId = newAlbum.id
-    } else {
-      albumId = album.id
+
+      if (!album) {
+        const newAlbum = await Album.create({
+          userId: req.user.id, username: req.user.username, title: albumTitle
+        })
+        albumId = newAlbum.id
+      } else {
+        albumId = album.id
+      }
     }
-  }
 
     const post = await Photo.create({
       userId: req.user.id, username: req.user.username,
@@ -185,25 +185,25 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
     const { url, title, description, albumTitle, favoriteId, labelId } = req.body;
 
     let albumId = null;
-    
-    if(albumTitle) {
-      
-      const album = await Album.findOne({
-      where: {
-        userId: req.user.id,
-        title: albumTitle
-      }
-    })
 
-    if (!album) {
-      const newAlbum = await Album.create({
-        userId: req.user.id, username: req.user.username, title: albumTitle
+    if (albumTitle) {
+
+      const album = await Album.findOne({
+        where: {
+          userId: req.user.id,
+          title: albumTitle
+        }
       })
-      albumId = newAlbum.id
-    } else {
-      albumId = album.id
+
+      if (!album) {
+        const newAlbum = await Album.create({
+          userId: req.user.id, username: req.user.username, title: albumTitle
+        })
+        albumId = newAlbum.id
+      } else {
+        albumId = album.id
+      }
     }
-  }
 
     post.url = url;
     post.title = title;

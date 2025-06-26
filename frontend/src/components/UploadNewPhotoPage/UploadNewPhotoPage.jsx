@@ -11,6 +11,7 @@ const UploadNewPhotoPage = () => {
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const albums = useSelector((state) => state.albumsReducer.allAlbums);
+    const albumArr = albums ? Object.values(albums) : [];
 
     const [url, setUrl] = useState(undefined);
     const [title, setTitle] = useState(undefined);
@@ -109,7 +110,7 @@ const UploadNewPhotoPage = () => {
                             onChange={(e) => setAlbumSelection(e.target.value)}
                         >
                             <option value=''>Add to Album (optional)</option>
-                            {albums.map((album, idx) => (
+                            {albumArr.map((album, idx) => (
                                 <option key={`${idx}-${album.id}`} value={album.title}>
                                     {album.title}
                                 </option>

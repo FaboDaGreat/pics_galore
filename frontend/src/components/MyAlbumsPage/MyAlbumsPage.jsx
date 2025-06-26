@@ -15,7 +15,7 @@ const MyAlbumsPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     if (!user) {
-        return <h1>Please log in to view your profile.</h1>
+        return <div className="no-albums-container"><h1>Please log in to view your profile.</h1></div>
     }
 
     const getMyAlbums = async () => {
@@ -38,25 +38,31 @@ const MyAlbumsPage = () => {
 
     return (
         <>
+        <div className="my-albums-top-section">
             <div className="profile-info">
                 <h1>{`${user.firstName} ${user.lastName}`}</h1>
                 <h3>{user.username}</h3>
-                <OpenModalButton
+            </div>
+            <div className="my-albums-top-middle">
+            <h1>My Albums</h1>
+            </div>
+            <div className="my-albums-top-right">
+            <OpenModalButton
                     buttonText="Create a New Album"
                     className={"create-album-button"}
                     onModalClose={null}
-                    modalComponent={<CreateAlbumModal />}
+                    modalComponent={<CreateAlbumModal navigate={navigate} />}
                 />
-            </div>
-            <h2 className="profile-heading">My Albums</h2>
+                </div>
+                </div>
             {albums.length === 0 ? (
-                <div>
+                <div className="no-albums-container">
                     <h2>You don&apos;t have any albums yet</h2>
                     <OpenModalButton
                         buttonText="Make Your First Album!"
                         className={"create-album-button"}
                         onModalClose={null}
-                        modalComponent={<CreateAlbumModal />}
+                        modalComponent={<CreateAlbumModal navigate={navigate} />}
                     />
                 </div>
             ) : (

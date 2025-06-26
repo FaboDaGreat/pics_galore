@@ -63,6 +63,7 @@ function LoginForm() {
         </label>
         <a 
     href="#"
+    className='demo-login'
     onClick={(e) => {
       e.preventDefault(); 
       demoLogin(e);
