@@ -15,7 +15,7 @@ const MyPhotosPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     if (!user) {
-        return <h1>Please log in to view your profile.</h1>
+        return <div className="no-photos-box"><h1>Please log in to view your profile.</h1></div>
     }
 
     
@@ -44,17 +44,21 @@ const MyPhotosPage = () => {
 
     return (
         <div>
+            <div className="photos-top-section">
             <div className="profile-info">
                 <h1>{`${user.firstName} ${user.lastName}`}</h1>
             <h3>{user.username}</h3>
             </div>
-            <h2 className="profile-heading">My Photos</h2>
+            <h1 className="photos-top-middle">My Photos</h1>
+            </div>
             {sortedPhotos.length === 0 ? (
                 <div>
+                    <div className="no-photos-box">
                     <h2>You don&apos;t have any posts yet</h2>
                     <button className="upload-photo-button" onClick={(e) => uploadPhotoPage(e)} >
                         Upload Your First Photo!
                     </button>
+                    </div>
                 </div>
             ) : (
                 <div className="all-images-container">

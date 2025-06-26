@@ -42,16 +42,19 @@ function ProfileButton({ user }) {
   
   const goHome = (e) => {
     e.preventDefault();
+    closeMenu();
     navigate("/");
   };
 
   const signupPage = (e) => {
     e.preventDefault();
+    closeMenu();
     navigate("/sign-up");
   };
 
   const loginPage = (e) => {
     e.preventDefault();
+    closeMenu();
     navigate("/log-in");
   };
 
@@ -65,11 +68,7 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <div>{user.username}</div>
-            <div>
-              {user.firstName} {user.lastName}
-            </div>
-            <div>{user.email}</div>
+            <div>{`Hello, ${user.username}!`}</div>
             <div className="menu-links" onClick={logout}>Log Out</div>
             
           </>

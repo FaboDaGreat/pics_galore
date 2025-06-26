@@ -38,3 +38,29 @@
   .create-album-button:hover {
     background-color: #046ce2;
   }
+
+  .no-albums-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+.my-albums-top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 20px;
+    margin-bottom: 2rem;
+}
+
+.my-albums-top-middle {
+    text-align: center;
+}
+
+.my-albums-top-right {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

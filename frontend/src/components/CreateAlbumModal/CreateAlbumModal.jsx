@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createAlbumThunk, getAlbumsByUserThunk } from '../../store/albums';
+import { useDispatch } from 'react-redux';
+import { createAlbumThunk } from '../../store/albums';
 import { useModal } from '../../context/Modal';
 import './CreateAlbumModal.css'
 
-const CreateAlbumModal = () => {
+const CreateAlbumModal = ({navigate}) => {
 
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-    const user = useSelector((state) => state.session.user);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -25,7 +24,7 @@ const CreateAlbumModal = () => {
         try {
             const newAlbum = await dispatch(createAlbumThunk(albumData));
             if (newAlbum.id) {
-                await dispatch(getAlbumsByUserThunk(user.id))
+                navigate(`/albums/${newAlbum.id}`)
                 closeModal();
             }
         } catch (res) {

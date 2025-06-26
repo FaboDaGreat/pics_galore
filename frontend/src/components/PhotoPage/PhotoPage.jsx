@@ -38,11 +38,11 @@ const PhotoPage = () => {
     }, [id, dispatch, navigate, isLoaded]);
 
     if (!photo) {
-        return <h1>Post not found</h1>;
+        return <div className="no-photos-box"><h1>Post not found</h1></div>;
     }
 
     if (!isLoaded) {
-        return <h1>Loading...</h1>
+        return <h1>Loading...</h1>;
     }
     else {
         return (

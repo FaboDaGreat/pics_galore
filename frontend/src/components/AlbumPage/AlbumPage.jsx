@@ -16,6 +16,7 @@ const AlbumPage = () => {
     const user = useSelector((state) => state.session.user);
     const album = useSelector((state) => state.albumsReducer.byId[id])
     const photos = useSelector((state) => state.photosReducer.allAlbums);
+    const photoArr = photos ? Object.values(photos) : [];
     const [isLoaded, setIsLoaded] = useState(false);
 
     const getAlbumPhotos = async () => {
@@ -45,48 +46,60 @@ const AlbumPage = () => {
         return <h1>Loading...</h1>
     }
 
+    if (!album) {
+        return <div className="no-photos-container"><h1>Album does not exist</h1></div>;
+    }
+
+    if (!user) {
+       return <div className="no-photos-container"><h1>Please log in!</h1></div>
+    }
+
+    if (album.userId !== user.id) {
+        return <div className="no-photos-container"><h1>Unauthorized!</h1></div>
+    }
+
     return (
         <div>
-            <div className="profile-info">
-                <h1>{`${user.firstName} ${user.lastName}`}</h1>
-                <h3>{user.username}</h3>
+            <div className="album-top-section">
+                <div className="album-top-left">
+                        <h1>{`${user.firstName} ${user.lastName}`}</h1>
+                    </div>
+                <div className="album-top-middle">
+                    <div className="profile-header">
+                        <h1 className="album-title">
+                            {album.title}
+                        </h1>
+                        <strong>by YOU!</strong>
+                        <p className="album-description">{album.description}</p>
+                        <div>{`${photoArr.length} ${photoArr.length === 1 ? 'photo' : 'photos'}`}</div>
+                    </div>
+                </div>
+                <div className="album-top-right">
+                    <OpenModalButton
+                        buttonText="Upload Photo to Album"
+                        className={"album-buttons"}
+                        modalComponent={<AddPhotoModal album={(album)} />}
+                    />
+                    <OpenModalButton
+                            buttonText="Edit Album"
+                            className={"album-buttons"}
+                            modalComponent={<EditAlbumModal album={album} />}
+                        />
+                        <OpenModalButton
+                            buttonText="Delete Album"
+                            className={"album-buttons"}
+                            modalComponent={<DeleteAlbumModal albumId={album.id} leaveAlbum={leaveAlbum} />}
+                        />
+                </div>
             </div>
-            <div className="album-page-buttons">
-                <OpenModalButton
-                    buttonText="Edit Album"
-                    className={"edit-album-button"}
-                    onModalClose={null}
-                    modalComponent={<EditAlbumModal album={album} />}
-                />
-                <OpenModalButton
-                    buttonText="Delete Album"
-                    className={"delete-album-button"}
-                    onModalClose={null}
-                    modalComponent={<DeleteAlbumModal albumId={(album)} leaveAlbum={leaveAlbum} />}
-                />
-            </div>
-            <div className="profile-header">
-                <h1 className="album-title">
-                    {album.title}
-                </h1>
-                <strong>by YOU!</strong>
-                <p className="album-description">{album.description}</p>
-                <div>{`${photos.length} ${photos.length === 1 ? 'photo' : 'photos'}`}</div>
-            </div>
-            <OpenModalButton
-                    buttonText="Upload Photo to Album"
-                    className={"upload-photo-button"}
-                    onModalClose={null}
-                    modalComponent={<AddPhotoModal album={(album)} />}
-                />
-            {photos.length === 0 ? (
-                <div>
-                    <h2>You don&apos;t have any photos in this album yet</h2>
+            {photoArr.length === 0 ? (
+                <div className="no-photos-container">
+                    <h2 className="no-photo-message">You don&apos;t have any photos in this album yet</h2>
                 </div>
             ) : (
                 <div className="all-images-container">
                     {
-                        photos.map((photo, idx) => (
+                        photoArr.map((photo, idx) => (
                             <img
                                 onClick={(e) => goToPhotoPage(e, photo)}
                                 className="album-images"

@@ -11,6 +11,7 @@ const EditPhotoPage = () => {
     const photo = useSelector((state) => state.photosReducer.byId[id]);
     const user = useSelector((state) => state.session.user);
     const albums = useSelector((state) => state.albumsReducer.allAlbums);
+    const albumArr = albums ? Object.values(albums) : [];
 
     const [url, setUrl] = useState('');
     const [title, setTitle] = useState('');
@@ -103,11 +104,11 @@ const EditPhotoPage = () => {
     }
 
     if (!photo) {
-        return <h1>Post Not Found</h1>;
+        return <div className='error-box'><h1>Post Not Found</h1></div>;
     }
 
     if (!user || user.id !== photo.userId) {
-        return <h1>Unauthorized!</h1>
+        return <div className='error-box'><h1>Unauthorized!</h1></div>
     }
 
     return (
@@ -154,7 +155,7 @@ const EditPhotoPage = () => {
                             onChange={(e) => setAlbumSelection(e.target.value)}
                         >
                             <option value=''>(None)</option>
-                            {albums.map((album, idx) => (
+                            {albumArr.map((album, idx) => (
                                 <option key={`${idx}-${album.id}`} value={album.title}>
                                     {album.title}
                                 </option>
