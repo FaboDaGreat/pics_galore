@@ -10,7 +10,7 @@ const MyPhotosPage = () => {
     const navigate = useNavigate();
     const photos = useSelector((state) => state.photosReducer.allPhotos);
     const photoArr = photos ? Object.values(photos) : [];
-    const sortedPhotos = photoArr.sort((a, b) => b.id - a.id);
+    const sortedPhotos = photoArr?.sort((a, b) => b.id - a.id);
     const user = useSelector((state) => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
 
