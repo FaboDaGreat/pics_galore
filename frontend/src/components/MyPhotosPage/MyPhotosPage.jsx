@@ -24,7 +24,8 @@ const MyPhotosPage = () => {
 
     const sortedPhotos = useMemo(() => {
         const photoArr = photos ? Object.values(photos) : [];
-        return photoArr.sort((a, b) => b.id - a.id);
+        const validPhotos = photoArr.filter(p => p && p.id);
+        return validPhotos.sort((a, b) => b.id - a.id);
     }, [photos]);
 
 
