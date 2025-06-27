@@ -1,31 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhotosByUserThunk } from "../../store/photos";
 import { useNavigate } from "react-router-dom";
-import './MyPhotosPage.css'
+import './MyPhotosPage.css';
 
 const MyPhotosPage = () => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const photos = useSelector((state) => state.photosReducer.allPhotos);
-    const photoArr = photos ? Object.values(photos) : [];
-    const sortedPhotos = photoArr?.sort((a, b) => b.id - a.id);
     const user = useSelector((state) => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    useEffect(() => {
+
+        const getMyPhotos = async () => {
+            await dispatch(getPhotosByUserThunk(user.id));
+            setIsLoaded(true);
+        }
+       if (!isLoaded && user) {
+            getMyPhotos();
+        }
+    }, [dispatch, user, isLoaded]);
+
+    const sortedPhotos = useMemo(() => {
+        const photoArr = photos ? Object.values(photos) : [];
+        return photoArr.sort((a, b) => b.id - a.id);
+    }, [photos]);
+
+
     if (!user) {
-        return <div className="no-photos-box"><h1>Please log in to view your profile.</h1></div>
+        return <div className="no-photos-box"><h1>Please log in to view your profile.</h1></div>;
     }
 
-    
-    const getMyPhotos = async () => {
-        await dispatch(getPhotosByUserThunk(user.id));
-        setIsLoaded(true);
-    }
-
-    if (!isLoaded && user) {
-        getMyPhotos();
+    if (!isLoaded) {
+        return <h1>Loading...</h1>;
     }
 
     const uploadPhotoPage = (e) => {
@@ -35,49 +43,41 @@ const MyPhotosPage = () => {
 
     const goToPhotoPage = (e, photo) => {
         e.preventDefault();
-        navigate(`/photos/${photo.id}`)
-    }
-
-    if(!isLoaded){
-        return <h1>Loading...</h1>
-    }
+        navigate(`/photos/${photo.id}`);
+    };
 
     return (
         <div>
             <div className="photos-top-section">
-            <div className="profile-info">
-                <h1>{`${user.firstName} ${user.lastName}`}</h1>
-            <h3>{user.username}</h3>
-            </div>
-            <h1 className="photos-top-middle">My Photos</h1>
+                <div className="profile-info">
+                    <h1>{`${user.firstName} ${user.lastName}`}</h1>
+                    <h3>{user.username}</h3>
+                </div>
+                <h1 className="photos-top-middle">My Photos</h1>
             </div>
             {sortedPhotos.length === 0 ? (
                 <div>
                     <div className="no-photos-box">
-                    <h2>You don&apos;t have any posts yet</h2>
-                    <button className="upload-photo-button" onClick={(e) => uploadPhotoPage(e)} >
-                        Upload Your First Photo!
-                    </button>
+                        <h2>You don&apos;t have any posts yet</h2>
+                        <button className="upload-photo-button" onClick={uploadPhotoPage}>
+                            Upload Your First Photo!
+                        </button>
                     </div>
                 </div>
             ) : (
                 <div className="all-images-container">
-                    {
-                        sortedPhotos.map((photo, idx) => (
-                            <img
-                                onClick={(e) => goToPhotoPage(e, photo)}
-                                className="my-images"
-                                src={photo.url}
-                                key={`${idx}-${photo.id}`}
-                            />
-                        ))
-                    }
+                    {sortedPhotos.map((photo, idx) => (
+                        <img
+                            onClick={(e) => goToPhotoPage(e, photo)}
+                            className="my-images"
+                            src={photo.url}
+                            key={`${idx}-${photo.id}`}
+                        />
+                    ))}
                 </div>
             )}
         </div>
     );
-}
+};
 
-
-
-export default MyPhotosPage
+export default MyPhotosPage;
