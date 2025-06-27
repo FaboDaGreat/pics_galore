@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPhotoByIdThunk, editPhotoThunk } from '../../store/photos';
 import './EditPhotoPage.css'
+import { getAlbumsByUserThunk } from '../../store/albums';
 
 const EditPhotoPage = () => {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const EditPhotoPage = () => {
         const getPhotoDetails = async () => {
             if (id && !isNaN(id)) {
                 await dispatch(getPhotoByIdThunk(id));
+                await dispatch(getAlbumsByUserThunk(user.id))
                 setIsLoaded(true);
             } else {
                 navigate('/');
@@ -38,7 +40,7 @@ const EditPhotoPage = () => {
         if (!isLoaded) {
             getPhotoDetails();
         }
-    }, [id, dispatch, navigate, isLoaded]);
+    }, [id, dispatch, navigate, isLoaded, user.id]);
 
     useEffect(() => {
         if (photo && isLoaded) {

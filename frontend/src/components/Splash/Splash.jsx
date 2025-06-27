@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPhotosThunk } from "../../store/photos";
-import './Splash.css';
 import { useNavigate } from "react-router-dom";
+import './Splash.css'
 
 const Splash = () => {
 

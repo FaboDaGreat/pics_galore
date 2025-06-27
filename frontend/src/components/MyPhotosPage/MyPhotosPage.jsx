@@ -24,7 +24,7 @@ const MyPhotosPage = () => {
         setIsLoaded(true);
     }
 
-    if (!isLoaded) {
+    if (!isLoaded && user) {
         getMyPhotos();
     }
 
