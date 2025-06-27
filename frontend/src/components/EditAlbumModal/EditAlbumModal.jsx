@@ -42,7 +42,7 @@ const EditAlbumModal = ({ album }) => {
         try {
             const editedAlbum = await dispatch(editAlbumThunk(albumData));
             if (editedAlbum.id) {
-                await dispatch(getAlbumByIdThunk());
+                await dispatch(getAlbumByIdThunk(editedAlbum.id));
                 closeModal();
             }
         } catch (res) {
