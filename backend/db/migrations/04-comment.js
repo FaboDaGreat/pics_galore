@@ -7,14 +7,14 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Photos', {
+    await queryInterface.createTable('Comments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      url: {
+      comment: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
@@ -31,20 +31,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      albumId: {
+      photoId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Albums",
+          model: "Photos",
           key: "id",
         },
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -60,7 +53,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = "Photos";
-    await queryInterface.dropTable('Photos');
+    options.tableName = "Comments";
+    await queryInterface.dropTable('Comments');
   }
 };

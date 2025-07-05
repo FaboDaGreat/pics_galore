@@ -12,6 +12,12 @@ module.exports = (sequelize) => {
       Photo.belongsTo(models.Album, {
         foreignKey: 'albumId'
       });
+
+      Photo.hasMany(models.Comment, {
+        foreignKey: 'photoId',
+        onDelete: 'CASCADE',
+        hooks: true
+      });
       
     }
   }
@@ -39,12 +45,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING
       },
       albumId: {
-        type: DataTypes.INTEGER
-      },
-      favoriteId: {
-        type: DataTypes.INTEGER
-      },
-      labelId: {
         type: DataTypes.INTEGER
       }
     },

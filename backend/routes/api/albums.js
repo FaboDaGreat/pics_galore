@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Photo, Album } = require('../../db/models');
+const { Photo, Album, Comment } = require('../../db/models');
 
 const validateAlbum = [
   check('title')
@@ -100,7 +100,10 @@ router.get('/:id/photos', async (req, res, next) => {
       where: {
         albumId: albumId
       },
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
+      attributes: ["id", "url", "userId", "username", "title", "description", "albumId"],
+      include: [
+        { model: Comment }
+      ]
     });
 
     return res.json(photos)

@@ -12,6 +12,8 @@ const PhotoPage = () => {
     const { id } = useParams();
     const photo = useSelector((state) => state.photosReducer.byId[id]);
     const user = useSelector((state) => state.session.user);
+    const comments = photo?.Comments;
+    const commentArr = comments ? Object.values(comments) : [];
     const [isLoaded, setIsLoaded] = useState(false);
 
     const leavePhotoPage = () => {
@@ -79,6 +81,23 @@ const PhotoPage = () => {
                         })}</p>
                     </div>
                 </div>
+                <hr/>
+                <div className="comment-section">
+                    <h2>{`Comments (${commentArr.length})`}</h2>
+                        {commentArr.map((comment, idx) => (
+                            <div key={`${idx}-${comment.id}`} className="each-comment">
+                                <div className="comment-header">
+                                <strong>{`@${comment.username}`}</strong>
+                                <span className="comment-date-time">{`${new Date(comment.createdAt).getMonth() + 1}-${new Date(comment.createdAt).getDate()}-${new Date(comment.createdAt).getFullYear().toString()} 
+                                ${new Date(comment.createdAt).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: true
+                                    })}`}</span>
+                                </div>
+                                <p>{comment.comment}</p>
+                            </div>                        ))}
+                    </div>
             </>
         );
     }
