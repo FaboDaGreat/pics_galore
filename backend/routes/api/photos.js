@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Photo, Album } = require('../../db/models');
+const { Photo, Album, Comment } = require('../../db/models');
 
 
 const validatePost = [
@@ -36,7 +36,7 @@ const validatePost = [
 router.get('/', async (req, res, next) => {
   try {
     const photos = await Photo.findAll({
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
+      attributes: ["id", "url", "userId", "username", "title", "description", "albumId"]
     });
 
     return res.json(photos)
@@ -54,9 +54,10 @@ router.get('/:id', async (req, res, next) => {
   try {
     const photo = await Photo.findByPk(req.params.id,
       {
-        attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "labelId", "createdAt"],
+        attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "createdAt"],
         include: [
-          { model: Album }
+          { model: Album },
+          { model: Comment }
         ]
       }
     );
@@ -85,7 +86,7 @@ router.get('/users/:id', async (req, res, next) => {
       where: {
         userId: userId
       },
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "favoriteId", "labelId"]
+      attributes: ["id", "url", "userId", "username", "title", "description", "albumId"]
     });
 
     return res.json(photos)

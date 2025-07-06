@@ -52,3 +52,19 @@
     width: auto;
     display: block;
 }
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment-date-time {
+  color: #555;
+  font-size: 0.9em; 
+}
+
+.comment-section {
+  max-width: 60%; 
+  margin: 0 auto;
+}
