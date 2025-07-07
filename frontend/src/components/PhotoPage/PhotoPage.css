@@ -68,3 +68,25 @@
   max-width: 60%; 
   margin: 0 auto;
 }
+
+.comment-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-button {
+    margin-right: 12rem;
+    padding: 7px 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-button:hover {
+    background-color: #046ce2;
+}

@@ -5,6 +5,7 @@ import { getPhotoByIdThunk } from "../../store/photos";
 import OpenModalButton from '../OpenModalButton';
 import DeletePhotoModal from "../DeletePhotoModal";
 import './PhotoPage.css'
+import AddCommentModal from "../AddCommentModal";
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -83,7 +84,17 @@ const PhotoPage = () => {
                 </div>
                 <hr/>
                 <div className="comment-section">
-                    <h2>{`Comments (${commentArr.length})`}</h2>
+                    <div className="comment-section-header">
+                    <h2>
+                        {`Comments (${commentArr.length})`} 
+                    </h2>
+                    {user && (<OpenModalButton
+                        buttonText="Add comment"
+                        className={"comment-button"}
+                        onModalClose={null}
+                        modalComponent={<AddCommentModal photoId={photo.id}/>}
+                    />)}
+                    </div>
                         {commentArr.map((comment, idx) => (
                             <div key={`${idx}-${comment.id}`} className="each-comment">
                                 <div className="comment-header">

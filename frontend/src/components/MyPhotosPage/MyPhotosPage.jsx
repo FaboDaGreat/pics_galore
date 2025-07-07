@@ -22,10 +22,10 @@ const MyPhotosPage = () => {
         }
     }, [dispatch, user, isLoaded]);
 
-    const sortedPhotos = useMemo(() => {
+    const filteredPhotos = useMemo(() => {
         const photoArr = photos ? Object.values(photos) : [];
         const validPhotos = photoArr.filter(p => p && p.id);
-        return validPhotos.sort((a, b) => b.id - a.id);
+        return validPhotos
     }, [photos]);
 
 
@@ -56,7 +56,7 @@ const MyPhotosPage = () => {
                 </div>
                 <h1 className="photos-top-middle">My Photos</h1>
             </div>
-            {sortedPhotos.length === 0 ? (
+            {filteredPhotos.length === 0 ? (
                 <div>
                     <div className="no-photos-box">
                         <h2>You don&apos;t have any posts yet</h2>
@@ -67,7 +67,7 @@ const MyPhotosPage = () => {
                 </div>
             ) : (
                 <div className="all-images-container">
-                    {sortedPhotos.map((photo, idx) => (
+                    {filteredPhotos.map((photo, idx) => (
                         <img
                             onClick={(e) => goToPhotoPage(e, photo)}
                             className="my-images"
