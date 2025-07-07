@@ -34,11 +34,12 @@ const deleteComment = (commentId) => {
 // ----- THUNK ------
 export const createCommentThunk = (newComment) => async (dispatch) => {
 
-  const { comment } = newComment;
+  const { comment, photoId } = newComment;
   const res = await csrfFetch("/api/comments", {
     method: "POST",
     body: JSON.stringify({
-      comment
+      comment,
+      photoId
     })
   })
 

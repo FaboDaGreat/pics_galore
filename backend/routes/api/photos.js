@@ -102,6 +102,13 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
   try {
     const { url, title, description, albumTitle, favoriteId, labelId } = req.body
 
+    if (title.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"title": "Please enter at least 5 characters for your picture's title"}
+      throw error
+    }
+
     const samePhoto = await Photo.findOne({
       where: {
         url: url
@@ -132,6 +139,13 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
     let albumId;
 
     if (albumTitle) {
+
+      if (albumTitle.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"album": "Please enter at least 5 characters for your album's title"}
+      throw error
+    }
 
       const album = await Album.findOne({
         where: {
@@ -185,9 +199,23 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
 
     const { url, title, description, albumTitle, favoriteId, labelId } = req.body;
 
+    if (title.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"title": "Please enter at least 5 characters for your picture's title"}
+      throw error
+    }
+
     let albumId = null;
 
     if (albumTitle) {
+
+      if (albumTitle.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"album": "Please enter at least 5 characters for your album's title"}
+      throw error
+    }
 
       const album = await Album.findOne({
         where: {

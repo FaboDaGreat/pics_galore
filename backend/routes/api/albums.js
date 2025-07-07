@@ -121,6 +121,13 @@ router.post('/', requireAuth, validateAlbum, async (req, res, next) => {
   try {
     const { title, description } = req.body
 
+    if (title.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"title": "Please enter at least 5 characters for your album's title"}
+      throw error
+    }
+
     const sameAlbum = await Album.findOne({
       where: {
         title: title,
@@ -168,6 +175,13 @@ router.put('/:id', requireAuth, validateAlbum, async (req, res, next) => {
     }
 
     const { title, description } = req.body;
+
+    if (title.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"title": "Please enter at least 5 characters for your album's title"}
+      throw error
+    }
 
     album.title = title;
     album.description = description;
