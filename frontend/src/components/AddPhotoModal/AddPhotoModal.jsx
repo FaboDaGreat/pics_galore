@@ -9,10 +9,10 @@ const AddPhotoModal = ({album}) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    const [url, setUrl] = useState('')
+    const [url, setUrl] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [errors, setErrors] = useState('')
+    const [errors, setErrors] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -84,7 +84,7 @@ const EditAlbumModal = ({ album }) => {
                 </div>
                 <div className="edit-album-modal-buttons">
                     <button type="submit" disabled={!hasChanged} className="edit-album-modal-button new-album-button-yes">
-                        Edit Album
+                        Update Album
                     </button>
                     <button type="button" onClick={closeModal} className="edit-album-modal-button new-album-button-cancel">
                         Cancel

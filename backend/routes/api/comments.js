@@ -33,9 +33,16 @@ router.post('/', requireAuth, validateComment, async (req, res, next) => {
 
     const photo = await Photo.findByPk(photoId);
     if (!photo) {
-      const error = new Error("The photo you aer trying to comment on does not exist");
+      const error = new Error("The photo you are trying to comment on does not exist");
       error.status = 404;
       throw error;
+    }
+
+    if (comment.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"comment": "Please enter at least 5 characters for your comment"}
+      throw error
     }
 
     const newComment = await Comment.create({
@@ -71,6 +78,13 @@ router.put('/:id', requireAuth, validateComment, async (req, res, next) => {
     }
 
     const { comment } = req.body;
+
+    if (comment.trim().length < 5) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = {"comment": "Please enter at least 5 characters for your comment"}
+      throw error
+    }
 
     existingComment.comment = comment;
 

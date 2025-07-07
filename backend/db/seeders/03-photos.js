@@ -68,6 +68,14 @@ module.exports = {
         username: "fabodagreat",
         title: "Gone Sailing",
         description: "A beautiful depiction that reminds me of my dream to sail away"
+      },
+      {
+        url: "https://visitmurrellsinlet.com/wp-content/uploads/sites/4753/2024/06/istockphoto-805157896-2048x2048-transformed.jpeg?w=1000&h=1000&zoom=2",
+        userId: 1,
+        username: "demo-lition",
+        title: "Myrtle Beach Baby",
+        description: "The happiest place on earth, honestly!",
+        albumId: 1
       }
     ], { validate: true });
   },
