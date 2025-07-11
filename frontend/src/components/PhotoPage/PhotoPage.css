@@ -106,10 +106,10 @@
 
 .edit-comment-button,
 .delete-comment-button {
-    border: none;
-    color: #474747;
+   border: none;
+    color: rgb(78, 46, 194);
     background-color: white;
-    font-weight: bold;
+    text-decoration: underline;
     cursor: pointer;
 }
 

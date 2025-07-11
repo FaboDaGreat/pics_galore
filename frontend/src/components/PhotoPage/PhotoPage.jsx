@@ -105,19 +105,6 @@ const PhotoPage = () => {
                                 <div className="comment-body">
                                     <div className="comment-text-and-date">
                                 <p>{comment.comment}</p>
-                                <span className="comment-date-time">{comment.createdAt !== comment.updatedAt ? 
-                                (`${new Date(comment.updatedAt).getMonth() + 1}-${new Date(comment.updatedAt).getDate()}-${new Date(comment.updatedAt).getFullYear().toString()} 
-                                ${new Date(comment.updatedAt).toLocaleTimeString('en-US', {
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        hour12: true
-                                    })} Edited`) : 
-                                (`${new Date(comment.createdAt).getMonth() + 1}-${new Date(comment.createdAt).getDate()}-${new Date(comment.createdAt).getFullYear().toString()} 
-                                ${new Date(comment.createdAt).toLocaleTimeString('en-US', {
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        hour12: true
-                                    })}`)}</span>
                                     </div>
                                     <div className="comment-buttons">
                                     {user?.id === comment.userId &&
@@ -132,6 +119,19 @@ const PhotoPage = () => {
                                     className="delete-comment-button"
                                     modalComponent={ <DeleteCommentModal photoId={photo.id} commentId={comment.id} />} />) 
                                     : null}
+                                    <span className="comment-date-time">{comment.createdAt !== comment.updatedAt ? 
+                                (`${new Date(comment.updatedAt).getMonth() + 1}-${new Date(comment.updatedAt).getDate()}-${new Date(comment.updatedAt).getFullYear().toString()} 
+                                ${new Date(comment.updatedAt).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: true
+                                    })} Edited`) : 
+                                (`${new Date(comment.createdAt).getMonth() + 1}-${new Date(comment.createdAt).getDate()}-${new Date(comment.createdAt).getFullYear().toString()} 
+                                ${new Date(comment.createdAt).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: true
+                                    })}`)}</span>
                                     </div>
                                 </div>
                             </div>                        ))}
