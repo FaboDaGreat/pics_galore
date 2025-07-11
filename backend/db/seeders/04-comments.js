@@ -52,6 +52,24 @@ module.exports = {
         username: "fabodagreat",
         comment: "How on earth did you take this???",
         photoId: 6
+      },
+      {
+        userId: 2,
+        username: "pstar",
+        comment: "I've always LOVED going to Myrtle Beach!",
+        photoId: 9
+      },
+      {
+        userId: 1,
+        username: "demo-lition",
+        comment: "Sailing is so much fun, you really need to try it. This might be my next stop, where did you take this?",
+        photoId: 8
+      },
+      {
+        userId: 3,
+        username: "fabodagreat",
+        comment: "This was at clearwater beach in Florida. I think I'll finally give a shot the next time I'm out there!",
+        photoId: 8
       }
     ], { validate: true });
   },

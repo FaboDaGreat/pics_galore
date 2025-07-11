@@ -76,6 +76,34 @@ module.exports = {
         title: "Myrtle Beach Baby",
         description: "The happiest place on earth, honestly!",
         albumId: 1
+      },
+      {
+        url: "https://images.photowall.com/products/50406/row-of-palm-trees.jpg?h=699&q=85",
+        userId: 3,
+        username: "fabodagreat",
+        title: "Palms Galore",
+        description: "I always love being surrounded by palm trees and water."
+
+      },
+      {
+        url: "https://www.moonvalleynurseries.com/_next/image?url=https%3A%2F%2Fcdn.mvncorp.dev%2Fmedia%2Fproducts%2Fimages%2Fcucuban%20royal%20palm%20trees.jpg&w=3840&q=50",
+        userId: 3,
+        username: "fabodagreat",
+        title: "Sun and Palms"
+      },
+      {
+        url: "https://t4.ftcdn.net/jpg/07/04/26/59/360_F_704265931_NQNJabIZrl3bClguREmCMRJcygTzXErN.jpg",
+        userId: 1,
+        username: "demo-lition",
+        title: "Family of Beaks",
+        description: "I couldn't tell you how I got so lucky to get this shot!"
+      },
+      {
+        url: "https://images.stockcake.com/public/c/f/5/cf5b6fb1-b0fe-49d7-bd03-c4806ab3967c_large/cotton-candy-skies-stockcake.jpg",
+        userId: 1,
+        username: "demo-lition",
+        title: "Cotton Candy Sky",
+        albumId: 1
       }
     ], { validate: true });
   },
