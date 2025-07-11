@@ -11,18 +11,20 @@ const EditCommentModal = ({ photoId, commentToEdit }) => {
     const { closeModal } = useModal();
 
     const [comment, setComment] = useState('');
+    const [initialComment, setInitialComment] = useState('');
     const [errors, setErrors] = useState('');
     const [hasChanged, setHasChanged] = useState(false);
 
     useEffect(() => {
         setComment(commentToEdit.comment || '');
+        setInitialComment(commentToEdit.comment || '');
     }, [commentToEdit]);
 
     useEffect(() => {
         const changed =
-            comment !== commentToEdit.comment;
+            comment !== initialComment;
         setHasChanged(changed);
-    }, [comment, commentToEdit]);
+    }, [comment, initialComment]);
 
 
     const handleSubmit = async (e) => {
