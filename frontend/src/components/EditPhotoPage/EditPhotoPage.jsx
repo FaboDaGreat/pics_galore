@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPhotoByIdThunk, editPhotoThunk } from '../../store/photos';
-import './EditPhotoPage.css'
 import { getAlbumsByUserThunk } from '../../store/albums';
+import './EditPhotoPage.css'
 
 const EditPhotoPage = () => {
     const dispatch = useDispatch();
@@ -20,8 +20,6 @@ const EditPhotoPage = () => {
     const [albumSelection, setAlbumSelection] = useState('');
     const [newAlbumTitle, setNewAlbumTitle] = useState('');
     const [errors, setErrors] = useState({});
-    const [initialTitle, setInitialTitle] = useState('');
-    const [initialDescription, setInitialDescription] = useState('');
     const [initialAlbumSelection, setInitialAlbumSelection] = useState('');
     const [initialNewAlbumTitle, setInitialNewAlbumTitle] = useState('');
     const [isLoaded, setIsLoaded] = useState(false);
@@ -47,8 +45,6 @@ const EditPhotoPage = () => {
             setUrl(photo.url || '');
             setTitle(photo.title || '');
             setDescription(photo.description || '');
-            setInitialTitle(photo.title || '');
-            setInitialDescription(photo.description || '');
             setInitialNewAlbumTitle('');
 
             if (photo.Album) {
@@ -61,13 +57,13 @@ const EditPhotoPage = () => {
     useEffect(() => {
         if (isLoaded && photo) {
             const changed =
-                title !== initialTitle ||
-                description !== initialDescription ||
+                title !== photo.title ||
+                description !== photo.description ||
                 albumSelection !== initialAlbumSelection ||
                 newAlbumTitle !== initialNewAlbumTitle;
             setHasChanged(changed);
         }
-    }, [title, description, albumSelection, newAlbumTitle, initialTitle, initialDescription, initialAlbumSelection, initialNewAlbumTitle, isLoaded, photo]);
+    }, [title, description, albumSelection, newAlbumTitle, initialAlbumSelection, initialNewAlbumTitle, isLoaded, photo]);
 
 
     const handleSubmit = async (e) => {

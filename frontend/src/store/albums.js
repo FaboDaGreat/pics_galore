@@ -164,7 +164,7 @@ function albumsReducer(state = initialState, action) {
     case CREATE_ALBUM:
       newState = { ...state };
 
-      newState.allAlbums = action.payload;
+      newState.allAlbums = [...state.allAlbums, action.payload];
       newState.byId = { [action.payload.id]: action.payload };
 
       return newState;

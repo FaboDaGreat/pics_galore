@@ -111,7 +111,7 @@ function commentsReducer(state = initialState, action) {
     case CREATE_COMMENT:
       newState = { ...state };
 
-      newState.allComments = action.payload;
+      newState.allComments = [...state.allComments, action.payload];
       newState.byId = { [action.payload.id]: action.payload };
 
       return newState;
