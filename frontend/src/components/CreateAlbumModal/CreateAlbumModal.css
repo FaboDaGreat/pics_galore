@@ -86,12 +86,6 @@
   background-color: #046ce2;
 }
 
-.new-album-button-yes:disabled {
-    background-color: #e0e0e0;
-    color: #a0a0a0;
-    cursor: not-allowed;
-}
-
 .new-album-button-cancel {
   background-color: rgb(75, 85, 99);
   color: white;
