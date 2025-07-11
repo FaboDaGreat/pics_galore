@@ -10,20 +10,24 @@ const EditAlbumModal = ({ album }) => {
     const { closeModal } = useModal();
     const [title, setTitle] = useState(album.title || '');
     const [description, setDescription] = useState(album.description || '');
+    const [initialTitle, setInitialTitle] = useState(album.title || '')
+    const [initialDescription, setInitialDescription] = useState(album.description || '')
     const [errors, setErrors] = useState('')
     const [hasChanged, setHasChanged] = useState(false);
 
     useEffect(() => {
         setTitle(album.title || '');
         setDescription(album.description || '');
+        setInitialTitle(album.title || '');
+        setInitialDescription(album.description || '');
     }, [album]);
 
     useEffect(() => {
         const changed =
-            title !== album.title ||
-            description !== album.description;
+            title !== initialTitle ||
+            description !== initialDescription;
         setHasChanged(changed);
-    }, [title, description, album.title, album.description]);
+    }, [title, description, initialDescription, initialTitle]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -79,10 +83,10 @@ const EditAlbumModal = ({ album }) => {
                     </label>
                 </div>
                 <div className="edit-album-modal-buttons">
-                    <button type="submit" disabled={!hasChanged} className="edit-album-modal-button edit-album-button-yes">
+                    <button type="submit" disabled={!hasChanged} className="edit-album-modal-button new-album-button-yes">
                         Update Album
                     </button>
-                    <button type="button" onClick={closeModal} className="edit-album-modal-button edit-album-button-cancel">
+                    <button type="button" onClick={closeModal} className="edit-album-modal-button new-album-button-cancel">
                         Cancel
                     </button>
                 </div>
