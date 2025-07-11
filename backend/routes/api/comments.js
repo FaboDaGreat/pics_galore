@@ -111,12 +111,6 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
       throw error;
     }
 
-    if (comment.userId !== userId) {
-      const error = new Error('Forbidden');
-      err.status = 403;
-      throw error;
-    }
-
     await comment.destroy();
     return res.json({ message: "Successfully deleted" });
   } catch (error) {

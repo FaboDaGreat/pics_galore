@@ -235,7 +235,7 @@ function photosReducer(state = initialState, action) {
     case CREATE_PHOTO:
       newState = { ...state };
 
-      newState.allPhotos = action.payload;
+      newState.allPhotos = [...state.allPhotos, action.payload];
       newState.byId = { [action.payload.id]: action.payload };
 
       return newState;
