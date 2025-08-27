@@ -12,21 +12,21 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await Photo.bulkCreate([
       {
-        url: "https://buffer.com/resources/content/images/2024/11/free-stock-image-sites.png",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+1.png",
         userId: 1,
         username: "demo-lition",
         title: "PiCeption",
         description: "A picture within a picture! Pretty cool huh?"
       },
       {
-        url: "https://www.stockvault.net/data/2011/02/21/117750/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+2.png",
         userId: 1,
         username: "demo-lition",
         title: "Tequila Sunrise",
         albumId: 1
       },
       {
-        url: "https://www.stockvault.net/data/2016/08/28/208633/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+3.png",
         userId: 1,
         username: "demo-lition",
         title: "Desolate Paradise",
@@ -34,14 +34,14 @@ module.exports = {
         albumId: 1
       },
       {
-        url: "https://www.stockvault.net/data/2015/08/14/176770/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+4.png",
         userId: 2,
         username: "pstar",
         title: "Colors of the Sunset",
         albumId: 2
       },
       {
-        url: "https://www.stockvault.net/data/2017/02/07/222329/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+5.png",
         userId: 2,
         username: "pstar",
         title: "Rainbow Bridge",
@@ -49,7 +49,7 @@ module.exports = {
         albumId: 2
       },
       {
-        url: "https://www.stockvault.net/data/2016/04/23/194988/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+6.png",
         userId: 2,
         username: "pstar",
         title: "Howl At the Moon",
@@ -57,20 +57,20 @@ module.exports = {
         albumId: 3
       },
       {
-        url: "https://www.stockvault.net/data/2016/05/21/199248/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+7.png",
         userId: 3,
         username: "fabodagreat",
         title: "Shades of Blue"
       },
       {
-        url: "https://www.stockvault.net/data/2013/07/12/146526/preview16.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+8.png",
         userId: 3,
         username: "fabodagreat",
         title: "Gone Sailing",
         description: "A beautiful depiction that reminds me of my dream to sail away"
       },
       {
-        url: "https://visitmurrellsinlet.com/wp-content/uploads/sites/4753/2024/06/istockphoto-805157896-2048x2048-transformed.jpeg?w=1000&h=1000&zoom=2",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+9.png",
         userId: 1,
         username: "demo-lition",
         title: "Myrtle Beach Baby",
@@ -78,7 +78,7 @@ module.exports = {
         albumId: 1
       },
       {
-        url: "https://images.photowall.com/products/50406/row-of-palm-trees.jpg?h=699&q=85",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+10.png",
         userId: 3,
         username: "fabodagreat",
         title: "Palms Galore",
@@ -86,24 +86,62 @@ module.exports = {
 
       },
       {
-        url: "https://www.moonvalleynurseries.com/_next/image?url=https%3A%2F%2Fcdn.mvncorp.dev%2Fmedia%2Fproducts%2Fimages%2Fcucuban%20royal%20palm%20trees.jpg&w=3840&q=50",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+11.png",
         userId: 3,
         username: "fabodagreat",
         title: "Sun and Palms"
       },
       {
-        url: "https://t4.ftcdn.net/jpg/07/04/26/59/360_F_704265931_NQNJabIZrl3bClguREmCMRJcygTzXErN.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/1573393467_HIGH.jpg",
+        userId: 3,
+        username: "fabodagreat",
+        title: "Takin Off on My First Half Marathon",
+        description: "I'm clearing having a blast...",
+        albumId: 4
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/1573143441_HIGH.jpg",
+        userId: 3,
+        username: "fabodagreat",
+        title: "Mysterious as the Dark Side of the Moon",
+        albumId: 4
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/1573582297_HIGH.jpg",
+        userId: 3,
+        username: "fabodagreat",
+        title: "Victory is Mine!",
+        description: "Sorry to flex on em like that. It was my first time, I had to!",
+        albumId: 4
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/IMG-20241103-WA0018.jpg",
+        userId: 3,
+        username: "fabodagreat",
+        title: "Officially a Half-Marathon Man!!!",
+        albumId: 4
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+12.png",
         userId: 1,
         username: "demo-lition",
         title: "Family of Beaks",
         description: "I couldn't tell you how I got so lucky to get this shot!"
       },
       {
-        url: "https://images.stockcake.com/public/c/f/5/cf5b6fb1-b0fe-49d7-bd03-c4806ab3967c_large/cotton-candy-skies-stockcake.jpg",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+13.png",
         userId: 1,
         username: "demo-lition",
         title: "Cotton Candy Sky",
         albumId: 1
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+14.png",
+        userId: 2,
+        username: "pstar",
+        title: "Denali",
+        description: "I never knew Alaska was so beautiful! Definitely worth a second trip.",
+        albumId: 2
       }
     ], { validate: true });
   },
