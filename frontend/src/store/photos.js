@@ -95,16 +95,14 @@ export const getPhotoByIdThunk = (id) => async (dispatch) => {
 
 export const createPhotoThunk = (photo) => async (dispatch) => {
 
-  const { url, title, description, albumTitle, favoriteId, labelId } = photo;
+  const { url, title, description, albumTitle } = photo;
   const res = await csrfFetch("/api/photos", {
     method: "POST",
     body: JSON.stringify({
       url,
       title,
       description,
-      albumTitle,
-      favoriteId,
-      labelId
+      albumTitle
     })
   });
 
@@ -120,16 +118,14 @@ export const createPhotoThunk = (photo) => async (dispatch) => {
 }
 
 export const editPhotoThunk = (id, update) => async (dispatch) => {
-const { url, title, description, albumTitle, favoriteId, labelId } = update;
+const { url, title, description, albumTitle } = update;
 const res = await csrfFetch(`/api/photos/${id}`, {
     method: "PUT",
     body: JSON.stringify({
       url, 
       title, 
       description, 
-      albumTitle, 
-      favoriteId, 
-      labelId
+      albumTitle
     })
   });
 

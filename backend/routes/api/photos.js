@@ -100,7 +100,7 @@ router.get('/users/:id', async (req, res, next) => {
 
 router.post('/', requireAuth, validatePost, async (req, res, next) => {
   try {
-    const { url, title, description, albumTitle, favoriteId, labelId } = req.body
+    const { url, title, description, albumTitle } = req.body
 
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
@@ -166,7 +166,7 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
 
     const post = await Photo.create({
       userId: req.user.id, username: req.user.username,
-      url, title, description, albumId, favoriteId, labelId
+      url, title, description, albumId
     });
 
     return res.json(post);
@@ -197,7 +197,7 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       throw error;
     }
 
-    const { url, title, description, albumTitle, favoriteId, labelId } = req.body;
+    const { url, title, description, albumTitle } = req.body;
 
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
@@ -238,8 +238,6 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
     post.title = title;
     post.description = description;
     post.albumId = albumId;
-    post.favoriteId = favoriteId;
-    post.labelId = labelId;
 
     await post.save();
 
