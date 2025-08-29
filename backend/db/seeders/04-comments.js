@@ -70,6 +70,42 @@ module.exports = {
         username: "fabodagreat",
         comment: "This was at clearwater beach in Florida. I think I'll finally give a shot the next time I'm out there!",
         photoId: 8
+      },
+      {
+        userId: 3,
+        username: "fabodagreat",
+        comment: "Breathtaking",
+        photoId: 18
+      },
+      {
+        userId: 2,
+        username: "pstar",
+        comment: "That really is such a perfect shot.",
+        photoId: 13
+      },
+      {
+        userId: 3,
+        username: "fabodagreat",
+        comment: "Thanks! Honestly it was a complete accident. I just thought that pose would look cool, but I had no idea the Epcot ball was right there behind me lol",
+        photoId: 13
+      },
+      {
+        userId: 1,
+        username: "demo-lition",
+        comment: "Super cool! Who took this?",
+        photoId: 13
+      },
+      {
+        userId: 3,
+        username: "fabodagreat",
+        comment: "One of the photographers they have placed throughout Disney during their races!",
+        photoId: 13
+      },
+      {
+        userId: 1,
+        username: "demo-lition",
+        comment: "Congratulations man!",
+        photoId: 15
       }
     ], { validate: true });
   },

@@ -51,7 +51,7 @@ router.get('/users/:id', async (req, res, next) => {
         if (photos.length > 0) {
         albumObj.coverPhoto = photos[photos.length - 1].url;
       } else {
-        albumObj.coverPhoto = "https://media.istockphoto.com/id/184886377/photo/blank-photo-54-megapixels.jpg?s=612x612&w=0&k=20&c=lI5KWRMOwrl6I2kA4SxEfcS4LU8y8KyY6vqMpEQVGjA=";
+        albumObj.coverPhoto = "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/Blank+Photo.jpg";
       }
         newAlbumArr.push(albumObj)
 

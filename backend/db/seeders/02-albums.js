@@ -25,6 +25,12 @@ module.exports = {
         userId: 2,
         username: "pstar",
         title: "Imagination Run Wild"
+      },
+      {
+        userId: 3,
+        username: "fabodagreat",
+        title: "Disney Race 2024",
+        description: "Disney's 2024 Wine and Dine weekend, my ever first half-marathon! I can't wait for my next race."
       }
     ], { validate: true });
   },
