@@ -122,11 +122,10 @@ export const createPhotoThunk = (photo) => async (dispatch) => {
 }
 
 export const editPhotoThunk = (id, update) => async (dispatch) => {
-  const { url, title, description, albumTitle } = update;
+  const { title, description, albumTitle } = update;
   const res = await csrfFetch(`/api/photos/${id}`, {
     method: "PUT",
     body: JSON.stringify({
-      url,
       title,
       description,
       albumTitle

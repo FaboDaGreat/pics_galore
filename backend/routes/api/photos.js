@@ -189,7 +189,7 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       throw error;
     }
 
-    const { url, title, description, albumTitle } = req.body;
+    const { title, description, albumTitle } = req.body;
 
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
@@ -226,7 +226,6 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       }
     }
 
-    post.url = url;
     post.title = title;
     post.description = description;
     post.albumId = albumId;

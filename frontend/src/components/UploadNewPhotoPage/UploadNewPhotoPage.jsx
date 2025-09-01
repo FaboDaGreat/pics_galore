@@ -33,6 +33,7 @@ const UploadNewPhotoPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         setLoading(true);
 
         let albumTitle;
@@ -79,12 +80,16 @@ const UploadNewPhotoPage = () => {
                 <div className="form-input-container">
                     {errors.message && <h2 className="error-message">{errors.message}</h2>}
                     <label>
-                        Enter Url
+                        Upload a Photo
                         {errors.url && <p className="error-message">{errors.url}</p>}
-                        <input type="file" onChange={updateFile} />
+                        <input
+                            type="file"
+                            className="upload-file"
+                            onChange={updateFile}
+                        />
                     </label>
                     <label>
-                        Add a title
+                        Add a Title
                         {errors.title && <p className="error-message">{errors.title}</p>}
                         <input
                             type="text"
@@ -140,7 +145,7 @@ const UploadNewPhotoPage = () => {
                     className="upload-submit-button"
                     disabled={loading}
                 >
-                    {loading ? "Loading..." : "Upload"}
+                    {loading ? "Uploading..." : "Post"}
                 </button>
             </form>
         </div>
