@@ -13,12 +13,13 @@ const UploadNewPhotoPage = () => {
     const albums = useSelector((state) => state.albumsReducer.allAlbums);
     const albumArr = albums ? Object.values(albums) : [];
 
-    const [url, setUrl] = useState(undefined);
-    const [title, setTitle] = useState(undefined);
-    const [description, setDescription] = useState(undefined);
-    const [albumSelection, setAlbumSelection] = useState(undefined);
-    const [newAlbumTitle, setNewAlbumTitle] = useState(undefined);
+    const [image, setImage] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [albumSelection, setAlbumSelection] = useState('');
+    const [newAlbumTitle, setNewAlbumTitle] = useState('');
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const getAllAlbums = async () => {
@@ -32,6 +33,7 @@ const UploadNewPhotoPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         let albumTitle;
 
@@ -42,7 +44,7 @@ const UploadNewPhotoPage = () => {
         }
 
         const photoData = {
-            url,
+            image,
             title,
             description,
             albumTitle
@@ -59,7 +61,14 @@ const UploadNewPhotoPage = () => {
             if (data && data.errors) {
                 setErrors(data.errors)
             }
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const updateFile = (e) => {
+        const file = e.target.files[0];
+        if (file) setImage(file);
     };
 
 
@@ -72,13 +81,7 @@ const UploadNewPhotoPage = () => {
                     <label>
                         Enter Url
                         {errors.url && <p className="error-message">{errors.url}</p>}
-                        <input
-                            type="text"
-                            className="upload-input"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            placeholder="Paste the link for your photo here"
-                        />
+                        <input type="file" onChange={updateFile} />
                     </label>
                     <label>
                         Add a title
@@ -132,8 +135,12 @@ const UploadNewPhotoPage = () => {
                         </label>
                     )}
                 </div>
-                <button type="submit" className="upload-submit-button">
-                    Upload
+                <button
+                    type="submit"
+                    className="upload-submit-button"
+                    disabled={loading}
+                >
+                    {loading ? "Loading..." : "Upload"}
                 </button>
             </form>
         </div>

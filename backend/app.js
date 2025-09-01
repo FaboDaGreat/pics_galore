@@ -3,9 +3,6 @@ const express = require('express');
 require('express-async-errors');
 const routes = require('./routes');
 
-// const spotsRouter = require('./routes/spots');
-// // ?
-
 // --Security Imports--
 const morgan = require('morgan');
 const cors = require('cors');
@@ -26,7 +23,8 @@ const app = express();
 // --Middlewares--
 app.use(morgan('dev')); // security
 app.use(cookieParser()); // parse cookies from headers
-app.use(express.json()); // allows use of json in req/res
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // --Security Middleware--
 if (!isProduction) {

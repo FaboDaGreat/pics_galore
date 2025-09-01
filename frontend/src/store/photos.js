@@ -95,15 +95,19 @@ export const getPhotoByIdThunk = (id) => async (dispatch) => {
 
 export const createPhotoThunk = (photo) => async (dispatch) => {
 
-  const { url, title, description, albumTitle } = photo;
+  const { image, title, description, albumTitle } = photo;
+  const formData = new FormData();
+  formData.append("image", image);
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("albumTitle", albumTitle);
+
   const res = await csrfFetch("/api/photos", {
     method: "POST",
-    body: JSON.stringify({
-      url,
-      title,
-      description,
-      albumTitle
-    })
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: formData,
   });
 
 
@@ -118,13 +122,13 @@ export const createPhotoThunk = (photo) => async (dispatch) => {
 }
 
 export const editPhotoThunk = (id, update) => async (dispatch) => {
-const { url, title, description, albumTitle } = update;
-const res = await csrfFetch(`/api/photos/${id}`, {
+  const { url, title, description, albumTitle } = update;
+  const res = await csrfFetch(`/api/photos/${id}`, {
     method: "PUT",
     body: JSON.stringify({
-      url, 
-      title, 
-      description, 
+      url,
+      title,
+      description,
       albumTitle
     })
   });
@@ -276,7 +280,7 @@ function photosReducer(state = initialState, action) {
       newState.allPhotos = state.allPhotos.filter(photo => photo.id !== action.payload);
       return newState;
 
-      case GET_PHOTOS_BY_ALBUM_ID:
+    case GET_PHOTOS_BY_ALBUM_ID:
 
       newState = { ...state };
 
