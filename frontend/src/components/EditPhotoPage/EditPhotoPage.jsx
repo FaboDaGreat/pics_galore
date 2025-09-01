@@ -14,7 +14,6 @@ const EditPhotoPage = () => {
     const albums = useSelector((state) => state.albumsReducer.allAlbums);
     const albumArr = albums ? Object.values(albums) : [];
 
-    const [url, setUrl] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [albumSelection, setAlbumSelection] = useState('');
@@ -44,7 +43,6 @@ const EditPhotoPage = () => {
 
     useEffect(() => {
         if (photo && isLoaded) {
-            setUrl(photo.url || '');
             setTitle(photo.title || '');
             setDescription(photo.description || '');
             setInitialTitle(photo.title || '');
@@ -82,7 +80,6 @@ const EditPhotoPage = () => {
         }
 
         const update = {
-            url,
             title,
             description,
             albumTitle,
@@ -119,14 +116,6 @@ const EditPhotoPage = () => {
                 <h1 className="upload-form-title">Edit Your Photo</h1>
                 <div className="form-input-container">
                     {errors.message && <h2 className="error-message">{errors.message}</h2>}
-                    <label>
-                        URL (Cannot be edited)
-                        <input
-                            className="url-box"
-                            value={url}
-                            readOnly
-                        />
-                    </label>
                     <label>
                         Title
                         {errors.title && <p className="error-message">{errors.title}</p>}

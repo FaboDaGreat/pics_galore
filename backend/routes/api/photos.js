@@ -6,17 +6,13 @@ const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { singlePublicFileUpload, singleMulterUpload } = require('../../awsS3')
 
 // --Sequelize Imports--
 const { Photo, Album, Comment } = require('../../db/models');
 
 
 const validatePost = [
-  check('url')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .isURL()
-    .withMessage('Please enter a valid link'),
   check('title')
     .exists({ checkFalsy: true })
     .withMessage('Please enter a title for your post'),
@@ -98,28 +94,24 @@ router.get('/users/:id', async (req, res, next) => {
 
 //--Post A New Photo--
 
-router.post('/', requireAuth, validatePost, async (req, res, next) => {
+router.post('/', requireAuth, singleMulterUpload("image"), validatePost, async (req, res, next) => {
   try {
-    const { url, title, description, albumTitle } = req.body
+
+    if (!req.file) {
+      const error = new Error("Bad request.");
+      error.status = 400;
+      error.errors = { "url": "Please select a photo to upload" }
+      throw error
+    }
+
+    const { title, description, albumTitle } = req.body
+    const url = await singlePublicFileUpload(req.file);
 
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = {"title": "Please enter at least 5 characters for your picture's title"}
+      error.errors = { "title": "Please enter at least 5 characters for your picture's title" }
       throw error
-    }
-
-    const samePhoto = await Photo.findOne({
-      where: {
-        url: url
-      }
-    })
-
-    if (samePhoto) {
-      const err = new Error('Forbidden');
-      err.errors = { url: 'Cannot post a photo that has already been posted!' };
-      err.status = 401;
-      return next(err);
     }
 
     const sameName = await Photo.findOne({
@@ -141,11 +133,11 @@ router.post('/', requireAuth, validatePost, async (req, res, next) => {
     if (albumTitle) {
 
       if (albumTitle.trim().length < 5) {
-      const error = new Error("Bad request.");
-      error.status = 400;
-      error.errors = {"album": "Please enter at least 5 characters for your album's title"}
-      throw error
-    }
+        const error = new Error("Bad request.");
+        error.status = 400;
+        error.errors = { "album": "Please enter at least 5 characters for your album's title" }
+        throw error
+      }
 
       const album = await Album.findOne({
         where: {
@@ -197,12 +189,12 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       throw error;
     }
 
-    const { url, title, description, albumTitle } = req.body;
+    const { title, description, albumTitle } = req.body;
 
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = {"title": "Please enter at least 5 characters for your picture's title"}
+      error.errors = { "title": "Please enter at least 5 characters for your picture's title" }
       throw error
     }
 
@@ -211,11 +203,11 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
     if (albumTitle) {
 
       if (albumTitle.trim().length < 5) {
-      const error = new Error("Bad request.");
-      error.status = 400;
-      error.errors = {"album": "Please enter at least 5 characters for your album's title"}
-      throw error
-    }
+        const error = new Error("Bad request.");
+        error.status = 400;
+        error.errors = { "album": "Please enter at least 5 characters for your album's title" }
+        throw error
+      }
 
       const album = await Album.findOne({
         where: {
@@ -234,7 +226,6 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       }
     }
 
-    post.url = url;
     post.title = title;
     post.description = description;
     post.albumId = albumId;
