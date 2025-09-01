@@ -4,21 +4,24 @@ import { createPhotoThunk, getPhotosByAlbumThunk } from '../../store/photos';
 import { useModal } from '../../context/Modal';
 import './AddPhotoModal.css'
 
-const AddPhotoModal = ({album}) => {
+const AddPhotoModal = ({ album }) => {
 
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    const [url, setUrl] = useState('');
+    const [image, setImage] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [errors, setErrors] = useState('');
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setLoading(true);
+
         const photoData = {
-            url,
+            image,
             title,
             description,
             albumTitle: album.title
@@ -36,29 +39,34 @@ const AddPhotoModal = ({album}) => {
             if (data && data.errors) {
                 setErrors(data.errors)
             }
+        } finally {
+            setLoading(false);
         }
 
     };
 
+    const updateFile = (e) => {
+        const file = e.target.files[0];
+        if (file) setImage(file);
+    };
+
     return (
         <div className="add-photo-modal">
-            <h1 className='add-photo-title'>Upload a New Photo!</h1>
+            <h1 className='add-photo-title'>Add a New Photo!</h1>
             <form onSubmit={handleSubmit}>
                 <div className="photo-form">
                     {errors.message && <h2 className="error-message">{errors.message}</h2>}
                     <label>
-                        Enter Url
+                        Upload a Photo
                         {errors.url && <p className="error-message">{errors.url}</p>}
                         <input
-                            type="text"
-                            className="upload-input"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            placeholder="Paste the link for your photo here"
+                            type="file"
+                            className="upload-file"
+                            onChange={updateFile}
                         />
                     </label>
                     <label>
-                        Add a title
+                        Add a Title
                         {errors.title && <p className="error-message">{errors.title}</p>}
                         <input
                             type="text"
@@ -80,8 +88,11 @@ const AddPhotoModal = ({album}) => {
                     </label>
                 </div>
                 <div className="add-photo-modal-buttons">
-                    <button type="submit" className="add-photo-modal-button add-photo-button-yes">
-                        Upload
+                    <button type="submit"
+                        className="add-photo-modal-button add-photo-button-yes"
+                        disabled={loading}
+                    >
+                        {loading ? "Uploading..." : "Upload"}
                     </button>
                     <button type="button" onClick={closeModal} className="add-photo-modal-button add-photo-button-cancel">
                         Cancel
