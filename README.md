@@ -1,6 +1,6 @@
 # PicsGalore
 
-PicsGalore, my clone project of the social media site Flickr, is for posting and showcasing beautiful amateur to professional level photography. This project uses AWS S3 for the storage and referencing of all seeders, as well as the upload and storage of all new photos posted to the site.
+PicsGalore, my clone project of the social media site Flickr, is for posting and showcasing beautiful amateur to professional level photography. This project uses AWS S3 for the storage and referencing of allseeders, as well as the upload and storage of all new photos posted to the site.
 
 ## Current Features
 
@@ -26,7 +26,7 @@ npm install
 
 Create a .env file in the backend and set up your variables as you see them in the .env.example file that is already there. Be the sure that your .env file is being gitignored. 
 
-Run 'npm start' in the backend folder in one terminal
+Run 'npm start' in the backend folder in one terminal 
 
 ```bash
 cd backend
