@@ -1,6 +1,13 @@
 # PicsGalore
 
-PicsGalore, a clone project of the social media site Flickr, is for posting and showcasing beautiful amateur to professional level photography. This project uses AWS S3 for the storage and referencing of all seeders, as well as the upload and storage of all new photos posted to the site. The frontend stack is React and Redux, the backend utilizes Express and PostgreSQL.
+PicsGalore, a clone project of the social media site Flickr, is for posting and showcasing beautiful amateur to professional level photography. 
+
+## Stack
+
+- **Storage:** AWS S3 is used for persistent object storage. Seeder files and user-uploaded images are stored and retrieved directly from S3.  
+- **Frontend:** React application with Redux for centralized state management and predictable state transitions.  
+- **Backend:** RESTful API built with Express.js. Data persistence is handled via PostgreSQL, with Sequelize managing schema and queries.  
+- **Deployment:** Both frontend and backend services are deployed on Render, with CI/CD pipelines managing build and release.  
 
 ## Current Features
 
@@ -10,11 +17,13 @@ Logged in users can upload photo files directly from their computer to the site 
 
 ### Albums
 
-Users can use albums to organize their photos. When uploading a new photo, they can either select an existing album or create a new album to put their photo into. When editing a photo users can select, create, or change the album that the photo is in. They can also just simply remove a photo from the album it is currently in. Users can create new albums by going to their albums page and selecting 'Create a New Album'. Albums only require a title, the description is optional. Only the owner of the album can edit, delete, or view it at this time.
+Users can use albums to organize their photos. When uploading a new photo, they can either select an existing album or create a new album to put their photo into. When editing a photo users can select, create, or change the album that the photo is in. They can also just simply remove a photo from the album it is currently in. Users can also create new albums by going to their albums page and selecting 'Create a New Album'. Albums only require a title, the description is optional. The cover photo for an album is the most recently uploaded photo in that album and when there are no photos in an album, the cover photo is a blank photo. Only the owner of the album can edit, delete, or view it at this time.
 
 ### Comments
 
 A logged in user can leave comments under any photo. Comments show the date and time that they were created underneath them. Only the creator of the comment can edit it, and the date and time under the comment will change to the date and time that it was edited with the word 'Edited' next to it. Comments are shown in order of oldest to newest underneath each photo. Only the creator of the comment or the owner of the photo can delete it.
+
+## [[Live Link](https://pics-galore.onrender.com/)]
 
 ## Installation
 

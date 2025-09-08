@@ -51,54 +51,58 @@ const AddPhotoModal = ({ album }) => {
     };
 
     return (
-        <div className="add-photo-modal">
-            <h1 className='add-photo-title'>Add a New Photo!</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="photo-form">
-                    {errors.message && <h2 className="error-message">{errors.message}</h2>}
-                    <label>
-                        Upload a Photo
-                        {errors.url && <p className="error-message">{errors.url}</p>}
-                        <input
-                            type="file"
-                            className="upload-file"
-                            onChange={updateFile}
-                        />
-                    </label>
-                    <label>
-                        Add a Title
-                        {errors.title && <p className="error-message">{errors.title}</p>}
-                        <input
-                            type="text"
-                            className="upload-input"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Enter the title of your post"
-                        />
-                    </label>
-                    <label>
-                        Add a Description
-                        {errors.description && <p className="error-message">{errors.description}</p>}
-                        <textarea
-                            className="upload-textarea"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Write a good a description for your photo (optional)"
-                        />
-                    </label>
-                </div>
-                <div className="add-photo-modal-buttons">
-                    <button type="submit"
-                        className="add-photo-modal-button add-photo-button-yes"
-                        disabled={loading}
-                    >
-                        {loading ? "Uploading..." : "Upload"}
-                    </button>
-                    <button type="button" onClick={closeModal} className="add-photo-modal-button add-photo-button-cancel">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+        <div className="modal-overlay" onClick={closeModal}>
+            <div className="add-photo-modal"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <h1 className='add-photo-title'>Add a New Photo!</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="photo-form">
+                        {errors.message && <h2 className="error-message">{errors.message}</h2>}
+                        <label>
+                            Upload a Photo
+                            {errors.url && <p className="error-message">{errors.url}</p>}
+                            <input
+                                type="file"
+                                className="upload-file"
+                                onChange={updateFile}
+                            />
+                        </label>
+                        <label>
+                            Add a Title
+                            {errors.title && <p className="error-message">{errors.title}</p>}
+                            <input
+                                type="text"
+                                className="upload-input"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Enter the title of your post"
+                            />
+                        </label>
+                        <label>
+                            Add a Description
+                            {errors.description && <p className="error-message">{errors.description}</p>}
+                            <textarea
+                                className="upload-textarea"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="Write a good a description for your photo (optional)"
+                            />
+                        </label>
+                    </div>
+                    <div className="add-photo-modal-buttons">
+                        <button type="submit"
+                            className="add-photo-modal-button add-photo-button-yes"
+                            disabled={loading}
+                        >
+                            {loading ? "Uploading..." : "Upload"}
+                        </button>
+                        <button type="button" onClick={closeModal} className="add-photo-modal-button add-photo-button-cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

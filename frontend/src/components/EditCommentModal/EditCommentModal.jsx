@@ -52,30 +52,34 @@ const EditCommentModal = ({ photoId, commentToEdit }) => {
     };
 
     return (
-        <div className="edit-comment-modal">
-            <strong className="edit-comment-title">
-                Edit comment
-            </strong>
-            <form onSubmit={handleSubmit}>
-                <div className="edit-comment-form">
-                    {errors.message && <h2 className="error-message">{errors.message}</h2>}
-                    {errors.comment && <p className="error-message">{errors.comment}</p>}
-                    <textarea
-                        className="edit-comment-textarea"
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Add a comment about this photo"
-                    />
-                </div>
-                <div className="edit-comment-modal-buttons">
-                    <button type="submit" disabled={!hasChanged} className="edit-comment-modal-button edit-comment-button-yes">
-                        Submit
-                    </button>
-                    <button type="button" onClick={closeModal} className="edit-comment-modal-button edit-comment-button-cancel">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+        <div className="modal-overlay" onClick={closeModal}>
+            <div className="edit-comment-modal"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <strong className="edit-comment-title">
+                    Edit comment
+                </strong>
+                <form onSubmit={handleSubmit}>
+                    <div className="edit-comment-form">
+                        {errors.message && <h2 className="error-message">{errors.message}</h2>}
+                        {errors.comment && <p className="error-message">{errors.comment}</p>}
+                        <textarea
+                            className="edit-comment-textarea"
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                            placeholder="Add a comment about this photo"
+                        />
+                    </div>
+                    <div className="edit-comment-modal-buttons">
+                        <button type="submit" disabled={!hasChanged} className="edit-comment-modal-button edit-comment-button-yes">
+                            Submit
+                        </button>
+                        <button type="button" onClick={closeModal} className="edit-comment-modal-button edit-comment-button-cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 
