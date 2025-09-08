@@ -4,7 +4,7 @@ import { createAlbumThunk } from '../../store/albums';
 import { useModal } from '../../context/Modal';
 import './CreateAlbumModal.css'
 
-const CreateAlbumModal = ({navigate}) => {
+const CreateAlbumModal = ({ navigate }) => {
 
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -38,45 +38,53 @@ const CreateAlbumModal = ({navigate}) => {
     };
 
     return (
-        <div className="create-album-modal">
-            <h1 className='create-album-title'>Make a New Album!</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="album-form">
-                    {errors.message && <h2 className="error-message">{errors.message}</h2>}
-                    <label>
-                        Title Your Album
-                        {errors.title && <p className="error-message">{errors.title}</p>}
-                        <input
-                            type="text"
-                            className="album-input"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Enter the title of your album"
-                        />
-                    </label>
-                    <label>
-                        Add a Description
-                        {errors.description && <p className="error-message">{errors.description}</p>}
-                        <textarea
-                            className="album-textarea"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Write a good a description for your album (optional)"
-                        />
-                    </label>
-                </div>
-                <div className="new-album-modal-buttons">
-                    <button type="submit" className="new-album-modal-button new-album-button-yes">
-                        Create Album
-                    </button>
-                    <button type="button" onClick={closeModal} className="new-album-modal-button new-album-button-cancel">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+        <div className="modal-overlay" onClick={closeModal}>
+            <div
+                className="create-album-modal"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <h1 className="create-album-title">Make a New Album!</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="album-form">
+                        {errors.message && <h2 className="error-message">{errors.message}</h2>}
+                        <label>
+                            Title Your Album
+                            {errors.title && <p className="error-message">{errors.title}</p>}
+                            <input
+                                type="text"
+                                className="album-input"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Enter the title of your album"
+                            />
+                        </label>
+                        <label>
+                            Add a Description
+                            {errors.description && <p className="error-message">{errors.description}</p>}
+                            <textarea
+                                className="album-textarea"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="Write a good description for your album (optional)"
+                            />
+                        </label>
+                    </div>
+                    <div className="new-album-modal-buttons">
+                        <button type="submit" className="new-album-modal-button new-album-button-yes">
+                            Create Album
+                        </button>
+                        <button
+                            type="button"
+                            onClick={closeModal}
+                            className="new-album-modal-button new-album-button-cancel"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
-}
+};
 
-
-export default CreateAlbumModal
+export default CreateAlbumModal;

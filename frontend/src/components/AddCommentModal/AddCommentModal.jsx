@@ -38,29 +38,33 @@ const AddCommentModal = ({ photoId }) => {
     };
 
     return (
-        <div className="add-comment-modal">
-            <strong className="add-comment-title">
-                Leave a comment
+        <div className="modal-overlay" onClick={closeModal}>
+            <div className="add-comment-modal"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <strong className="add-comment-title">
+                    Leave a comment
                 </strong>
-            <form onSubmit={handleSubmit}>
-                <div className="comment-form">
-                    {errors.comment && <p className="error-message">{errors.comment}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div className="comment-form">
+                        {errors.comment && <p className="error-message">{errors.comment}</p>}
                         <textarea
                             className="comment-textarea"
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             placeholder="Add a comment about this photo"
                         />
-                </div>
-                <div className="add-comment-modal-buttons">
-                    <button type="submit" className="add-comment-modal-button add-comment-button-yes">
-                        Submit
-                    </button>
-                    <button type="button" onClick={closeModal} className="add-comment-modal-button add-comment-button-cancel">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+                    </div>
+                    <div className="add-comment-modal-buttons">
+                        <button type="submit" className="add-comment-modal-button add-comment-button-yes">
+                            Submit
+                        </button>
+                        <button type="button" onClick={closeModal} className="add-comment-modal-button add-comment-button-cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 
