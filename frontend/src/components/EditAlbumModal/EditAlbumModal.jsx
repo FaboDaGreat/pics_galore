@@ -55,42 +55,46 @@ const EditAlbumModal = ({ album }) => {
     }
 
     return (
-        <div className="edit-album-modal">
-            <h1 className='edit-album-title'>Edit Album</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="album-form">
-                    {errors.message && <h2 className="error-message">{errors.message}</h2>}
-                    <label>
-                        Title
-                        {errors.title && <p className="error-message">{errors.title}</p>}
-                        <input
-                            type="text"
-                            className="album-input"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Enter the title of your album"
-                        />
-                    </label>
-                    <label>
-                        Description
-                        {errors.description && <p className="error-message">{errors.description}</p>}
-                        <textarea
-                            className="album-textarea"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Write a good a description for your album (optional)"
-                        />
-                    </label>
-                </div>
-                <div className="edit-album-modal-buttons">
-                    <button type="submit" disabled={!hasChanged} className="edit-album-modal-button edit-album-button-yes">
-                        Update Album
-                    </button>
-                    <button type="button" onClick={closeModal} className="edit-album-modal-button edit-album-button-cancel">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+        <div className="modal-overlay" onClick={closeModal}>
+            <div className="edit-album-modal"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <h1 className='edit-album-title'>Edit Album</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="album-form">
+                        {errors.message && <h2 className="error-message">{errors.message}</h2>}
+                        <label>
+                            Title
+                            {errors.title && <p className="error-message">{errors.title}</p>}
+                            <input
+                                type="text"
+                                className="album-input"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Enter the title of your album"
+                            />
+                        </label>
+                        <label>
+                            Description
+                            {errors.description && <p className="error-message">{errors.description}</p>}
+                            <textarea
+                                className="album-textarea"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="Write a good a description for your album (optional)"
+                            />
+                        </label>
+                    </div>
+                    <div className="edit-album-modal-buttons">
+                        <button type="submit" disabled={!hasChanged} className="edit-album-modal-button edit-album-button-yes">
+                            Update Album
+                        </button>
+                        <button type="button" onClick={closeModal} className="edit-album-modal-button edit-album-button-cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

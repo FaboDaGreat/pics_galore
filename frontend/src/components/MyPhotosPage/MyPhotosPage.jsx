@@ -17,7 +17,7 @@ const MyPhotosPage = () => {
             await dispatch(getPhotosByUserThunk(user.id));
             setIsLoaded(true);
         }
-       if (!isLoaded && user) {
+        if (!isLoaded && user) {
             getMyPhotos();
         }
     }, [dispatch, user, isLoaded]);
@@ -27,6 +27,8 @@ const MyPhotosPage = () => {
         const validPhotos = photoArr.filter(p => p && p.id);
         return validPhotos
     }, [photos]);
+
+    const sortedPhotos = filteredPhotos.sort((a, b) => b.id - a.id)
 
 
     if (!user) {
@@ -56,7 +58,7 @@ const MyPhotosPage = () => {
                 </div>
                 <h1 className="photos-top-middle">My Photos</h1>
             </div>
-            {filteredPhotos.length === 0 ? (
+            {sortedPhotos.length === 0 ? (
                 <div>
                     <div className="no-photos-box">
                         <h2>You don&apos;t have any posts yet</h2>
