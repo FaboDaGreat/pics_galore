@@ -1,4 +1,3 @@
-
 .delete-button {
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -7,54 +6,59 @@
   transition: background-color 0.15s ease-in-out;
   border: none;
   outline: none;
-  background-color: rgb(55, 65, 81);
+  background-color: rgb(220, 38, 38);
   color: white;
   margin-right: 0.5rem;
 }
 
 .delete-button:hover {
+  background-color: rgb(187, 17, 17);
+}
+
+.edit-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  border: none;
+  outline: none;
   background-color: rgb(75, 85, 99);
+  color: white;
+  margin-right: 0.5rem;
 }
 
-.edit-link {
-    border: none;
-    color: rgb(78, 46, 194);
-    background-color: white;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.edit-link:hover {
-    color: rgb(54, 13, 201)
+.edit-button:hover {
+  background-color: rgb(55, 65, 81);
 }
 
 .photo-page-container {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
 }
 
 .photo-container {
-    flex: 5;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
-    gap: 3px; 
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
 }
 
 .photo-detail-box {
-    flex: 1;
+  flex: 1;
 }
 
 .photo-container img {
-    max-height: 430px;
-    width: auto;
-    display: block;
+  max-height: 400px;
+  width: auto;
+  display: block;
 }
 
 .comment-section {
-  max-width: 60%; 
+  max-width: 60%;
   margin: 0 auto;
 }
 
@@ -64,19 +68,19 @@
 }
 
 .comment-button {
-    margin-left: 20rem;
-    padding: 7px 10px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin-left: 20rem;
+  padding: 7px 10px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .comment-button:hover {
-    background-color: #046ce2;
+  background-color: #046ce2;
 }
 
 .comment-body {
@@ -96,24 +100,24 @@
 
 .comment-date-time {
   color: #555;
-  font-size: 0.9em; 
+  font-size: 0.9em;
 }
 
 .comment-buttons {
-    display: flex;
-    margin-bottom: 10px;
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .edit-comment-button,
 .delete-comment-button {
-   border: none;
-    color: rgb(78, 46, 194);
-    background-color: white;
-    text-decoration: underline;
-    cursor: pointer;
+  border: none;
+  color: rgb(78, 46, 194);
+  background-color: white;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .edit-comment-button:hover,
 .delete-comment-button:hover {
-    color: #757474
+  color: #757474
 }
