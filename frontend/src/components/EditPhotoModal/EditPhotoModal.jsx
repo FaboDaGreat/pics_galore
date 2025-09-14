@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getPhotoByIdThunk, editPhotoThunk } from '../../store/photos';
-import './EditPhotoPage.css'
-import { getAlbumsByUserThunk } from '../../store/albums';
+import { useDispatch } from 'react-redux';
+import { editPhotoThunk, getPhotoByIdThunk } from '../../store/photos';
+import './EditPhotoModal.css'
+import { useModal } from '../../context/Modal';
 
-const EditPhotoPage = () => {
+const EditPhotoModal = ({ photo, albums }) => {
+    const id = photo.id;
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const photo = useSelector((state) => state.photosReducer.byId[id]);
-    const user = useSelector((state) => state.session.user);
-    const albums = useSelector((state) => state.albumsReducer.allAlbums);
-    const albumArr = albums ? Object.values(albums) : [];
+    const { closeModal } = useModal();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -23,26 +18,9 @@ const EditPhotoPage = () => {
     const [initialDescription, setInitialDescription] = useState('');
     const [initialAlbumSelection, setInitialAlbumSelection] = useState('');
     const [initialNewAlbumTitle, setInitialNewAlbumTitle] = useState('');
-    const [isLoaded, setIsLoaded] = useState(false);
     const [hasChanged, setHasChanged] = useState(false);
 
     useEffect(() => {
-        const getPhotoDetails = async () => {
-            if (id && !isNaN(id)) {
-                await dispatch(getPhotoByIdThunk(id));
-                await dispatch(getAlbumsByUserThunk(user.id))
-                setIsLoaded(true);
-            } else {
-                navigate('/');
-            }
-        };
-        if (!isLoaded) {
-            getPhotoDetails();
-        }
-    }, [id, dispatch, navigate, isLoaded, user.id]);
-
-    useEffect(() => {
-        if (photo && isLoaded) {
             setTitle(photo.title || '');
             setDescription(photo.description || '');
             setInitialTitle(photo.title || '');
@@ -53,19 +31,17 @@ const EditPhotoPage = () => {
                 setAlbumSelection(photo.Album.title);
                 setInitialAlbumSelection(photo.Album.title);
             }
-        }
-    }, [photo, isLoaded]);
+        
+    }, [photo]);
 
     useEffect(() => {
-        if (isLoaded && photo) {
             const changed =
                 title !== initialTitle ||
                 description !== initialDescription ||
                 albumSelection !== initialAlbumSelection ||
                 newAlbumTitle !== initialNewAlbumTitle;
             setHasChanged(changed);
-        }
-    }, [title, description, albumSelection, newAlbumTitle, initialTitle, initialDescription, initialAlbumSelection, initialNewAlbumTitle, isLoaded, photo]);
+    }, [title, description, albumSelection, newAlbumTitle, initialTitle, initialDescription, initialAlbumSelection, initialNewAlbumTitle]);
 
 
     const handleSubmit = async (e) => {
@@ -88,7 +64,8 @@ const EditPhotoPage = () => {
         try {
             const updatedPhoto = await dispatch(editPhotoThunk(id, update));
             if (updatedPhoto.id) {
-                navigate(`/photos/${updatedPhoto.id}`);
+                await dispatch(getPhotoByIdThunk(updatedPhoto.id));
+                closeModal();
             }
         } catch (res) {
             const data = await res.json();
@@ -97,18 +74,6 @@ const EditPhotoPage = () => {
             }
         }
     };
-
-    if (!isLoaded) {
-        return <h1>Loading Photo Details...</h1>;
-    }
-
-    if (!photo) {
-        return <div className='error-box'><h1>Post Not Found</h1></div>;
-    }
-
-    if (!user || user.id !== photo.userId) {
-        return <div className='error-box'><h1>Unauthorized!</h1></div>
-    }
 
     return (
         <div className="upload-page-container">
@@ -146,7 +111,7 @@ const EditPhotoPage = () => {
                             onChange={(e) => setAlbumSelection(e.target.value)}
                         >
                             <option value=''>(None)</option>
-                            {albumArr.map((album, idx) => (
+                            {albums.map((album, idx) => (
                                 <option key={`${idx}-${album.id}`} value={album.title}>
                                     {album.title}
                                 </option>
@@ -176,4 +141,4 @@ const EditPhotoPage = () => {
     );
 };
 
-export default EditPhotoPage;
+export default EditPhotoModal;
