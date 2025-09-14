@@ -51,7 +51,7 @@ PicsGalore is a clone of Flickr, designed for posting and showcasing photography
 1. Clone the repository:  
    ```bash
    git clone <repo-url>
-   cd pics-galore
+   cd pics_galore
    ```
 2. Install dependencies:
    ```bash
@@ -63,14 +63,21 @@ PicsGalore is a clone of Flickr, designed for posting and showcasing photography
    - Copy values from .env.example and update accordingly.
    - Ensure .env is gitignored.
 
-4. Start backend server:
+4. Set up the database:
+   ```bash
+   cd backend
+   npm run reset
+   ```
+   In this project 'npm run reset' is configured to migrate and seed for you, as well as destroy any existing database first.
+
+5. Start backend server:
    ```bash
    cd backend
    npm start
    ```
-5. Start frontend server:
+6. Start frontend server:
    ```bash
    cd frontend
    npm run dev
    ```
-6. Navigate to the local link shown in the terminal to access the app.
+7. Navigate to the local link shown in the terminal to access the app.
