@@ -21,26 +21,26 @@ const EditPhotoModal = ({ photo, albums }) => {
     const [hasChanged, setHasChanged] = useState(false);
 
     useEffect(() => {
-            setTitle(photo.title || '');
-            setDescription(photo.description || '');
-            setInitialTitle(photo.title || '');
-            setInitialDescription(photo.description || '');
-            setInitialNewAlbumTitle('');
+        setTitle(photo.title || '');
+        setDescription(photo.description || '');
+        setInitialTitle(photo.title || '');
+        setInitialDescription(photo.description || '');
+        setInitialNewAlbumTitle('');
 
-            if (photo.Album) {
-                setAlbumSelection(photo.Album.title);
-                setInitialAlbumSelection(photo.Album.title);
-            }
-        
+        if (photo.Album) {
+            setAlbumSelection(photo.Album.title);
+            setInitialAlbumSelection(photo.Album.title);
+        }
+
     }, [photo]);
 
     useEffect(() => {
-            const changed =
-                title !== initialTitle ||
-                description !== initialDescription ||
-                albumSelection !== initialAlbumSelection ||
-                newAlbumTitle !== initialNewAlbumTitle;
-            setHasChanged(changed);
+        const changed =
+            title !== initialTitle ||
+            description !== initialDescription ||
+            albumSelection !== initialAlbumSelection ||
+            newAlbumTitle !== initialNewAlbumTitle;
+        setHasChanged(changed);
     }, [title, description, albumSelection, newAlbumTitle, initialTitle, initialDescription, initialAlbumSelection, initialNewAlbumTitle]);
 
 
@@ -76,67 +76,78 @@ const EditPhotoModal = ({ photo, albums }) => {
     };
 
     return (
-        <div className="upload-page-container">
-            <form className="upload-form" onSubmit={handleSubmit}>
-                <h1 className="upload-form-title">Edit Your Photo</h1>
-                <div className="form-input-container">
-                    {errors.message && <h2 className="error-message">{errors.message}</h2>}
-                    <label>
-                        Title
-                        {errors.title && <p className="error-message">{errors.title}</p>}
-                        <input
-                            type="text"
-                            className="upload-input"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Enter the title of your post"
-                        />
-                    </label>
-                    <label>
-                        Description
-                        {errors.description && <p className="error-message">{errors.description}</p>}
-                        <textarea
-                            className="upload-textarea"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Write a good description for your photo (optional)"
-                        />
-                    </label>
-                    <label>
-                        Album
-                        {errors.album && <p className="error-message">{errors.album}</p>}
-                        <select
-                            className="upload-input"
-                            value={albumSelection}
-                            onChange={(e) => setAlbumSelection(e.target.value)}
-                        >
-                            <option value=''>(None)</option>
-                            {albums.map((album, idx) => (
-                                <option key={`${idx}-${album.id}`} value={album.title}>
-                                    {album.title}
-                                </option>
-                            ))}
-                            <option value="New Album">(Create a new album)</option>
-                        </select>
-                    </label>
-                    {albumSelection === "New Album" && (
+        <div className="modal-overlay" onClick={closeModal}>
+            <div className="edit-photo-modal"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <h1 className="edit-photo-title">
+                    Edit Your Photo
+                </h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="edit-photo-form">
+                        {errors.message && <h2 className="error-message">{errors.message}</h2>}
                         <label>
-                            New Album Name
+                            Title
+                            {errors.title && <p className="error-message">{errors.title}</p>}
                             <input
                                 type="text"
-                                className="upload-input"
-                                value={newAlbumTitle}
-                                onChange={(e) => setNewAlbumTitle(e.target.value)}
-                                placeholder="Enter a title for your new album"
-                                required
+                                className="edit-photo-input"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Enter the title of your post"
                             />
                         </label>
-                    )}
-                </div>
-                <button type="submit" className="upload-submit-button" disabled={!hasChanged}>
-                    Update Photo
-                </button>
-            </form>
+                        <label>
+                            Description
+                            {errors.description && <p className="error-message">{errors.description}</p>}
+                            <textarea
+                                className="edit-photo-textarea"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="Write a good description for your photo (optional)"
+                            />
+                        </label>
+                        <label>
+                            Album
+                            {errors.album && <p className="error-message">{errors.album}</p>}
+                            <select
+                                className="edit-photo-input"
+                                value={albumSelection}
+                                onChange={(e) => setAlbumSelection(e.target.value)}
+                            >
+                                <option value=''>(None)</option>
+                                {albums.map((album, idx) => (
+                                    <option key={`${idx}-${album.id}`} value={album.title}>
+                                        {album.title}
+                                    </option>
+                                ))}
+                                <option value="New Album">(Create a new album)</option>
+                            </select>
+                        </label>
+                        {albumSelection === "New Album" && (
+                            <label>
+                                New Album Name
+                                <input
+                                    type="text"
+                                    className="edit=photo-input"
+                                    value={newAlbumTitle}
+                                    onChange={(e) => setNewAlbumTitle(e.target.value)}
+                                    placeholder="Enter a title for your new album"
+                                    required
+                                />
+                            </label>
+                        )}
+                    </div>
+                    <div className="edit-photo-modal-buttons">
+                        <button type="submit" disabled={!hasChanged} className="edit-photo-modal-button edit-photo-button-yes">
+                            Submit
+                        </button>
+                        <button type="button" onClick={closeModal} className="edit-photo-modal-button edit-photo-button-cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
