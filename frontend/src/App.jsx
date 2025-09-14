@@ -9,7 +9,6 @@ import UploadNewPhotoPage from './components/UploadNewPhotoPage';
 import PhotoPage from './components/PhotoPage';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
-import EditPhotoPage from './components/EditPhotoPage';
 import MyPhotosPage from './components/MyPhotosPage';
 import MyAlbumsPage from './components/MyAlbumsPage';
 import AlbumPage from './components/AlbumPage';
@@ -63,10 +62,6 @@ const router = createBrowserRouter([
       {
         path: 'photos/:id',
         element: <PhotoPage />
-      },
-      {
-        path: 'photos/:id/edit',
-        element: <EditPhotoPage />
       },
       {
         path: 'photos/upload',

@@ -6,8 +6,10 @@ import OpenModalButton from '../OpenModalButton';
 import DeletePhotoModal from "../DeletePhotoModal";
 import AddCommentModal from "../AddCommentModal";
 import EditCommentModal from "../EditCommentModal";
-import './PhotoPage.css'
 import DeleteCommentModal from "../DeleteCommentModal";
+import EditPhotoModal from "../EditPhotoModal";
+import './PhotoPage.css'
+import { getAlbumsByUserThunk } from "../../store/albums";
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -15,7 +17,10 @@ const PhotoPage = () => {
     const { id } = useParams();
     const photo = useSelector((state) => state.photosReducer.byId[id]);
     const user = useSelector((state) => state.session.user);
+    const albums = useSelector((state) => state.albumsReducer.allAlbums);
+    const albumArr = albums ? Object.values(albums) : [];
     const comments = photo?.Comments;
+    const ownerId = photo?.userId;
     const commentArr = comments ? Object.values(comments) : [];
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -23,15 +28,11 @@ const PhotoPage = () => {
         navigate('/my-profile/photos')
     }
 
-    const editPhotoPage = (e) => {
-        e.preventDefault();
-        navigate(`/photos/${id}/edit`)
-    }
-
     useEffect(() => {
         const getPhotoDetails = async () => {
             if (id && !isNaN(id)) {
                 await dispatch(getPhotoByIdThunk(id));
+                await dispatch(getAlbumsByUserThunk(ownerId));
                 setIsLoaded(true);
             } else {
                 navigate('/');
@@ -40,7 +41,7 @@ const PhotoPage = () => {
         if (!isLoaded) {
             getPhotoDetails();
         }
-    }, [id, dispatch, navigate, isLoaded]);
+    }, [id, dispatch, navigate, isLoaded, ownerId]);
 
     if (!photo) {
         return <div className="no-photos-box"><h1>Post not found</h1></div>;
@@ -58,11 +59,14 @@ const PhotoPage = () => {
                     </div>
                     <div className="photo-detail-box">
                         <div>
-                            {user?.id === photo.userId &&
-                                (<button className="edit-button" onClick={(e) => editPhotoPage(e)}>
-                                    Edit
-                                </button>)
-                            }
+                            {user?.id === photo.userId && (
+                                <OpenModalButton
+                                    buttonText="Edit"
+                                    className={"edit-button"}
+                                    onModalClose={null}
+                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
+                                />
+                            )}
                             {user?.id === photo.userId && (
                                 <OpenModalButton
                                     buttonText="Delete"
