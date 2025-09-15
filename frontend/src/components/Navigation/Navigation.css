@@ -63,3 +63,9 @@
   .site-name {
     color: #0056b3
   }
+
+  .upload-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
