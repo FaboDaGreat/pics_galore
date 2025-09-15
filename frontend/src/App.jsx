@@ -12,6 +12,7 @@ import SignupForm from './components/SignupForm';
 import MyPhotosPage from './components/MyPhotosPage';
 import MyAlbumsPage from './components/MyAlbumsPage';
 import AlbumPage from './components/AlbumPage';
+import NotFoundPage from './components/NotFoundPage';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <h1>404 Not Found</h1> 
+        element: <NotFoundPage /> 
       }
     ]
   }
