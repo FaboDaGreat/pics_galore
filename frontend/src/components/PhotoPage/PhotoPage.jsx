@@ -8,9 +8,9 @@ import AddCommentModal from "../AddCommentModal";
 import EditCommentModal from "../EditCommentModal";
 import DeleteCommentModal from "../DeleteCommentModal";
 import EditPhotoModal from "../EditPhotoModal";
-import './PhotoPage.css'
 import { getAlbumsByUserThunk } from "../../store/albums";
 import { FaComments, FaEdit, FaTrash } from "react-icons/fa";
+import './PhotoPage.css'
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -24,6 +24,7 @@ const PhotoPage = () => {
     const ownerId = photo?.userId;
     const commentArr = comments ? Object.values(comments) : [];
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isFullScreen, setIsFullScreen] = useState(false);
 
     const leavePhotoPage = () => {
         navigate('/my-profile/photos')
@@ -56,7 +57,11 @@ const PhotoPage = () => {
             <>
                 <div className="photo-page-container">
                     <div className="photo-container">
-                        <img src={photo.url} />
+                        <img
+                            src={photo.url}
+                            onClick={() => setIsFullScreen(true)}
+                            className="clickable-photo"
+                        />
                     </div>
                     <div className="photo-detail-box">
                         <h3>{`@${photo.username}`}</h3>
@@ -142,6 +147,14 @@ const PhotoPage = () => {
                             </div>
                         </div>))}
                 </div>
+                {isFullScreen && (
+        <div className="fullscreen-overlay" onClick={() => setIsFullScreen(false)}>
+          <img
+            src={photo.url}
+            className="fullscreen-photo"
+          />
+        </div>
+      )}
             </>
         );
     }

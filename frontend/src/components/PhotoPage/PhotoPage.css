@@ -99,3 +99,25 @@
 .delete-comment-button:hover {
   color: #757474
 }
+
+.clickable-photo {
+  cursor: pointer;
+}
+
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-photo {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+}
