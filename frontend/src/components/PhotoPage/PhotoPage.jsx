@@ -10,6 +10,7 @@ import DeleteCommentModal from "../DeleteCommentModal";
 import EditPhotoModal from "../EditPhotoModal";
 import './PhotoPage.css'
 import { getAlbumsByUserThunk } from "../../store/albums";
+import { FaComments, FaEdit, FaTrash } from "react-icons/fa";
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -58,24 +59,6 @@ const PhotoPage = () => {
                         <img src={photo.url} />
                     </div>
                     <div className="photo-detail-box">
-                        <div>
-                            {user?.id === photo.userId && (
-                                <OpenModalButton
-                                    buttonText="Edit"
-                                    className={"edit-button"}
-                                    onModalClose={null}
-                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
-                                />
-                            )}
-                            {user?.id === photo.userId && (
-                                <OpenModalButton
-                                    buttonText="Delete"
-                                    className={"delete-button"}
-                                    onModalClose={null}
-                                    modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
-                                />
-                            )}
-                        </div>
                         <h3>{`@${photo.username}`}</h3>
                         <h3>{photo.title}</h3>
                         <p>{photo.description}</p>
@@ -84,6 +67,26 @@ const PhotoPage = () => {
                             day: 'numeric',
                             year: 'numeric',
                         })}</p>
+                        <div className="edit-delete-box">
+                            {user?.id === photo.userId && (
+                                <OpenModalButton
+                                    className={"edit-button"}
+                                    tooltip={"Edit Photo"}
+                                    onModalClose={null}
+                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
+                                    icon={<FaEdit size={25} />}
+                                />
+                            )}
+                            {user?.id === photo.userId && (
+                                <OpenModalButton
+                                    className={"delete-button"}
+                                    tooltip={"Delete Photo"}
+                                    onModalClose={null}
+                                    modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
+                                    icon={<FaTrash size={22} />}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -97,6 +100,7 @@ const PhotoPage = () => {
                             className={"comment-button"}
                             onModalClose={null}
                             modalComponent={<AddCommentModal photoId={photo.id} />}
+                            icon={<FaComments />}
                         />)}
                     </div>
                     {commentArr.map((comment, idx) => (

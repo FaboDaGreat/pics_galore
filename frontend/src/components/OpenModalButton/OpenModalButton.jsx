@@ -1,5 +1,3 @@
-// frontend/src/components/OpenModalButton/OpenModalButton.jsx
-
 import { useModal } from '../../context/Modal';
 
 function OpenModalButton({
@@ -7,7 +5,9 @@ function OpenModalButton({
   buttonText, // text of the button that opens the modal
   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
   onModalClose, // optional: callback function that will be called once the modal is closed
-  className
+  className,
+  icon,
+  tooltip
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
@@ -17,7 +17,7 @@ function OpenModalButton({
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button onClick={onClick} className={className}>{buttonText}</button>;
+  return <button onClick={onClick} className={className} title={tooltip}>{buttonText} {icon}</button>;
 }
 
 export default OpenModalButton;
