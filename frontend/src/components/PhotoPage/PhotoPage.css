@@ -1,13 +1,29 @@
-.edit-button, .delete-button {
+.edit-button {
   cursor: pointer;
   border: none;
   background: none;
+  color: #0056b3;
+}
+
+.edit-button:hover {
+  color: #046ce2;
+}
+
+.delete-button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: rgb(77, 75, 75);
+}
+
+.delete-button:hover {
+  color: red;
 }
 
 .edit-delete-box {
+  margin-top: 5px;
   display: flex;
-  margin-left: 2rem;
-  gap: 10px;
+  justify-content: flex-end;
 }
 
 .photo-page-container {
@@ -29,10 +45,15 @@
   flex: 1;
 }
 
-.photo-container img {
+.photo-wrapper {
+  display: inline-block;
+  text-align: right;
+}
+
+.photo-wrapper img {
+  display: block;
   max-height: 400px;
   width: auto;
-  display: block;
 }
 
 .comment-section {

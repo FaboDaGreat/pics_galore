@@ -57,11 +57,31 @@ const PhotoPage = () => {
             <>
                 <div className="photo-page-container">
                     <div className="photo-container">
-                        <img
-                            src={photo.url}
-                            onClick={() => setIsFullScreen(true)}
-                            className="clickable-photo"
-                        />
+                        <div className="photo-wrapper">
+                            <img
+                                src={photo.url}
+                                onClick={() => setIsFullScreen(true)}
+                                className="clickable-photo"
+                            />
+                            <div className="edit-delete-box">
+                                {user?.id === photo.userId && (
+                                    <OpenModalButton
+                                        className="edit-button"
+                                        tooltip="Edit Photo"
+                                        modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
+                                        icon={<FaEdit size={25} />}
+                                    />
+                                )}
+                                {user?.id === photo.userId && (
+                                    <OpenModalButton
+                                        className="delete-button"
+                                        tooltip="Delete Photo"
+                                        modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
+                                        icon={<FaTrash size={22} />}
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <div className="photo-detail-box">
                         <h3>{`@${photo.username}`}</h3>
@@ -72,26 +92,6 @@ const PhotoPage = () => {
                             day: 'numeric',
                             year: 'numeric',
                         })}</p>
-                        <div className="edit-delete-box">
-                            {user?.id === photo.userId && (
-                                <OpenModalButton
-                                    className={"edit-button"}
-                                    tooltip={"Edit Photo"}
-                                    onModalClose={null}
-                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
-                                    icon={<FaEdit size={25} />}
-                                />
-                            )}
-                            {user?.id === photo.userId && (
-                                <OpenModalButton
-                                    className={"delete-button"}
-                                    tooltip={"Delete Photo"}
-                                    onModalClose={null}
-                                    modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
-                                    icon={<FaTrash size={22} />}
-                                />
-                            )}
-                        </div>
                     </div>
                 </div>
                 <hr />
@@ -148,13 +148,13 @@ const PhotoPage = () => {
                         </div>))}
                 </div>
                 {isFullScreen && (
-        <div className="fullscreen-overlay" onClick={() => setIsFullScreen(false)}>
-          <img
-            src={photo.url}
-            className="fullscreen-photo"
-          />
-        </div>
-      )}
+                    <div className="fullscreen-overlay" onClick={() => setIsFullScreen(false)}>
+                        <img
+                            src={photo.url}
+                            className="fullscreen-photo"
+                        />
+                    </div>
+                )}
             </>
         );
     }
