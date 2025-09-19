@@ -1,35 +1,29 @@
-.delete-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
-  border: none;
-  outline: none;
-  background-color: rgb(220, 38, 38);
-  color: white;
-  margin-right: 0.5rem;
-}
-
-.delete-button:hover {
-  background-color: rgb(187, 17, 17);
-}
-
 .edit-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
   border: none;
-  outline: none;
-  background-color: rgb(75, 85, 99);
-  color: white;
-  margin-right: 0.5rem;
+  background: none;
+  color: #0056b3;
 }
 
 .edit-button:hover {
-  background-color: rgb(55, 65, 81);
+  color: #046ce2;
+}
+
+.delete-button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: rgb(77, 75, 75);
+}
+
+.delete-button:hover {
+  color: red;
+}
+
+.edit-delete-box {
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .photo-page-container {
@@ -51,10 +45,15 @@
   flex: 1;
 }
 
-.photo-container img {
+.photo-wrapper {
+  display: inline-block;
+  text-align: right;
+}
+
+.photo-wrapper img {
+  display: block;
   max-height: 400px;
   width: auto;
-  display: block;
 }
 
 .comment-section {
@@ -120,4 +119,26 @@
 .edit-comment-button:hover,
 .delete-comment-button:hover {
   color: #757474
+}
+
+.clickable-photo {
+  cursor: pointer;
+}
+
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-photo {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
 }

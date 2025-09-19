@@ -52,7 +52,7 @@ function Navigation({ isLoaded }) {
           <button 
           className='upload-button' 
           onClick={(e) => uploadPhotoPage(e)}
-          title='Upload Photo'>
+          title='Post a Photo'>
             <FaUpload size={25} />
           </button>
         )}

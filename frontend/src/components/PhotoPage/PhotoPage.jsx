@@ -8,8 +8,9 @@ import AddCommentModal from "../AddCommentModal";
 import EditCommentModal from "../EditCommentModal";
 import DeleteCommentModal from "../DeleteCommentModal";
 import EditPhotoModal from "../EditPhotoModal";
-import './PhotoPage.css'
 import { getAlbumsByUserThunk } from "../../store/albums";
+import { FaComments, FaEdit, FaTrash } from "react-icons/fa";
+import './PhotoPage.css'
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ const PhotoPage = () => {
     const ownerId = photo?.userId;
     const commentArr = comments ? Object.values(comments) : [];
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isFullScreen, setIsFullScreen] = useState(false);
 
     const leavePhotoPage = () => {
         navigate('/my-profile/photos')
@@ -55,30 +57,39 @@ const PhotoPage = () => {
             <>
                 <div className="photo-page-container">
                     <div className="photo-container">
-                        <img src={photo.url} />
+                        <div className="photo-wrapper">
+                            <img
+                                src={photo.url}
+                                onClick={() => setIsFullScreen(true)}
+                                className="clickable-photo"
+                            />
+                            <div className="edit-delete-box">
+                                {user?.id === photo.userId && (
+                                    <OpenModalButton
+                                        className="edit-button"
+                                        tooltip="Edit Photo"
+                                        modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
+                                        icon={<FaEdit size={25} />}
+                                    />
+                                )}
+                                {user?.id === photo.userId && (
+                                    <OpenModalButton
+                                        className="delete-button"
+                                        tooltip="Delete Photo"
+                                        modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
+                                        icon={<FaTrash size={22} />}
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <div className="photo-detail-box">
-                        <div>
-                            {user?.id === photo.userId && (
-                                <OpenModalButton
-                                    buttonText="Edit"
-                                    className={"edit-button"}
-                                    onModalClose={null}
-                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
-                                />
-                            )}
-                            {user?.id === photo.userId && (
-                                <OpenModalButton
-                                    buttonText="Delete"
-                                    className={"delete-button"}
-                                    onModalClose={null}
-                                    modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
-                                />
-                            )}
-                        </div>
                         <h3>{`@${photo.username}`}</h3>
                         <h3>{photo.title}</h3>
                         <p>{photo.description}</p>
+                        {photo.Album && (
+                            <h4>{`Album: ${photo.Album.title}`}</h4>
+                        )}
                         <p>Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
                             month: 'long',
                             day: 'numeric',
@@ -97,6 +108,7 @@ const PhotoPage = () => {
                             className={"comment-button"}
                             onModalClose={null}
                             modalComponent={<AddCommentModal photoId={photo.id} />}
+                            icon={<FaComments />}
                         />)}
                     </div>
                     {commentArr.map((comment, idx) => (
@@ -138,6 +150,14 @@ const PhotoPage = () => {
                             </div>
                         </div>))}
                 </div>
+                {isFullScreen && (
+                    <div className="fullscreen-overlay" onClick={() => setIsFullScreen(false)}>
+                        <img
+                            src={photo.url}
+                            className="fullscreen-photo"
+                        />
+                    </div>
+                )}
             </>
         );
     }
