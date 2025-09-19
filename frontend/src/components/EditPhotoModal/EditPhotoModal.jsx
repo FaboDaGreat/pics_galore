@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { editPhotoThunk, getPhotoByIdThunk } from '../../store/photos';
 import './EditPhotoModal.css'
 import { useModal } from '../../context/Modal';
+import { getAlbumsByUserThunk } from '../../store/albums';
 
 const EditPhotoModal = ({ photo, albums }) => {
     const id = photo.id;
@@ -65,6 +66,7 @@ const EditPhotoModal = ({ photo, albums }) => {
             const updatedPhoto = await dispatch(editPhotoThunk(id, update));
             if (updatedPhoto.id) {
                 await dispatch(getPhotoByIdThunk(updatedPhoto.id));
+                await dispatch(getAlbumsByUserThunk(photo.userId));
                 closeModal();
             }
         } catch (res) {
@@ -129,7 +131,7 @@ const EditPhotoModal = ({ photo, albums }) => {
                                 New Album Name
                                 <input
                                     type="text"
-                                    className="edit=photo-input"
+                                    className="edit-photo-input"
                                     value={newAlbumTitle}
                                     onChange={(e) => setNewAlbumTitle(e.target.value)}
                                     placeholder="Enter a title for your new album"
