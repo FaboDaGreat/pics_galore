@@ -90,7 +90,7 @@ const PhotoPage = () => {
                         {photo.Album && (
                             <h4>{`Album: ${photo.Album.title}`}</h4>
                         )}
-                        <p>Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
+                        <p className="upload-date">Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
                             month: 'long',
                             day: 'numeric',
                             year: 'numeric',

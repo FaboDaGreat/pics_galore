@@ -54,7 +54,7 @@ const MyPhotosPage = () => {
             <div className="photos-top-section">
                 <div className="profile-info">
                     <h1>{`${user.firstName} ${user.lastName}`}</h1>
-                    <h3>{user.username}</h3>
+                    <h3>{`@${user.username}`}</h3>
                 </div>
                 <h1 className="photos-top-middle">My Photos</h1>
             </div>

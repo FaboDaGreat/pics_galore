@@ -18,6 +18,15 @@
     max-width: 500px;
 }
 
+.signup-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
 .signup-form-title {
     text-align: center;
     font-size: 28px;

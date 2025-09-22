@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAlbumByIdThunk } from "../../store/albums";
-import { getPhotosByAlbumThunk } from "../../store/photos";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditAlbumModal from "../EditAlbumModal";
 import OpenModalButton from "../OpenModalButton";
 import DeleteAlbumModal from "../DeleteAlbumModal";
@@ -15,23 +14,20 @@ const AlbumPage = () => {
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const album = useSelector((state) => state.albumsReducer.byId[id])
-    const photos = useSelector((state) => state.photosReducer.allAlbums);
+    const photos = album?.Photos;
     const photoArr = photos ? Object.values(photos) : [];
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const getAlbumPhotos = async () => {
-        await dispatch(getPhotosByAlbumThunk(id));
-        setIsLoaded(true);
-    }
+    useEffect(() => {
 
-    const getAlbumDetails = async () => {
-        await dispatch(getAlbumByIdThunk(id));
-    }
+        const getAlbumDetails = async () => {
+            await dispatch(getAlbumByIdThunk(id));
+            setIsLoaded(true);
+        }
 
-    if (!isLoaded) {
         getAlbumDetails();
-        getAlbumPhotos();
-    }
+
+    }, [isLoaded, dispatch, id])
 
     const goToPhotoPage = (e, photo) => {
         e.preventDefault();
@@ -51,7 +47,7 @@ const AlbumPage = () => {
     }
 
     if (!user) {
-       return <div className="no-photos-container"><h1>Please log in!</h1></div>
+        return <div className="no-photos-container"><h1>Please log in!</h1></div>
     }
 
     if (album.userId !== user.id) {
@@ -62,8 +58,9 @@ const AlbumPage = () => {
         <div>
             <div className="album-top-section">
                 <div className="album-top-left">
-                        <h1>{`${user.firstName} ${user.lastName}`}</h1>
-                    </div>
+                    <h1>{`${user.firstName} ${user.lastName}`}</h1>
+                    <h3>{`@${user.username}`}</h3>
+                </div>
                 <div className="album-top-middle">
                     <div className="profile-header">
                         <h1 className="album-title">
@@ -81,15 +78,15 @@ const AlbumPage = () => {
                         modalComponent={<AddPhotoModal album={(album)} />}
                     />
                     <OpenModalButton
-                            buttonText="Edit Album"
-                            className={"album-buttons"}
-                            modalComponent={<EditAlbumModal album={album} />}
-                        />
-                        <OpenModalButton
-                            buttonText="Delete Album"
-                            className={"album-buttons"}
-                            modalComponent={<DeleteAlbumModal albumId={album.id} leaveAlbum={leaveAlbum} />}
-                        />
+                        buttonText="Edit Album"
+                        className={"album-buttons"}
+                        modalComponent={<EditAlbumModal album={album} />}
+                    />
+                    <OpenModalButton
+                        buttonText="Delete Album"
+                        className={"album-buttons"}
+                        modalComponent={<DeleteAlbumModal albumId={album.id} leaveAlbum={leaveAlbum} />}
+                    />
                 </div>
             </div>
             {photoArr.length === 0 ? (

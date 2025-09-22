@@ -96,7 +96,7 @@ module.exports = {
         userId: 3,
         username: "fabodagreat",
         title: "Takin Off on My First Half Marathon",
-        description: "I'm clearing having a blast...",
+        description: "I'm clearly having a blast...",
         albumId: 4
       },
       {

@@ -45,6 +45,10 @@
   flex: 1;
 }
 
+.upload-date {
+  font-size: .8em;
+}
+
 .photo-wrapper {
   display: inline-block;
   text-align: right;

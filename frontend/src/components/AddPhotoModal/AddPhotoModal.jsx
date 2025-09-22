@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createPhotoThunk, getPhotosByAlbumThunk } from '../../store/photos';
+import { createPhotoThunk } from '../../store/photos';
+import { getAlbumByIdThunk } from '../../store/albums';
 import { useModal } from '../../context/Modal';
 import './AddPhotoModal.css'
 
@@ -30,7 +31,7 @@ const AddPhotoModal = ({ album }) => {
         try {
             const newPhoto = await dispatch(createPhotoThunk(photoData));
             if (newPhoto.id) {
-                await dispatch(getPhotosByAlbumThunk(album.id));
+                await dispatch(getAlbumByIdThunk(album.id));
                 closeModal();
             }
         } catch (res) {
