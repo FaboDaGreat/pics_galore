@@ -25,6 +25,15 @@
     margin-bottom: 30px;
 }
 
+.upload-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
 .form-input-container {
     width: 100%;
     display: flex;
