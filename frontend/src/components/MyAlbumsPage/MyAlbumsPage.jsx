@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAlbumsByUserThunk } from "../../store/albums";
 import { useNavigate } from "react-router-dom";
 import CreateAlbumModal from "../CreateAlbumModal";
@@ -14,17 +14,20 @@ const MyAlbumsPage = () => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
 
+
+    useEffect(() => {
+
+        const getMyAlbums = async () => {
+            await dispatch(getAlbumsByUserThunk(user?.id));
+            setIsLoaded(true);
+        }
+
+        getMyAlbums();
+
+    }, [isLoaded, dispatch, user?.id])
+
     if (!user) {
         return <div className="no-albums-container"><h1>Please log in to view your profile.</h1></div>
-    }
-
-    const getMyAlbums = async () => {
-        await dispatch(getAlbumsByUserThunk(user.id));
-        setIsLoaded(true);
-    }
-
-    if (!isLoaded) {
-        getMyAlbums();
     }
 
     if (!isLoaded) {
@@ -38,23 +41,23 @@ const MyAlbumsPage = () => {
 
     return (
         <>
-        <div className="my-albums-top-section">
-            <div className="profile-info">
-                <h1>{`${user.firstName} ${user.lastName}`}</h1>
-                <h3>{user.username}</h3>
-            </div>
-            <div className="my-albums-top-middle">
-            <h1>My Albums</h1>
-            </div>
-            <div className="my-albums-top-right">
-            <OpenModalButton
-                    buttonText="Create a New Album"
-                    className={"create-album-button"}
-                    onModalClose={null}
-                    modalComponent={<CreateAlbumModal navigate={navigate} />}
-                />
+            <div className="my-albums-top-section">
+                <div className="profile-info">
+                    <h1>{`${user.firstName} ${user.lastName}`}</h1>
+                    <h3>{`@${user.username}`}</h3>
                 </div>
+                <div className="my-albums-top-middle">
+                    <h1>My Albums</h1>
                 </div>
+                <div className="my-albums-top-right">
+                    <OpenModalButton
+                        buttonText="Create a New Album"
+                        className={"create-album-button"}
+                        onModalClose={null}
+                        modalComponent={<CreateAlbumModal navigate={navigate} />}
+                    />
+                </div>
+            </div>
             {albums.length === 0 ? (
                 <div className="no-albums-container">
                     <h2>You don&apos;t have any albums yet</h2>
@@ -77,7 +80,7 @@ const MyAlbumsPage = () => {
                                     onClick={(e) => openAlbum(album, e)}
                                 />
                                 <strong>{album.title}</strong>
-                               <div>{`${album.photoCount} ${album.photoCount === 1 ? 'photo' : 'photos'}`}</div> 
+                                <div>{`${album.photoCount} ${album.photoCount === 1 ? 'photo' : 'photos'}`}</div>
                             </div>
                         ))
                     }

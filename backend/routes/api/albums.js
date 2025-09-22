@@ -15,10 +15,10 @@ const validateAlbum = [
     .exists({ checkFalsy: true })
     .withMessage('Please enter a title for your post'),
   check('title')
-    .isLength({min: 5, max : 50})
+    .isLength({ min: 5, max: 50 })
     .withMessage('Title must be between 5 and 50 characters'),
   check('description')
-    .isLength({max:500})
+    .isLength({ max: 500 })
     .withMessage('Please limit your description to 500 characters'),
   handleValidationErrors
 ];
@@ -35,32 +35,32 @@ router.get('/users/:id', async (req, res, next) => {
       where: {
         userId: userId
       },
-      attributes: ["id","userId", "username", "title", "description", "createdAt"]
+      attributes: ["id", "userId", "username", "title", "description", "createdAt"]
     });
 
     const newAlbumArr = [];
 
     for (let album of albums) {
-        const albumObj = await album.toJSON();  
-        const photos = await Photo.findAll({
-            where: {
-                albumId: album.id
-            }
-        })
+      const albumObj = await album.toJSON();
+      const photos = await Photo.findAll({
+        where: {
+          albumId: album.id
+        }
+      })
 
-        if (photos.length > 0) {
+      if (photos.length > 0) {
         albumObj.coverPhoto = photos[photos.length - 1].url;
       } else {
         albumObj.coverPhoto = "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/Blank+Photo.jpg";
       }
-        newAlbumArr.push(albumObj)
+      newAlbumArr.push(albumObj)
 
-        albumObj.photoCount = photos.length
+      albumObj.photoCount = photos.length
     }
 
     return res.json(newAlbumArr)
-  } 
-    catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 });
@@ -72,9 +72,12 @@ router.get('/users/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const album = await Album.findByPk(req.params.id,
-        {
-            attributes: ["id","userId", "username", "title", "description", "createdAt"]
-        }
+      {
+        attributes: ["id", "userId", "username", "title", "description", "createdAt"],
+        include: [
+          { model: Photo }
+        ]
+      }
     );
 
     if (!album) {
@@ -83,37 +86,12 @@ router.get('/:id', async (req, res, next) => {
       return next(error);
     }
 
-     return res.json(album);
+    return res.json(album);
 
   } catch (error) {
     next(error);
   }
 });
-
-//--Get All Photos by Album Id
-
-router.get('/:id/photos', async (req, res, next) => {
-  try {
-
-    const albumId = req.params.id
-    const photos = await Photo.findAll({
-      where: {
-        albumId: albumId
-      },
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId"],
-      include: [
-        { model: Comment }
-      ]
-    });
-
-    return res.json(photos)
-  } 
-    catch (error) {
-    next(error);
-  }
-});
-
-
 
 //--Create a New Album--
 
@@ -124,7 +102,7 @@ router.post('/', requireAuth, validateAlbum, async (req, res, next) => {
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = {"title": "Please enter at least 5 characters for your album's title"}
+      error.errors = { "title": "Please enter at least 5 characters for your album's title" }
       throw error
     }
 
@@ -135,14 +113,14 @@ router.post('/', requireAuth, validateAlbum, async (req, res, next) => {
       }
     })
 
-    if (sameAlbum){
+    if (sameAlbum) {
       const err = new Error('Forbidden');
       err.errors = { title: 'You already have an album with this name!' };
       err.status = 401;
       return next(err);
     }
 
-   const album = await Album.create({
+    const album = await Album.create({
       userId: req.user.id, username: req.user.username, title, description
     });
 
@@ -179,7 +157,7 @@ router.put('/:id', requireAuth, validateAlbum, async (req, res, next) => {
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = {"title": "Please enter at least 5 characters for your album's title"}
+      error.errors = { "title": "Please enter at least 5 characters for your album's title" }
       throw error
     }
 
