@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPhotosThunk } from "../../store/photos";
 import { useNavigate } from "react-router-dom";
-import './Splash.css'
+import './Splash.css';
 
 const Splash = () => {
 
@@ -11,7 +11,7 @@ const Splash = () => {
   const user = useSelector((state) => state.session.user);
   const photos = useSelector((state) => state.photosReducer.allPhotos);
   const photoArr = photos ? Object.values(photos) : [];
-  const sortedPhotos = photoArr.sort((a, b) => b.id - a.id)
+  const sortedPhotos = photoArr.sort((a, b) => b.id - a.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,13 +30,14 @@ const Splash = () => {
 
   const goToPhotoPage = (e, photo) => {
     e.preventDefault();
-    navigate(`/photos/${photo.id}`)
+    navigate(`/photos/${photo.id}`);
   }
 
   if (!isLoaded) {
-    return <h1>Loading...</h1>
-  } else {
-    return (
+    return <h1>Loading...</h1>;
+  } 
+    
+  return (
       <>
       {user && (
         <h1 className="welcome-banner">{`Welcome Back ${user.firstName} ${user.lastName}!`}</h1>
@@ -56,10 +57,7 @@ const Splash = () => {
         </>
 
     )
-  }
+  };
 
 
-}
-
-
-export default Splash
+export default Splash;
