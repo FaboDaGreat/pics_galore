@@ -54,7 +54,7 @@ const UploadNewPhotoPage = () => {
         try {
             const newPost = await dispatch(createPhotoThunk(photoData));
             if (newPost.id) {
-                navigate('/my-profile/photos');
+                navigate(`/photos/${newPost.id}`);
             }
         } catch (res) {
             const data = await res.json();

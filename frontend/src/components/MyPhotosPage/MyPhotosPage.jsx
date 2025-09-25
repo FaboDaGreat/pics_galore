@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhotosByUserThunk } from "../../store/photos";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,8 @@ const MyPhotosPage = () => {
     const navigate = useNavigate();
     const photos = useSelector((state) => state.photosReducer.allPhotos);
     const user = useSelector((state) => state.session.user);
+    const photoArr = photos ? Object.values(photos) : [];
+    const sortedPhotos = photoArr.sort((a, b) => b.id - a.id);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -21,14 +23,6 @@ const MyPhotosPage = () => {
             getMyPhotos();
         }
     }, [dispatch, user, isLoaded]);
-
-    const filteredPhotos = useMemo(() => {
-        const photoArr = photos ? Object.values(photos) : [];
-        const validPhotos = photoArr.filter(p => p && p.id);
-        return validPhotos
-    }, [photos]);
-
-    const sortedPhotos = filteredPhotos.sort((a, b) => b.id - a.id)
 
 
     if (!user) {
@@ -69,7 +63,7 @@ const MyPhotosPage = () => {
                 </div>
             ) : (
                 <div className="all-images-container">
-                    {filteredPhotos.map((photo, idx) => (
+                    {sortedPhotos.map((photo, idx) => (
                         <img
                             onClick={(e) => goToPhotoPage(e, photo)}
                             className="my-images"
