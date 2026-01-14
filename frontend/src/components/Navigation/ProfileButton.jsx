@@ -46,40 +46,27 @@ function ProfileButton({ user }) {
     navigate("/");
   };
 
-  const signupPage = (e) => {
+  const uploadPhotoPage = (e) => {
     e.preventDefault();
     closeMenu();
-    navigate("/sign-up");
-  };
-
-  const loginPage = (e) => {
-    e.preventDefault();
-    closeMenu();
-    navigate("/log-in");
+    navigate("/photos/upload");
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div className="profileContainer">
-      <button onClick={toggleMenu} className="open-menu-button">
+      <button onClick={toggleMenu} className="open-menu-button" title="Profile">
         <FaUserCircle size={32} style={{ color: '#7d7a85' }} />
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <div className="user-greeting">{`Hello, ${user.username}!`}</div>
-            <div className="menu-links" onClick={logout}>Log Out</div>
+        <>
+          <div className="user-greeting">{`Hello, @${user.username}!`}</div>
+          <div className="menu-links" onClick={(e) => goHome(e)}>Home</div>
+          <div className="menu-links" onClick={(e) => uploadPhotoPage(e)}>Upload</div>
+          <div className="menu-links" onClick={logout}>Log Out</div>
 
-          </>
-        ) : (
-          <>
-            <div className="menu-links" onClick={(e) => goHome(e)}>Home</div>
-            <div className="menu-links" onClick={(e) => loginPage(e)}>Log In</div>
-            <div className="menu-links" onClick={(e) => signupPage(e)}>Sign Up</div>
-
-          </>
-        )}
+        </>
       </ul>
     </div>
   );

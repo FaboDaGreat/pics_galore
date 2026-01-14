@@ -14,6 +14,7 @@
     flex-grow: 1;
 }
 
-.welcome-banner {
-  margin-left: 50px;
+.welcome-banner-container {
+  display: flex;
+  justify-content: center;
 }
