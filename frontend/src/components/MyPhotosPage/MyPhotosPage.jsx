@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPhotosByUserThunk } from "../../store/photos";
 import { useNavigate } from "react-router-dom";
 import './MyPhotosPage.css';
+import { FaUpload } from "react-icons/fa";
 
 const MyPhotosPage = () => {
     const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const MyPhotosPage = () => {
     const photos = useSelector((state) => state.photosReducer.allPhotos);
     const user = useSelector((state) => state.session.user);
     const photoArr = photos ? Object.values(photos) : [];
-    const sortedPhotos = photoArr.sort((a, b) => b.id - a.id);
+    const sortedPhotos = photoArr.toSorted((a, b) => b.id - a.id);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -19,9 +20,9 @@ const MyPhotosPage = () => {
             await dispatch(getPhotosByUserThunk(user.id));
             setIsLoaded(true);
         }
-        if (!isLoaded && user) {
-            getMyPhotos();
-        }
+
+        getMyPhotos();
+
     }, [dispatch, user, isLoaded]);
 
 
@@ -50,7 +51,15 @@ const MyPhotosPage = () => {
                     <h1>{`${user.firstName} ${user.lastName}`}</h1>
                     <h3>{`@${user.username}`}</h3>
                 </div>
-                <h1 className="photos-top-middle">My Photos</h1>
+                <div className="photos-top-middle">
+                    <h1>My Photos</h1>
+                </div>
+                <button
+                    className='upload-button'
+                    onClick={(e) => uploadPhotoPage(e)}
+                    title='Post a Photo'>
+                    <FaUpload size={25} />
+                </button>
             </div>
             {sortedPhotos.length === 0 ? (
                 <div>

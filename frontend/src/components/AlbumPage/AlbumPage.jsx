@@ -16,7 +16,7 @@ const AlbumPage = () => {
     const album = useSelector((state) => state.albumsReducer.byId[id])
     const photos = album?.Photos;
     const photoArr = photos ? Object.values(photos) : [];
-    const sortedPhotos = photoArr.sort((a, b) => a.id - b.id)
+    const sortedPhotos = photoArr.toSorted((a, b) => a.id - b.id)
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
