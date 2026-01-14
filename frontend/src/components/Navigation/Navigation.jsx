@@ -2,7 +2,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import { FaUpload } from 'react-icons/fa';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -23,9 +22,14 @@ function Navigation({ isLoaded }) {
     navigate('/')
   }
 
-  const uploadPhotoPage = (e) => {
+  const signupPage = (e) => {
     e.preventDefault();
-    navigate("/photos/upload");
+    navigate("/sign-up");
+  };
+
+  const loginPage = (e) => {
+    e.preventDefault();
+    navigate("/log-in");
   };
 
   return (
@@ -47,21 +51,19 @@ function Navigation({ isLoaded }) {
           </>
         )}
       </div>
-      <ul className="nav-links">
-        {sessionUser && (
-          <button 
-          className='upload-button' 
-          onClick={(e) => uploadPhotoPage(e)}
-          title='Post a Photo'>
-            <FaUpload size={25} />
-          </button>
-        )}
-        {isLoaded && (
+      {isLoaded && (<ul className="nav-links">
+        {sessionUser ? (
           <li>
             <ProfileButton user={sessionUser} />
           </li>
-        )}
-      </ul>
+        ) : (
+          <>
+            <div className='nav-buttons' onClick={(e) => loginPage(e)}>Log In</div>
+            <div className='nav-buttons' onClick={(e) => signupPage(e)}>Sign Up</div>
+          </>
+        )
+        }
+      </ul>)}
     </nav>
   );
 }

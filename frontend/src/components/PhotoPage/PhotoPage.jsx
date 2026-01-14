@@ -30,6 +30,31 @@ const PhotoPage = () => {
         navigate('/my-profile/photos')
     }
 
+    const formatTimeAgo = (createdAtDate) => {
+        const createdAt = new Date(createdAtDate);
+        const now = new Date();
+        const secondsAgo = Math.floor((now - createdAt) / 1000);
+
+        if (secondsAgo < 60) {
+            return "Just now";
+        } else if (secondsAgo < 3600) {
+            return `${Math.floor(secondsAgo / 60)} ${Math.floor(secondsAgo / 60) !== 1 ? "minutes" : "minute"} ago`;
+        } else if (secondsAgo < 86400) {
+            return `${Math.floor(secondsAgo / 3600)} ${Math.floor(secondsAgo / 3600) !== 1 ? "hours" : "hour"} ago`;
+        } else if (secondsAgo < 604800) {
+            return `${Math.floor(secondsAgo / 86400)} ${Math.floor(secondsAgo / 86400) !== 1 ? "days" : "day"} ago`;
+        } else if (secondsAgo < 31536000) {
+            return `${Math.floor(secondsAgo / 604800)} ${Math.floor(secondsAgo / 604800) !== 1 ? "weeks" : "week"} ago`;
+        } else {
+            return createdAt.toLocaleDateString("en-US", {
+                month: "numeric",
+                day: "numeric",
+                year: "numeric",
+            });
+        }
+    };
+
+
     useEffect(() => {
         const getPhotoDetails = async () => {
             if (id && !isNaN(id)) {
@@ -52,115 +77,104 @@ const PhotoPage = () => {
     if (!isLoaded) {
         return <h1>Loading...</h1>;
     }
-    else {
-        return (
-            <>
-                <div className="photo-page-container">
-                    <div className="photo-container">
-                        <div className="photo-wrapper">
-                            <img
-                                src={photo.url}
-                                onClick={() => setIsFullScreen(true)}
-                                className="clickable-photo"
-                            />
-                            <div className="edit-delete-box">
-                                {user?.id === photo.userId && (
-                                    <OpenModalButton
-                                        className="edit-button"
-                                        tooltip="Edit Photo"
-                                        modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
-                                        icon={<FaEdit size={25} />}
-                                    />
-                                )}
-                                {user?.id === photo.userId && (
-                                    <OpenModalButton
-                                        className="delete-button"
-                                        tooltip="Delete Photo"
-                                        modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
-                                        icon={<FaTrash size={22} />}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="photo-detail-box">
-                        <h3>{`@${photo.username}`}</h3>
-                        <h3>{photo.title}</h3>
-                        <p>{photo.description}</p>
-                        {photo.Album && (
-                            <h4>{`Album: ${photo.Album.title}`}</h4>
-                        )}
-                        <p className="upload-date">Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric',
-                        })}</p>
-                    </div>
-                </div>
-                <hr />
-                <div className="comment-section">
-                    <div className="comment-section-header">
-                        <h2>
-                            {`Comments (${commentArr.length})`}
-                        </h2>
-                        {user && (<OpenModalButton
-                            buttonText="Add comment"
-                            className={"comment-button"}
-                            onModalClose={null}
-                            modalComponent={<AddCommentModal photoId={photo.id} />}
-                            icon={<FaComments />}
-                        />)}
-                    </div>
-                    {commentArr.map((comment, idx) => (
-                        <div key={`${idx}-${comment.id}`} className="each-comment">
-                            <div className="comment-header">
-                                <strong>{`@${comment.username}`}</strong>
-                            </div>
-                            <div className="comment-body">
-                                <div className="comment-text-and-date">
-                                    <p>{comment.comment}</p>
-                                </div>
-                                <div className="comment-buttons">
-                                    {user?.id === comment.userId &&
-                                        (<OpenModalButton
-                                            buttonText="Edit"
-                                            className={"edit-comment-button"}
-                                            modalComponent={<EditCommentModal photoId={photo.id} commentToEdit={comment} />}
-                                        />)}
-                                    {user?.id === comment.userId || user?.id === photo.userId ?
-                                        (<OpenModalButton
-                                            buttonText="Delete"
-                                            className="delete-comment-button"
-                                            modalComponent={<DeleteCommentModal photoId={photo.id} commentId={comment.id} />} />)
-                                        : null}
-                                    <span className="comment-date-time">{comment.createdAt !== comment.updatedAt ?
-                                        (`${new Date(comment.updatedAt).getMonth() + 1}-${new Date(comment.updatedAt).getDate()}-${new Date(comment.updatedAt).getFullYear().toString()} 
-                                ${new Date(comment.updatedAt).toLocaleTimeString('en-US', {
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            hour12: true
-                                        })} Edited`) :
-                                        (`${new Date(comment.createdAt).getMonth() + 1}-${new Date(comment.createdAt).getDate()}-${new Date(comment.createdAt).getFullYear().toString()} 
-                                ${new Date(comment.createdAt).toLocaleTimeString('en-US', {
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            hour12: true
-                                        })}`)}</span>
-                                </div>
-                            </div>
-                        </div>))}
-                </div>
-                {isFullScreen && (
-                    <div className="fullscreen-overlay" onClick={() => setIsFullScreen(false)}>
+
+    return (
+        <>
+            <div className="photo-page-container">
+                <div className="photo-container">
+                    <div className="photo-wrapper">
                         <img
                             src={photo.url}
-                            className="fullscreen-photo"
+                            onClick={() => setIsFullScreen(true)}
+                            className="clickable-photo"
                         />
+                        <div className="edit-delete-box">
+                            {user?.id === photo.userId && (
+                                <OpenModalButton
+                                    className="edit-button"
+                                    tooltip="Edit Photo"
+                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
+                                    icon={<FaEdit size={25} />}
+                                />
+                            )}
+                            {user?.id === photo.userId && (
+                                <OpenModalButton
+                                    className="delete-button"
+                                    tooltip="Delete Photo"
+                                    modalComponent={<DeletePhotoModal photoId={photo.id} leavePhotoPage={leavePhotoPage} />}
+                                    icon={<FaTrash size={22} />}
+                                />
+                            )}
+                        </div>
                     </div>
-                )}
-            </>
-        );
-    }
+                </div>
+                <div className="photo-detail-box">
+                    <h3>{`@${photo.username}`}</h3>
+                    <h3>{photo.title}</h3>
+                    <p>{photo.description}</p>
+                    {photo.Album && (
+                        <h4>{`Album: ${photo.Album.title}`}</h4>
+                    )}
+                    <p className="upload-date">Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                    })}</p>
+                </div>
+            </div>
+            <hr />
+            <div className="comment-section">
+                <div className="comment-section-header">
+                    <h2>
+                        {`Comments (${commentArr.length})`}
+                    </h2>
+                    {user && (<OpenModalButton
+                        buttonText="Add comment"
+                        className={"comment-button"}
+                        onModalClose={null}
+                        modalComponent={<AddCommentModal photoId={photo.id} />}
+                        icon={<FaComments />}
+                    />)}
+                </div>
+                {commentArr.map((comment, idx) => (
+                    <div key={`${idx}-${comment.id}`} className="each-comment">
+                        <div className="comment-header">
+                            <strong>{`@${comment.username}`}</strong>
+                        </div>
+                        <div className="comment-body">
+                            <div className="comment-text-and-date">
+                                <p>{comment.comment}</p>
+                            </div>
+                            <div className="comment-buttons">
+                                <span className="comment-date-time">
+                                    {formatTimeAgo(comment.createdAt)} {comment.createdAt !== comment.updatedAt && " (Edited)"}
+                                </span>
+                                {user?.id === comment.userId &&
+                                    (<OpenModalButton
+                                        buttonText="Edit"
+                                        className={"edit-comment-button"}
+                                        modalComponent={<EditCommentModal photoId={photo.id} commentToEdit={comment} />}
+                                    />)}
+                                {user?.id === comment.userId || user?.id === photo.userId ?
+                                    (<OpenModalButton
+                                        buttonText="Delete"
+                                        className="delete-comment-button"
+                                        modalComponent={<DeleteCommentModal photoId={photo.id} commentId={comment.id} />} />)
+                                    : null}
+                            </div>
+                        </div>
+                    </div>))}
+            </div>
+            {isFullScreen && (
+                <div className="fullscreen-overlay" onClick={() => setIsFullScreen(false)}>
+                    <img
+                        src={photo.url}
+                        className="fullscreen-photo"
+                    />
+                </div>
+            )}
+        </>
+    );
 };
 
 export default PhotoPage;

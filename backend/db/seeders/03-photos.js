@@ -136,7 +136,7 @@ module.exports = {
         albumId: 1
       },
       {
-        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+14.png",
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+14v.png",
         userId: 2,
         username: "pstar",
         title: "Denali",

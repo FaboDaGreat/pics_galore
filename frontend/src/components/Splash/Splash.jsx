@@ -11,7 +11,7 @@ const Splash = () => {
   const user = useSelector((state) => state.session.user);
   const photos = useSelector((state) => state.photosReducer.allPhotos);
   const photoArr = photos ? Object.values(photos) : [];
-  const sortedPhotos = photoArr.sort((a, b) => b.id - a.id);
+  const sortedPhotos = photoArr.toSorted((a, b) => b.id - a.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,9 +22,7 @@ const Splash = () => {
       setIsLoaded(true);
     }
 
-    if (!isLoaded) {
-      getAllPhotos();
-    }
+    getAllPhotos();
 
   }, [isLoaded, dispatch])
 
@@ -35,29 +33,33 @@ const Splash = () => {
 
   if (!isLoaded) {
     return <h1>Loading...</h1>;
-  } 
-    
-  return (
-      <>
-      {user && (
-        <h1 className="welcome-banner">{`Welcome Back ${user.firstName} ${user.lastName}!`}</h1>
-      )}
-      <div className="all-images-container">
-          {
-            sortedPhotos.map((photo, idx) => (
-              <img
-                onClick={(e) => goToPhotoPage(e, photo)}
-                className="post-image"
-                src={photo.url}
-                key={`${idx}-${photo.id}`}
-              />
-            ))
-          }
-        </div>
-        </>
+  }
 
-    )
-  };
+  return (
+    <>
+      <div className="welcome-banner-container">
+        {user ? (
+          <h1>{`Welcome back, ${user.firstName} ${user.lastName}!`}</h1>
+        ) : (
+          <h1>Welcome to PicsGalore!</h1>
+        )}
+      </div>
+      <div className="all-images-container">
+        {
+          sortedPhotos.map((photo, idx) => (
+            <img
+              onClick={(e) => goToPhotoPage(e, photo)}
+              className="post-image"
+              src={photo.url}
+              key={`${idx}-${photo.id}`}
+            />
+          ))
+        }
+      </div>
+    </>
+
+  )
+};
 
 
 export default Splash;

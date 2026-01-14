@@ -10,7 +10,7 @@ PicsGalore is a clone of Flickr, designed for posting and showcasing photography
 
 - **Storage:** AWS S3 for persistent object storage (seeder files + user-uploaded images).  
 - **Frontend:** React + Redux for predictable state management.  
-- **Backend:** Express.js REST API + PostgreSQL with Sequelize ORM.  
+- **Backend:** Express.js REST API + SQLite with Sequelize ORM.  
 - **Deployment:** Render with CI/CD pipelines for both frontend and backend.  
 
 ---
@@ -27,13 +27,13 @@ PicsGalore is a clone of Flickr, designed for posting and showcasing photography
 ### 📂 Albums  
 - Create new albums (title required, description optional).  
 - Add/remove photos from albums.  
-- Album cover = most recent upload.  
+- Album cover = Most recent upload.  
 - Empty albums display a placeholder cover.  
 - Only the album owner can edit, delete, or view.  
 
 ### 💬 Comments  
 - Add comments under any photo.  
-- Edit your own comments (timestamp updates with “Edited”).  
+- Edit your own comments (“Edited” shows next to timestamp).  
 - Delete comments if you’re the comment creator or the photo owner.  
 - Comments ordered oldest → newest.  
 
@@ -42,8 +42,7 @@ PicsGalore is a clone of Flickr, designed for posting and showcasing photography
 ## Installation  
 
 ### Prerequisites  
-- Node.js v16+  
-- PostgreSQL installed & running  
+- Node.js v20+  
 - AWS S3 bucket + credentials  
 
 ### Setup  

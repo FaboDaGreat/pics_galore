@@ -18,13 +18,13 @@ const MyAlbumsPage = () => {
     useEffect(() => {
 
         const getMyAlbums = async () => {
-            await dispatch(getAlbumsByUserThunk(user?.id));
+            await dispatch(getAlbumsByUserThunk(user.id));
             setIsLoaded(true);
         }
 
         getMyAlbums();
 
-    }, [isLoaded, dispatch, user?.id])
+    }, [isLoaded, dispatch, user])
 
     if (!user) {
         return <div className="no-albums-container"><h1>Please log in to view your profile.</h1></div>
