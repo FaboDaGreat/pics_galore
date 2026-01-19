@@ -8,17 +8,17 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Comment, Photo } = require('../../db/models');
+const { Comment, Photo, User } = require('../../db/models');
 
 const validateComment = [
   check('comment')
     .exists({ checkFalsy: true })
     .withMessage('Please type your comment'),
   check('comment')
-    .isLength({min: 5})
+    .isLength({ min: 5 })
     .withMessage('Your comment must be at least 5 characters long'),
   check('comment')
-    .isLength({max: 1000})
+    .isLength({ max: 1000 })
     .withMessage('Your comment must be less than 1000 characters'),
   handleValidationErrors
 ];
@@ -41,12 +41,12 @@ router.post('/', requireAuth, validateComment, async (req, res, next) => {
     if (comment.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = {"comment": "Please enter at least 5 characters for your comment"}
-      throw error
+      error.errors = { "comment": "Please enter at least 5 characters for your comment" }
+      throw error;
     }
 
     const newComment = await Comment.create({
-      userId: req.user.id, username: req.user.username, comment, photoId
+      userId: req.user.id, comment, photoId
     });
 
     return res.json(newComment);
@@ -82,7 +82,7 @@ router.put('/:id', requireAuth, validateComment, async (req, res, next) => {
     if (comment.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = {"comment": "Please enter at least 5 characters for your comment"}
+      error.errors = { "comment": "Please enter at least 5 characters for your comment" }
       throw error
     }
 
@@ -111,9 +111,35 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
       throw error;
     }
 
+    if (comment.userId !== userId) {
+      const error = new Error('Forbidden');
+      error.status = 403;
+      throw error;
+    }
+
     await comment.destroy();
     return res.json({ message: "Successfully deleted" });
   } catch (error) {
+    next(error);
+  }
+});
+
+//--Get All of a Photo's Comments--
+
+router.get('/photos/:id', async (req, res, next) => {
+  try {
+
+    const photoId = req.params.id;
+    const comments = await Comment.findAll({
+      where: {
+        photoId: photoId
+      },
+      include: User
+    });
+
+    return res.json(comments)
+  }
+  catch (error) {
     next(error);
   }
 });

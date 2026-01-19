@@ -6,17 +6,17 @@ import EditAlbumModal from "../EditAlbumModal";
 import OpenModalButton from "../OpenModalButton";
 import DeleteAlbumModal from "../DeleteAlbumModal";
 import AddPhotoModal from "../AddPhotoModal/AddPhotoModal";
-import './AlbumPage.css'
+import './AlbumPage.css';
 
 const AlbumPage = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
-    const album = useSelector((state) => state.albumsReducer.byId[id])
+    const album = useSelector((state) => state.albumsReducer.byId[id]);
     const photos = album?.Photos;
     const photoArr = photos ? Object.values(photos) : [];
-    const sortedPhotos = photoArr.toSorted((a, b) => a.id - b.id)
+    const sortedPhotos = photoArr.toSorted((a, b) => a.id - b.id);
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -28,66 +28,61 @@ const AlbumPage = () => {
 
         getAlbumDetails();
 
-    }, [isLoaded, dispatch, id])
+    }, [isLoaded, dispatch, id]);
 
     const goToPhotoPage = (e, photo) => {
         e.preventDefault();
         navigate(`/photos/${photo.id}`);
-    }
+    };
 
     const leaveAlbum = () => {
         navigate('/my-profile/albums');
-    }
+    };
 
     if (!isLoaded) {
-        return <h1>Loading...</h1>
+        return <h1>Loading...</h1>;
     }
 
     if (!album) {
         return <div className="no-photos-container"><h1>Album does not exist</h1></div>;
     }
 
-    if (!user) {
-        return <div className="no-photos-container"><h1>Please log in!</h1></div>
-    }
-
-    if (album.userId !== user.id) {
-        return <div className="no-photos-container"><h1>Unauthorized!</h1></div>
-    }
-
     return (
         <div>
             <div className="album-top-section">
                 <div className="album-top-left">
-                    <h1>{`${user.firstName} ${user.lastName}`}</h1>
-                    <h3>{`@${user.username}`}</h3>
+                    <h1>{`@${album.User.username}`}</h1>
                 </div>
                 <div className="album-top-middle">
                     <div className="profile-header">
                         <h1 className="album-title">
                             {album.title}
                         </h1>
-                        <strong>by YOU!</strong>
+                        <strong>{album.userId === user?.id ? "by You" : `by ${album.User.firstName} ${album.User.lastName}`}</strong>
                         <p className="album-description">{album.description}</p>
                         <div>{`${photoArr.length} ${photoArr.length === 1 ? 'photo' : 'photos'}`}</div>
                     </div>
                 </div>
                 <div className="album-top-right">
-                    <OpenModalButton
-                        buttonText="Upload Photo to Album"
-                        className={"album-buttons"}
-                        modalComponent={<AddPhotoModal album={(album)} />}
-                    />
-                    <OpenModalButton
-                        buttonText="Edit Album"
-                        className={"album-buttons"}
-                        modalComponent={<EditAlbumModal album={album} />}
-                    />
-                    <OpenModalButton
-                        buttonText="Delete Album"
-                        className={"album-buttons"}
-                        modalComponent={<DeleteAlbumModal albumId={album.id} leaveAlbum={leaveAlbum} />}
-                    />
+                    {user?.id === album.userId && (
+                        <>
+                            <OpenModalButton
+                                buttonText="Upload Photo to Album"
+                                className={"album-buttons"}
+                                modalComponent={<AddPhotoModal album={(album)} />}
+                            />
+                            <OpenModalButton
+                                buttonText="Edit Album"
+                                className={"album-buttons"}
+                                modalComponent={<EditAlbumModal album={album} />}
+                            />
+                            <OpenModalButton
+                                buttonText="Delete Album"
+                                className={"album-buttons"}
+                                modalComponent={<DeleteAlbumModal albumId={album.id} leaveAlbum={leaveAlbum} />}
+                            />
+                        </>
+                    )}
                 </div>
             </div>
             {photoArr.length === 0 ? (

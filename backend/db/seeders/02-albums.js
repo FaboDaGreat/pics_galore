@@ -12,23 +12,19 @@ module.exports = {
     await Album.bulkCreate([
       {
         userId: 1,
-        username: "demo-lition",
         title: "Views",
-        description:"Some of the best views I've ever found"
+        description: "Some of the best views I've ever found"
       },
       {
         userId: 2,
-        username: "pstar",
         title: "Greatest Nature"
       },
       {
         userId: 2,
-        username: "pstar",
         title: "Imagination Run Wild"
       },
       {
         userId: 3,
-        username: "fabodagreat",
         title: "Disney Race 2024",
         description: "Disney's 2024 Wine and Dine weekend, my ever first half-marathon! I can't wait for my next race."
       }
