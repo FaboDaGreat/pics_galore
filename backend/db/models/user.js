@@ -1,19 +1,25 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
-const { Validator } = require('sequelize')
+const { Validator } = require('sequelize');
 
 module.exports = (sequelize) => {
   class User extends Model {
     static associate(models) {
-       User.hasMany(models.Photo, {
+      User.hasMany(models.Photo, {
         foreignKey: 'userId',
         onDelete: "CASCADE"
       });
 
-       User.hasMany(models.Album, {
+      User.hasMany(models.Album, {
         foreignKey: 'userId',
         onDelete: "CASCADE"
       });
+
+      User.hasMany(models.Comment, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      });
+
 
     }
   }
@@ -21,14 +27,14 @@ module.exports = (sequelize) => {
   User.init(
     {
       firstName: {
-        type: DataTypes.STRING(256),
+        type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
           isAlpha: true
         }
       },
       lastName: {
-        type: DataTypes.STRING(256),
+        type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
           isAlpha: true

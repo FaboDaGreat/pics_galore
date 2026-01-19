@@ -9,7 +9,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { singlePublicFileUpload, singleMulterUpload } = require('../../awsS3')
 
 // --Sequelize Imports--
-const { Photo, Album, Comment } = require('../../db/models');
+const { Photo, Album, User } = require('../../db/models');
 
 
 const validatePost = [
@@ -32,7 +32,7 @@ const validatePost = [
 router.get('/', async (req, res, next) => {
   try {
     const photos = await Photo.findAll({
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId"]
+      attributes: ["id", "url", "userId", "title", "description", "albumId"]
     });
 
     return res.json(photos)
@@ -50,11 +50,8 @@ router.get('/:id', async (req, res, next) => {
   try {
     const photo = await Photo.findByPk(req.params.id,
       {
-        attributes: ["id", "url", "userId", "username", "title", "description", "albumId", "createdAt"],
-        include: [
-          { model: Album },
-          { model: Comment }
-        ]
+        attributes: ["id", "url", "userId", "title", "description", "albumId", "createdAt"],
+        include: [Album, User]
       }
     );
 
@@ -82,7 +79,7 @@ router.get('/users/:id', async (req, res, next) => {
       where: {
         userId: userId
       },
-      attributes: ["id", "url", "userId", "username", "title", "description", "albumId"]
+      attributes: ["id", "url", "userId", "title", "description", "albumId"]
     });
 
     return res.json(photos)
@@ -101,17 +98,16 @@ router.post('/', requireAuth, singleMulterUpload("image"), validatePost, async (
       const error = new Error("Bad request.");
       error.status = 400;
       error.errors = { "url": "Please select a photo to upload" }
-      throw error
+      throw error;
     }
 
-    const { title, description, albumTitle } = req.body
-    const url = await singlePublicFileUpload(req.file);
+    const { title, description, albumTitle } = req.body;
 
     if (title.trim().length < 5) {
       const error = new Error("Bad request.");
       error.status = 400;
-      error.errors = { "title": "Please enter at least 5 characters for your picture's title" }
-      throw error
+      error.errors = { "title": "Please enter at least 5 characters for your picture's title" };
+      throw error;
     }
 
     const sameName = await Photo.findOne({
@@ -119,16 +115,16 @@ router.post('/', requireAuth, singleMulterUpload("image"), validatePost, async (
         title: title,
         userId: req.user.id
       }
-    })
+    });
 
     if (sameName) {
-      const err = new Error('Forbidden');
-      err.errors = { title: 'You already have a photo with that title.' };
-      err.status = 401;
-      return next(err);
-    }
+      const error = new Error('Forbidden');
+      error.errors = { title: 'You already have a photo with that title.' };
+      error.status = 401;
+      return next(error);
+    };
 
-    let albumId;
+    let albumId = null;
 
     if (albumTitle) {
 
@@ -136,28 +132,21 @@ router.post('/', requireAuth, singleMulterUpload("image"), validatePost, async (
         const error = new Error("Bad request.");
         error.status = 400;
         error.errors = { "album": "Please enter at least 5 characters for your album's title" }
-        throw error
+        throw error;
       }
 
-      const album = await Album.findOne({
-        where: {
-          userId: req.user.id,
-          title: albumTitle
-        }
-      })
+      const [album] = await Album.findOrCreate({
+        where: { userId: req.user.id, title: albumTitle },
+        defaults: { username: req.user.username }
+      });
+      albumId = album.id;
 
-      if (!album) {
-        const newAlbum = await Album.create({
-          userId: req.user.id, username: req.user.username, title: albumTitle
-        })
-        albumId = newAlbum.id
-      } else {
-        albumId = album.id
-      }
     }
 
+    const url = await singlePublicFileUpload(req.file);
+
     const post = await Photo.create({
-      userId: req.user.id, username: req.user.username,
+      userId: req.user.id,
       url, title, description, albumId
     });
 
@@ -195,8 +184,25 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       const error = new Error("Bad request.");
       error.status = 400;
       error.errors = { "title": "Please enter at least 5 characters for your picture's title" }
-      throw error
-    }
+      throw error;
+    };
+
+    if (title !== post.title) {
+      const sameName = await Photo.findOne({
+        where: {
+          title: title,
+          userId: req.user.id
+        }
+      });
+
+      if (sameName) {
+        const error = new Error('Forbidden');
+        error.errors = { title: 'You already have a photo with that title.' };
+        error.status = 401;
+        return next(error);
+      };
+
+    };
 
     let albumId = null;
 
@@ -206,25 +212,16 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
         const error = new Error("Bad request.");
         error.status = 400;
         error.errors = { "album": "Please enter at least 5 characters for your album's title" }
-        throw error
-      }
+        throw error;
+      };
 
-      const album = await Album.findOne({
-        where: {
-          userId: req.user.id,
-          title: albumTitle
-        }
-      })
+      const [album] = await Album.findOrCreate({
+        where: { userId: req.user.id, title: albumTitle },
+        defaults: { username: req.user.username }
+      });
+      albumId = album.id;
 
-      if (!album) {
-        const newAlbum = await Album.create({
-          userId: req.user.id, username: req.user.username, title: albumTitle
-        })
-        albumId = newAlbum.id
-      } else {
-        albumId = album.id
-      }
-    }
+    };
 
     post.title = title;
     post.description = description;
@@ -255,9 +252,9 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 
     if (post.userId !== userId) {
       const error = new Error('Forbidden');
-      err.status = 403;
+      error.status = 403;
       throw error;
-    }
+    };
 
     await post.destroy();
     return res.json({ message: "Successfully deleted" });

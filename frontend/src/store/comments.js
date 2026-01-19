@@ -5,6 +5,7 @@ import { csrfFetch } from "./csrf";
 const CREATE_COMMENT = "comments/createComment";
 const EDIT_COMMENT = "comments/editComment";
 const DELETE_COMMENT = "comments/deleteComment";
+const GET_COMMENTS_BY_PHOTO = "comments/getCommentsByPhoto";
 
 // ------- ACTION CREATOR ---------
 const createComment = (comment) => {
@@ -25,6 +26,13 @@ const deleteComment = (commentId) => {
   return {
     type: DELETE_COMMENT,
     payload: commentId,
+  };
+};
+
+const getCommentsByPhoto = (comments) => {
+  return {
+    type: GET_COMMENTS_BY_PHOTO,
+    payload: comments
   };
 };
 
@@ -55,8 +63,8 @@ export const createCommentThunk = (newComment) => async (dispatch) => {
 }
 
 export const editCommentThunk = (update) => async (dispatch) => {
-const { id, comment } = update;
-const res = await csrfFetch(`/api/comments/${id}`, {
+  const { id, comment } = update;
+  const res = await csrfFetch(`/api/comments/${id}`, {
     method: "PUT",
     body: JSON.stringify({
       comment
@@ -90,7 +98,21 @@ export const deleteCommentThunk = (id) => async (dispatch) => {
   } catch (error) {
     return error
   }
-}
+};
+
+export const getCommentsByPhotoThunk = (id) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/comments/photos/${id}`);
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(getCommentsByPhoto(data));
+    } else {
+      throw res;
+    }
+  } catch (error) {
+    return error;
+  }
+};
 
 
 
@@ -104,6 +126,8 @@ const initialState = {
 
 function commentsReducer(state = initialState, action) {
   let newState;
+  let comments;
+  let newById = {};
   let update;
   let i;
 
@@ -135,6 +159,24 @@ function commentsReducer(state = initialState, action) {
       newState.byId = { ...state.byId };
       delete newState.byId[action.payload];
       newState.allComments = state.allComments.filter(comment => comment.id !== action.payload);
+      return newState;
+
+    case GET_COMMENTS_BY_PHOTO:
+
+      newState = { ...state };
+
+      comments = action.payload;
+
+      newState.allComments = comments;
+
+
+
+      for (let comment of comments) {
+        newById[comment.id] = comment;
+      }
+      newState.byId = newById;
+
+
       return newState;
 
 
