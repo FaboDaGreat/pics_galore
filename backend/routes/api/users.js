@@ -60,7 +60,7 @@ router.post('/', validateSignup, async (req, res, next) => {
 
     if (existingEmail !== null) {
       const invalidEmail = new Error("User already exists");
-      invalidEmail.status = 500;
+      invalidEmail.status = 409;
       invalidEmail.errors = {
         "email": "Email already in use"
       }
@@ -75,7 +75,7 @@ router.post('/', validateSignup, async (req, res, next) => {
 
     if (existingUsername !== null) {
       const invalidUsername = new Error("User already exists");
-      invalidUsername.status = 500;
+      invalidUsername.status = 409;
       invalidUsername.errors = {
         "username": "Username already taken"
       };

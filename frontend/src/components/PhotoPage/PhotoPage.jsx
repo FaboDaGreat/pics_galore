@@ -11,6 +11,7 @@ import EditPhotoModal from "../EditPhotoModal";
 import { getAlbumsByUserThunk } from "../../store/albums";
 import { FaComments, FaEdit, FaTrash } from "react-icons/fa";
 import './PhotoPage.css'
+import { getCommentsByPhotoThunk } from "../../store/comments";
 
 const PhotoPage = () => {
     const navigate = useNavigate();
@@ -20,9 +21,9 @@ const PhotoPage = () => {
     const user = useSelector((state) => state.session.user);
     const albums = useSelector((state) => state.albumsReducer.allAlbums);
     const albumArr = albums ? Object.values(albums) : [];
-    const comments = photo?.Comments;
-    const ownerId = photo?.userId;
+    const comments = useSelector((state) => state.commentsReducer.allComments);
     const commentArr = comments ? Object.values(comments) : [];
+    const ownerId = photo?.userId;
     const [isLoaded, setIsLoaded] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
 
@@ -59,15 +60,14 @@ const PhotoPage = () => {
         const getPhotoDetails = async () => {
             if (id && !isNaN(id)) {
                 await dispatch(getPhotoByIdThunk(id));
+                await dispatch(getCommentsByPhotoThunk(id));
                 await dispatch(getAlbumsByUserThunk(ownerId));
                 setIsLoaded(true);
             } else {
                 navigate('/');
             }
         };
-        if (!isLoaded) {
-            getPhotoDetails();
-        }
+        getPhotoDetails();
     }, [id, dispatch, navigate, isLoaded, ownerId]);
 
     if (!photo) {
@@ -109,8 +109,9 @@ const PhotoPage = () => {
                     </div>
                 </div>
                 <div className="photo-detail-box">
-                    <h3>{`@${photo.username}`}</h3>
+
                     <h3>{photo.title}</h3>
+                    <strong>{user?.id === photo.userId ? "by You" : `by @${photo.User.username}`}</strong>
                     <p>{photo.description}</p>
                     {photo.Album && (
                         <h4>{`Album: ${photo.Album.title}`}</h4>
@@ -139,7 +140,7 @@ const PhotoPage = () => {
                 {commentArr.map((comment, idx) => (
                     <div key={`${idx}-${comment.id}`} className="each-comment">
                         <div className="comment-header">
-                            <strong>{`@${comment.username}`}</strong>
+                            <strong>{`@${comment.User.username}`}</strong>
                         </div>
                         <div className="comment-body">
                             <div className="comment-text-and-date">

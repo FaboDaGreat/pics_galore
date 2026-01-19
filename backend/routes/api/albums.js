@@ -8,7 +8,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Photo, Album, Comment } = require('../../db/models');
+const { Photo, Album, User } = require('../../db/models');
 
 const validateAlbum = [
   check('title')
@@ -35,34 +35,34 @@ router.get('/users/:id', async (req, res, next) => {
       where: {
         userId: userId
       },
-      attributes: ["id", "userId", "username", "title", "description", "createdAt"]
+      include: Photo,
+      attributes: ["id", "userId", "title", "description", "createdAt"]
     });
 
     const newAlbumArr = [];
 
     for (let album of albums) {
-      const albumObj = await album.toJSON();
-      const photos = await Photo.findAll({
-        where: {
-          albumId: album.id
-        }
-      })
 
-      if (photos.length > 0) {
-        albumObj.coverPhoto = photos[photos.length - 1].url;
+      const albumObj = await album.toJSON();
+      albumObj.photoCount = album.Photos.length;
+
+      if (album.Photos.length) {
+        albumObj.coverPhoto = album.Photos[album.Photos.length - 1].url;
       } else {
         albumObj.coverPhoto = "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/Blank+Photo.jpg";
-      }
-      newAlbumArr.push(albumObj)
+      };
 
-      albumObj.photoCount = photos.length
-    }
+      newAlbumArr.push(albumObj);
 
-    return res.json(newAlbumArr)
-  }
-  catch (error) {
+    };
+
+    return res.json(newAlbumArr);
+
+  } catch (error) {
+
     next(error);
-  }
+
+  };
 });
 
 
@@ -73,10 +73,8 @@ router.get('/:id', async (req, res, next) => {
   try {
     const album = await Album.findByPk(req.params.id,
       {
-        attributes: ["id", "userId", "username", "title", "description", "createdAt"],
-        include: [
-          { model: Photo }
-        ]
+        attributes: ["id", "userId", "title", "description", "createdAt"],
+        include: [Photo, User]
       }
     );
 
@@ -111,7 +109,7 @@ router.post('/', requireAuth, validateAlbum, async (req, res, next) => {
         title: title,
         userId: req.user.id
       }
-    })
+    });
 
     if (sameAlbum) {
       const err = new Error('Forbidden');
@@ -121,7 +119,7 @@ router.post('/', requireAuth, validateAlbum, async (req, res, next) => {
     }
 
     const album = await Album.create({
-      userId: req.user.id, username: req.user.username, title, description
+      userId: req.user.id, title, description
     });
 
     return res.json(album);
@@ -150,7 +148,7 @@ router.put('/:id', requireAuth, validateAlbum, async (req, res, next) => {
       error.status = 403;
       error.errors = { message: 'You are not authorized to edit this album!' };
       throw error;
-    }
+    };
 
     const { title, description } = req.body;
 
@@ -158,8 +156,25 @@ router.put('/:id', requireAuth, validateAlbum, async (req, res, next) => {
       const error = new Error("Bad request.");
       error.status = 400;
       error.errors = { "title": "Please enter at least 5 characters for your album's title" }
-      throw error
-    }
+      throw error;
+    };
+
+    if (title !== album.title) {
+      const sameAlbum = await Album.findOne({
+        where: {
+          title: title,
+          userId: req.user.id
+        }
+      });
+
+      if (sameAlbum) {
+        const err = new Error('Forbidden');
+        err.errors = { title: 'You already have an album with this name!' };
+        err.status = 401;
+        return next(err);
+      };
+
+    };
 
     album.title = title;
     album.description = description;
@@ -189,7 +204,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 
     if (album.userId !== userId) {
       const error = new Error('Forbidden');
-      err.status = 403;
+      error.status = 403;
       throw error;
     }
 
