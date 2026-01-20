@@ -1,16 +1,14 @@
 import { useDispatch } from 'react-redux';
 import { deleteCommentThunk } from '../../store/comments';
 import { useModal } from '../../context/Modal';
-import { getPhotoByIdThunk } from '../../store/photos';
 
-const DeleteCommentModal = ({ commentId, photoId }) => {
+const DeleteCommentModal = ({ commentId }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
   const handleDelete = async (e) => {
     e.preventDefault();
     await dispatch(deleteCommentThunk(commentId));
-    await dispatch(getPhotoByIdThunk(photoId));
     closeModal();
   };
 

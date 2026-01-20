@@ -46,10 +46,17 @@ router.post('/', requireAuth, validateComment, async (req, res, next) => {
     }
 
     const newComment = await Comment.create({
-      userId: req.user.id, comment, photoId
+      userId: req.user.id,
+      comment,
+      photoId
     });
 
-    return res.json(newComment);
+    const commentWithUser = await Comment.findByPk(newComment.id, {
+      include: User
+    });
+
+    return res.json(commentWithUser);
+
 
   } catch (error) {
     next(error);
@@ -84,13 +91,18 @@ router.put('/:id', requireAuth, validateComment, async (req, res, next) => {
       error.status = 400;
       error.errors = { "comment": "Please enter at least 5 characters for your comment" }
       throw error
-    }
+    };
 
     existingComment.comment = comment;
 
     await existingComment.save();
 
-    return res.json(existingComment);
+    const updatedComment = await Comment.findByPk(existingComment.id, {
+      include: User
+    });
+
+    return res.json(updatedComment);
+
   } catch (error) {
     next(error);
   }
