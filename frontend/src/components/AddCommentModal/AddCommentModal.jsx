@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useState } from "react";
 import { createCommentThunk } from "../../store/comments";
-import { getPhotoByIdThunk } from "../../store/photos";
 import './AddCommentModal.css'
 
 const AddCommentModal = ({ photoId }) => {
@@ -22,11 +21,8 @@ const AddCommentModal = ({ photoId }) => {
         };
 
         try {
-            const newComment = await dispatch(createCommentThunk(commentData));
-            if (newComment.id) {
-                await dispatch(getPhotoByIdThunk(photoId));
-                closeModal();
-            }
+            await dispatch(createCommentThunk(commentData));
+            closeModal();
         } catch (res) {
             const data = await res.json();
 

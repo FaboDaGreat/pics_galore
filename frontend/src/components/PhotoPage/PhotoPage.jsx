@@ -154,13 +154,13 @@ const PhotoPage = () => {
                                     (<OpenModalButton
                                         buttonText="Edit"
                                         className={"edit-comment-button"}
-                                        modalComponent={<EditCommentModal photoId={photo.id} commentToEdit={comment} />}
+                                        modalComponent={<EditCommentModal commentToEdit={comment} />}
                                     />)}
                                 {user?.id === comment.userId || user?.id === photo.userId ?
                                     (<OpenModalButton
                                         buttonText="Delete"
                                         className="delete-comment-button"
-                                        modalComponent={<DeleteCommentModal photoId={photo.id} commentId={comment.id} />} />)
+                                        modalComponent={<DeleteCommentModal commentId={comment.id} />} />)
                                     : null}
                             </div>
                         </div>
