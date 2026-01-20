@@ -74,7 +74,7 @@ export const editCommentThunk = (update) => async (dispatch) => {
 
   if (res.ok) {
     const data = await res.json();
-    dispatch(editComment(update));
+    dispatch(editComment(data));
     return data;
   } else {
     throw res;
@@ -128,8 +128,6 @@ function commentsReducer(state = initialState, action) {
   let newState;
   let comments;
   let newById = {};
-  let update;
-  let i;
 
   switch (action.type) {
     case CREATE_COMMENT:
@@ -144,11 +142,12 @@ function commentsReducer(state = initialState, action) {
     case EDIT_COMMENT:
       newState = { ...state };
 
-      update = action.payload;
-      i = state.allComments.findIndex(a => a.id === update.id);
-
       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
-      newState.allComments[i] = update;
+      newState.allComments = state.allComments.map(comment =>
+      comment.id === action.payload.id
+        ? action.payload
+        : comment
+    );
 
       return newState;
 

@@ -1,11 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useEffect, useState } from "react";
-import { getPhotoByIdThunk } from "../../store/photos";
 import { editCommentThunk } from "../../store/comments";
 import './EditCommentModal.css'
 
-const EditCommentModal = ({ photoId, commentToEdit }) => {
+const EditCommentModal = ({ commentToEdit }) => {
 
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -36,11 +35,8 @@ const EditCommentModal = ({ photoId, commentToEdit }) => {
         };
 
         try {
-            const editedComment = await dispatch(editCommentThunk(commentData));
-            if (editedComment.id) {
-                await dispatch(getPhotoByIdThunk(photoId));
-                closeModal();
-            }
+            await dispatch(editCommentThunk(commentData));
+            closeModal();
         } catch (res) {
             const data = await res.json();
 
