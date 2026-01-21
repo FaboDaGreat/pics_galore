@@ -181,7 +181,11 @@ router.put('/:id', requireAuth, validateAlbum, async (req, res, next) => {
 
     await album.save();
 
-    return res.json(album);
+    const albumWithUserAndPhotos = await Album.findByPk(album.id, {
+      include: [User, Photo]
+    });
+
+    return res.json(albumWithUserAndPhotos);
   } catch (error) {
     next(error);
   }
