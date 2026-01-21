@@ -136,8 +136,7 @@ router.post('/', requireAuth, singleMulterUpload("image"), validatePost, async (
       }
 
       const [album] = await Album.findOrCreate({
-        where: { userId: req.user.id, title: albumTitle },
-        defaults: { username: req.user.username }
+        where: { userId: req.user.id, title: albumTitle }
       });
       albumId = album.id;
 
@@ -216,8 +215,7 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
       };
 
       const [album] = await Album.findOrCreate({
-        where: { userId: req.user.id, title: albumTitle },
-        defaults: { username: req.user.username }
+        where: { userId: req.user.id, title: albumTitle }
       });
       albumId = album.id;
 
@@ -229,7 +227,11 @@ router.put('/:id', requireAuth, validatePost, async (req, res, next) => {
 
     await post.save();
 
-    return res.json(post);
+    const postWithUserAndAlbum = await Photo.findByPk(post.id, {
+      include: [User, Album]
+    });
+
+    return res.json(postWithUserAndAlbum);
   } catch (error) {
     next(error);
   }

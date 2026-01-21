@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
 import Splash from './components/Splash';
-import ProfilePage from './components/ProfilePage';
 import UploadNewPhotoPage from './components/UploadNewPhotoPage';
 import PhotoPage from './components/PhotoPage';
 import LoginForm from './components/LoginForm';
@@ -47,10 +46,6 @@ const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignupForm />
-      },
-      {
-        path: '/my-profile',
-        element: <ProfilePage />
       },
       {
         path: '/my-profile/photos',
