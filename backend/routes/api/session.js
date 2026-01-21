@@ -29,6 +29,16 @@ const validateLogin = [
 
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
+
+    if (req.user) {
+        const alreadyLoggedIn = new Error("Already Logged In");
+        alreadyLoggedIn.status = 409;
+        alreadyLoggedIn.errors = {
+            "credential": "You are already logged into an account!"
+        }
+        throw alreadyLoggedIn;
+    };
+
     const { credential, password } = req.body;
     const lowercasedCredential = credential.toLowerCase();
 

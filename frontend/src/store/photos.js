@@ -127,7 +127,7 @@ export const editPhotoThunk = (id, update) => async (dispatch) => {
 
   if (res.ok) {
     const data = await res.json();
-    dispatch(editPhoto(update));
+    dispatch(editPhoto(data));
     return data;
   } else {
     throw res;
@@ -180,8 +180,6 @@ function photosReducer(state = initialState, action) {
   let newState;
   let photos;
   let newById = {};
-  let update;
-  let i;
 
   switch (action.type) {
     case GET_ALL_PHOTOS:
@@ -220,11 +218,12 @@ function photosReducer(state = initialState, action) {
     case EDIT_PHOTO:
       newState = { ...state };
 
-      update = action.payload;
-      i = state.allPhotos.findIndex(a => a.id === update.id);
-
       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
-      newState.allPhotos[i] = update;
+      newState.allPhotos = state.allPhotos.map(photo =>
+        photo.id === action.payload.id
+          ? action.payload
+          : photo
+      );
 
       return newState;
 

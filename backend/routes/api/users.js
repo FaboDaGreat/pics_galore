@@ -47,6 +47,14 @@ const validateSignup = [
 // --New User Sign Up--
 router.post('/', validateSignup, async (req, res, next) => {
   try {
+    if (req.user) {
+      const alreadyLoggedIn = new Error("Already Logged In");
+      alreadyLoggedIn.status = 409;
+      alreadyLoggedIn.errors = {
+        "error": "Cannot sign up for a new account when logged in!"
+      }
+      throw alreadyLoggedIn;
+    };
 
     const { email, password, username, firstName, lastName } = req.body;
     const lowercasedEmail = email.toLowerCase();
@@ -58,7 +66,7 @@ router.post('/', validateSignup, async (req, res, next) => {
       }
     })
 
-    if (existingEmail !== null) {
+    if (existingEmail) {
       const invalidEmail = new Error("User already exists");
       invalidEmail.status = 409;
       invalidEmail.errors = {
@@ -73,7 +81,7 @@ router.post('/', validateSignup, async (req, res, next) => {
       }
     })
 
-    if (existingUsername !== null) {
+    if (existingUsername) {
       const invalidUsername = new Error("User already exists");
       invalidUsername.status = 409;
       invalidUsername.errors = {

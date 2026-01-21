@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { editPhotoThunk, getPhotoByIdThunk } from '../../store/photos';
+import { editPhotoThunk } from '../../store/photos';
 import './EditPhotoModal.css'
 import { useModal } from '../../context/Modal';
-import { getAlbumsByUserThunk } from '../../store/albums';
 
 const EditPhotoModal = ({ photo, albums }) => {
     const id = photo.id;
@@ -63,12 +62,8 @@ const EditPhotoModal = ({ photo, albums }) => {
         };
 
         try {
-            const updatedPhoto = await dispatch(editPhotoThunk(id, update));
-            if (updatedPhoto.id) {
-                await dispatch(getPhotoByIdThunk(updatedPhoto.id));
-                await dispatch(getAlbumsByUserThunk(photo.userId));
-                closeModal();
-            }
+            await dispatch(editPhotoThunk(id, update));
+            closeModal();
         } catch (res) {
             const data = await res.json();
             if (data && data.errors) {

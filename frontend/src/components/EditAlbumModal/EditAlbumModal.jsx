@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { editAlbumThunk, getAlbumByIdThunk } from '../../store/albums';
+import { editAlbumThunk } from '../../store/albums';
 import { useModal } from '../../context/Modal';
 import './EditAlbumModal.css'
 
@@ -40,11 +40,8 @@ const EditAlbumModal = ({ album }) => {
 
 
         try {
-            const editedAlbum = await dispatch(editAlbumThunk(albumData));
-            if (editedAlbum.id) {
-                await dispatch(getAlbumByIdThunk(editedAlbum.id));
-                closeModal();
-            }
+            await dispatch(editAlbumThunk(albumData));
+            closeModal();
         } catch (res) {
             const data = await res.json();
 

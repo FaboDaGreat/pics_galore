@@ -55,6 +55,10 @@ const PhotoPage = () => {
         }
     };
 
+    const goToAlbum = (e) => {
+        e.preventDefault();
+        navigate(`/albums/${photo.Album.id}`);
+    };
 
     useEffect(() => {
         const getPhotoDetails = async () => {
@@ -70,12 +74,12 @@ const PhotoPage = () => {
         getPhotoDetails();
     }, [id, dispatch, navigate, isLoaded, ownerId]);
 
-    if (!photo) {
-        return <div className="no-photos-box"><h1>Post not found</h1></div>;
-    }
-
     if (!isLoaded) {
         return <h1>Loading...</h1>;
+    }
+    
+    if (!photo) {
+        return <div className="no-photos-box"><h1>Post not found</h1></div>;
     }
 
     return (
@@ -114,7 +118,9 @@ const PhotoPage = () => {
                     <strong>{user?.id === photo.userId ? "by You" : `by @${photo.User.username}`}</strong>
                     <p>{photo.description}</p>
                     {photo.Album && (
-                        <h4>{`Album: ${photo.Album.title}`}</h4>
+                        <h4 onClick={(e) => goToAlbum(e)}>
+                            {`Album: ${photo.Album.title}`}
+                        </h4>
                     )}
                     <p className="upload-date">Uploaded on {new Date(photo.createdAt).toLocaleDateString('en-US', {
                         month: 'long',

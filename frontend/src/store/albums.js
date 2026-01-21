@@ -84,8 +84,8 @@ export const createAlbumThunk = (album) => async (dispatch) => {
 }
 
 export const editAlbumThunk = (update) => async (dispatch) => {
-const { id, title, description } = update;
-const res = await csrfFetch(`/api/albums/${id}`, {
+  const { id, title, description } = update;
+  const res = await csrfFetch(`/api/albums/${id}`, {
     method: "PUT",
     body: JSON.stringify({
       title,
@@ -96,7 +96,7 @@ const res = await csrfFetch(`/api/albums/${id}`, {
 
   if (res.ok) {
     const data = await res.json();
-    dispatch(editAlbum(update));
+    dispatch(editAlbum(data));
     return data;
   } else {
     throw res;
@@ -151,8 +151,6 @@ function albumsReducer(state = initialState, action) {
   let newState;
   let albums;
   let newById = {};
-  let update;
-  let i;
 
   switch (action.type) {
     case GET_ALBUM_BY_ID:
@@ -173,11 +171,12 @@ function albumsReducer(state = initialState, action) {
     case EDIT_ALBUM:
       newState = { ...state };
 
-      update = action.payload;
-      i = state.allAlbums.findIndex(a => a.id === update.id);
-
       newState.byId = { ...state.byId, [action.payload.id]: action.payload };
-      newState.allAlbums[i] = update;
+      newState.allAlbums = state.allAlbums.map(album =>
+        album.id === action.payload.id
+          ? action.payload
+          : album
+      );
 
       return newState;
 
@@ -200,7 +199,7 @@ function albumsReducer(state = initialState, action) {
 
       return newState;
 
-      
+
 
 
     case DELETE_ALBUM:
