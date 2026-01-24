@@ -114,6 +114,7 @@ router.put('/:id', requireAuth, validateComment, async (req, res, next) => {
 router.delete('/:id', requireAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { photoOwner } = req.body;
     const userId = req.user.id;
     const comment = await Comment.findByPk(id);
 
@@ -123,7 +124,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
       throw error;
     }
 
-    if (comment.userId !== userId) {
+    if (comment.userId !== userId && photoOwner !== userId) {
       const error = new Error('Forbidden');
       error.status = 403;
       throw error;
