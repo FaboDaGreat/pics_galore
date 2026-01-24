@@ -4,7 +4,7 @@ import { editPhotoThunk } from '../../store/photos';
 import './EditPhotoModal.css'
 import { useModal } from '../../context/Modal';
 
-const EditPhotoModal = ({ photo, albums }) => {
+const EditPhotoModal = ({ photo, albums, getAllAlbums }) => {
     const id = photo.id;
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -63,6 +63,9 @@ const EditPhotoModal = ({ photo, albums }) => {
 
         try {
             await dispatch(editPhotoThunk(id, update));
+            if (albumSelection === "New Album") {
+                getAllAlbums(photo.userId);
+            }
             closeModal();
         } catch (res) {
             const data = await res.json();
