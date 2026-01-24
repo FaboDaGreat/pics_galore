@@ -23,7 +23,6 @@ const PhotoPage = () => {
     const albumArr = albums ? Object.values(albums) : [];
     const comments = useSelector((state) => state.commentsReducer.allComments);
     const commentArr = comments ? Object.values(comments) : [];
-    const ownerId = photo?.userId;
     const [isLoaded, setIsLoaded] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
 
@@ -60,24 +59,34 @@ const PhotoPage = () => {
         navigate(`/albums/${photo.Album.id}`);
     };
 
+    const getAllAlbums = async (photoOwner) => {
+        await dispatch(getAlbumsByUserThunk(photoOwner));
+    };
+
     useEffect(() => {
         const getPhotoDetails = async () => {
-            if (id && !isNaN(id)) {
-                await dispatch(getPhotoByIdThunk(id));
-                await dispatch(getCommentsByPhotoThunk(id));
-                await dispatch(getAlbumsByUserThunk(ownerId));
-                setIsLoaded(true);
-            } else {
+
+            if (!id || isNaN(id)) {
                 navigate('/');
             }
+
+            await dispatch(getPhotoByIdThunk(id));
+            await dispatch(getCommentsByPhotoThunk(id));
+
+            if (user?.id === photo?.userId) {
+                await dispatch(getAlbumsByUserThunk(photo?.userId));
+            }
+
+            setIsLoaded(true);
         };
+
         getPhotoDetails();
-    }, [id, dispatch, navigate, isLoaded, ownerId]);
+    }, [id, dispatch, navigate, user?.id, photo?.userId]);
 
     if (!isLoaded) {
         return <h1>Loading...</h1>;
     }
-    
+
     if (!photo) {
         return <div className="no-photos-box"><h1>Post not found</h1></div>;
     }
@@ -97,7 +106,7 @@ const PhotoPage = () => {
                                 <OpenModalButton
                                     className="edit-button"
                                     tooltip="Edit Photo"
-                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} />}
+                                    modalComponent={<EditPhotoModal photo={photo} albums={albumArr} getAllAlbums={getAllAlbums} />}
                                     icon={<FaEdit size={25} />}
                                 />
                             )}
@@ -166,7 +175,7 @@ const PhotoPage = () => {
                                     (<OpenModalButton
                                         buttonText="Delete"
                                         className="delete-comment-button"
-                                        modalComponent={<DeleteCommentModal commentId={comment.id} />} />)
+                                        modalComponent={<DeleteCommentModal commentId={comment.id} photoOwner={photo.userId} />} />)
                                     : null}
                             </div>
                         </div>
