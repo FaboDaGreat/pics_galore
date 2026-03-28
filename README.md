@@ -2,7 +2,7 @@
 
 PicsGalore is a clone of Flickr, designed for posting and showcasing photography from amateur to professional creators.  
 
-## [🌐 Live Demo](https://pics-galore.onrender.com/)  
+## [Live Demo](https://pics-galore.onrender.com/)  
 
 ---
 
@@ -17,21 +17,21 @@ PicsGalore is a clone of Flickr, designed for posting and showcasing photography
 
 ## Features  
 
-### 📸 Photos  
+### Photos  
 - Upload new photos with a title (description + album optional).  
 - Upload photos directly into existing albums.  
 - View photos in feed (newest → oldest).  
 - View photos in an album (oldest → newest).  
 - Only the original poster can edit or delete their photos.  
 
-### 📂 Albums  
+### Albums  
 - Create new albums (title required, description optional).  
 - Add/remove photos from albums.  
 - Album cover = Most recent upload.  
 - Empty albums display a placeholder cover.  
 - Only the album owner can edit, delete, or view.  
 
-### 💬 Comments  
+### Comments  
 - Add comments under any photo.  
 - Edit your own comments (“Edited” shows next to timestamp).  
 - Delete comments if you’re the comment creator or the photo owner.  
