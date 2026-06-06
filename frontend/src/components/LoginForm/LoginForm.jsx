@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,12 @@ function LoginForm() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+      if (user) {
+        navigate('/');
+      }
+    }, [user, navigate]);
 
 
   const demoLogin = (e) => {
@@ -42,10 +48,6 @@ function LoginForm() {
         }
       });
   };
-
-  if (user) {
-    navigate('/');
-  }
 
   return (
     <div className='login-page-container'>
