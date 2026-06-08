@@ -18,3 +18,7 @@
   display: flex;
   justify-content: center;
 }
+
+.welcome-banner {
+    color: #4b5563;
+}

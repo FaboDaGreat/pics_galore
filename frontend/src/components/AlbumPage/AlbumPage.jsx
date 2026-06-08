@@ -55,7 +55,7 @@ const AlbumPage = () => {
                 </div>
                 <div className="album-top-middle">
                     <div className="profile-header">
-                        <h1 className="album-title">
+                        <h1>
                             {album.title}
                         </h1>
                         <strong>{album.userId === user?.id ? "by You" : `by ${album.User.firstName} ${album.User.lastName}`}</strong>

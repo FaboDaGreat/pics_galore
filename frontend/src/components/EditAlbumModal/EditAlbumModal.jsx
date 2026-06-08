@@ -52,7 +52,7 @@ const EditAlbumModal = ({ album }) => {
     }
 
     return (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className="modal-overlay">
             <div className="edit-album-modal"
                 onClick={(e) => e.stopPropagation()}
             >

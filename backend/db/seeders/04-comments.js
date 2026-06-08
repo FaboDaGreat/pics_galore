@@ -90,6 +90,16 @@ module.exports = {
         userId: 1,
         comment: "Congratulations man!",
         photoId: 15
+      },
+      {
+        userId: 1,
+        comment: "Once again, congratulations! I'm so happy for you!!!",
+        photoId: 21
+      },
+      {
+        userId: 2,
+        comment: "Congratulations to you both!",
+        photoId: 21
       }
     ], { validate: true });
   },

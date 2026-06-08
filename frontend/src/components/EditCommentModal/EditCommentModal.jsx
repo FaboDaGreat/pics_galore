@@ -48,7 +48,7 @@ const EditCommentModal = ({ commentToEdit }) => {
     };
 
     return (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className="modal-overlay">
             <div className="edit-comment-modal"
                 onClick={(e) => e.stopPropagation()}
             >

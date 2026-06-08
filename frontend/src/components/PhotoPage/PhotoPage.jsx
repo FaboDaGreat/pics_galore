@@ -64,11 +64,12 @@ const PhotoPage = () => {
     };
 
     useEffect(() => {
-        const getPhotoDetails = async () => {
 
-            if (!id || isNaN(id)) {
-                navigate('/');
-            }
+        if (!id || isNaN(id)) {
+            navigate('/');
+        }
+
+        const getPhotoDetails = async () => {
 
             await dispatch(getPhotoByIdThunk(id));
             await dispatch(getCommentsByPhotoThunk(id));
@@ -127,7 +128,7 @@ const PhotoPage = () => {
                     <strong>{user?.id === photo.userId ? "by You" : `by @${photo.User.username}`}</strong>
                     <p>{photo.description}</p>
                     {photo.Album && (
-                        <h4 onClick={(e) => goToAlbum(e)}>
+                        <h4 className="album-title" onClick={(e) => goToAlbum(e)}>
                             {`Album: ${photo.Album.title}`}
                         </h4>
                     )}
