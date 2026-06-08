@@ -27,6 +27,10 @@ module.exports = {
         userId: 3,
         title: "Disney Race 2024",
         description: "Disney's 2024 Wine and Dine weekend, my ever first half-marathon! I can't wait for my next race."
+      },
+      {
+        userId: 3,
+        title: "My Best Friend Said YES!"
       }
     ], { validate: true });
   },

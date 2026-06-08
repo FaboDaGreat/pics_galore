@@ -43,6 +43,7 @@
 
 .photo-detail-box {
   flex: 1;
+  text-align: center;
 }
 
 .upload-date {
@@ -145,4 +146,13 @@
   max-width: 95%;
   max-height: 95%;
   object-fit: contain;
+}
+
+.album-title {
+  cursor: pointer;
+}
+
+.album-title:hover {
+  color: rgb(78, 46, 194);
+  text-decoration: underline;
 }

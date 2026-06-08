@@ -39,9 +39,9 @@ const Splash = () => {
     <>
       <div className="welcome-banner-container">
         {user ? (
-          <h1>{`Welcome back, ${user.firstName} ${user.lastName}!`}</h1>
+          <h1 className="welcome-banner">{`Welcome back, ${user.firstName} ${user.lastName}!`}</h1>
         ) : (
-          <h1>Welcome to PicsGalore!</h1>
+          <h1 className="welcome-banner">Welcome to PicsGalore!</h1>
         )}
       </div>
       <div className="all-images-container">
