@@ -19,6 +19,7 @@ const EditPhotoModal = ({ photo, albums, getAllAlbums }) => {
     const [initialAlbumSelection, setInitialAlbumSelection] = useState('');
     const [initialNewAlbumTitle, setInitialNewAlbumTitle] = useState('');
     const [hasChanged, setHasChanged] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setTitle(photo.title || '');
@@ -47,6 +48,8 @@ const EditPhotoModal = ({ photo, albums, getAllAlbums }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setLoading(true);
+
         let albumTitle;
 
         if (albumSelection === "New Album") {
@@ -72,11 +75,13 @@ const EditPhotoModal = ({ photo, albums, getAllAlbums }) => {
             if (data && data.errors) {
                 setErrors(data.errors);
             }
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className="modal-overlay">
             <div className="edit-photo-modal"
                 onClick={(e) => e.stopPropagation()}
             >
@@ -139,8 +144,8 @@ const EditPhotoModal = ({ photo, albums, getAllAlbums }) => {
                         )}
                     </div>
                     <div className="edit-photo-modal-buttons">
-                        <button type="submit" disabled={!hasChanged} className="edit-photo-modal-button edit-photo-button-yes">
-                            Submit
+                        <button type="submit" disabled={!hasChanged || loading} className="edit-photo-modal-button edit-photo-button-yes">
+                            {loading ? "Editing..." : "Submit"}
                         </button>
                         <button type="button" onClick={closeModal} className="edit-photo-modal-button edit-photo-button-cancel">
                             Cancel

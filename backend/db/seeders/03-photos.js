@@ -124,6 +124,51 @@ module.exports = {
         title: "Denali",
         description: "I never knew Alaska was so beautiful! Definitely worth a second trip.",
         albumId: 2
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+16.jpg",
+        userId: 3,
+        title: "The Proposal Setting",
+        description: "There's no place like home and no better place I could think of to propose!",
+        albumId: 5
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+17.jpg",
+        userId: 3,
+        title: "Dudu and Bubu Love",
+        description: "We really do love those bears!",
+        albumId: 5
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+18.jpg",
+        userId: 3,
+        title: "SHE SAID YES!!!",
+        albumId: 5
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+19.jpg",
+        userId: 3,
+        title: "Fiance Photobooth Love",
+        albumId: 5
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+20.jpg",
+        userId: 3,
+        title: "Old School Meets New School: Photoshoot Edition",
+        description: "I think the fact that my fiancée used her smartphone to take a picture of photobooth filmstrips for our post is pretty cool!",
+        albumId: 5
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+21.jpg",
+        userId: 3,
+        title: "Her Favorite Flowers and New Favorite Jewelery",
+        albumId: 5
+      },
+      {
+        url: "https://picsgalore-bucket-aws-us-gov.s3.us-east-2.amazonaws.com/PicsGalore+22.jpg",
+        userId: 3,
+        title: "Happy Go Lucky For Sure!",
+        albumId: 5
       }
     ], { validate: true });
   },
